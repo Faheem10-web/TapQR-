@@ -319,10 +319,10 @@ export default function ProfileView() {
       </div>
 
       {/* Mobile Frame Container */}
-      <div className={`w-full max-w-[420px] min-h-screen md:min-h-[820px] md:h-[820px] md:rounded-[42px] md:border-[10px] md:border-white shadow-2xl relative flex flex-col justify-between overflow-y-auto no-scrollbar scroll-smooth ${fontStyleClass}`} style={containerStyleObj}>
+      <div className={`w-full max-w-[420px] min-h-screen md:min-h-[820px] md:h-[820px] md:rounded-[42px] md:border-[10px] md:border-white shadow-2xl relative flex flex-col justify-between overflow-hidden ${fontStyleClass}`} style={containerStyleObj}>
         
         {/* Scrollable Container */}
-        <div className="flex-1 pb-24 relative">
+        <div className="flex-1 pb-24 overflow-y-auto no-scrollbar scroll-smooth relative">
           
           {/* Cover Photo */}
           <div className="relative h-44 w-full bg-neutral-200 overflow-hidden">
