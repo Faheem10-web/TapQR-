@@ -45,8 +45,19 @@ export default function DeviceMockup({ profile }) {
   } = profile;
 
   const {
-    primaryColor = '#a855f7',
-    fontFamily = 'Outfit'
+    primaryColor = '#10B981',
+    fontFamily = 'Outfit',
+    backgroundColor = '#f4f5f8',
+    cardBackgroundColor = '#ffffff',
+    buttonBackgroundColor = '#10B981',
+    buttonTextColor = '#ffffff',
+    iconBackgroundColor = '#10B981',
+    iconColor = '#ffffff',
+    textColor = '#111827',
+    borderRadius = 20,
+    shadowStyle = 'Soft',
+    glassEffect = true,
+    backgroundGradient = true
   } = theme;
 
   const fontStyleClass = fontFamily === 'Outfit' ? 'font-outfit' : 'font-sans';
@@ -104,9 +115,41 @@ export default function DeviceMockup({ profile }) {
 
   const activeSocials = socialConfig.filter(s => s.path);
 
-  // Card Background styles mapping (Light-Mode Only)
-  const bgStyle = 'bg-[#f4f5f8] text-neutral-800';
-  const cardStyle = 'bg-white border border-white/80 shadow-[0_4px_12px_rgba(0,0,0,0.015)] backdrop-blur-md rounded-[20px]';
+  // Dynamic Theme Customizations Objects
+  const containerStyleObj = {
+    backgroundColor: backgroundColor,
+    backgroundImage: backgroundGradient 
+      ? `linear-gradient(180deg, ${backgroundColor} 0%, ${backgroundColor}bb 100%)` 
+      : 'none',
+    color: textColor
+  };
+
+  const cardStyleObj = {
+    backgroundColor: glassEffect 
+      ? `${cardBackgroundColor}95`
+      : cardBackgroundColor,
+    borderRadius: `${borderRadius}px`,
+    boxShadow: shadowStyle === 'None' ? 'none' : 
+               shadowStyle === 'Hard' ? '0 12px 32px rgba(0, 0, 0, 0.16)' :
+               shadowStyle === 'Medium' ? '0 8px 24px rgba(0, 0, 0, 0.08)' :
+               '0 4px 12px rgba(0, 0, 0, 0.03)',
+    backdropFilter: glassEffect ? 'blur(16px)' : 'none',
+    WebkitBackdropFilter: glassEffect ? 'blur(16px)' : 'none',
+    border: glassEffect ? '1px solid rgba(255, 255, 255, 0.60)' : '1px solid rgba(0, 0, 0, 0.05)',
+    color: textColor
+  };
+
+  const ctaButtonStyleObj = {
+    backgroundColor: buttonBackgroundColor,
+    color: buttonTextColor,
+    borderRadius: `${borderRadius}px`,
+    boxShadow: shadowStyle === 'None' ? 'none' : `0 8px 24px ${buttonBackgroundColor}35`
+  };
+
+  const actionIconStyleObj = {
+    backgroundColor: iconBackgroundColor,
+    color: iconColor
+  };
 
   return (
     <div className="relative mx-auto w-[375px] h-[750px] rounded-[56px] border-[8px] border-white bg-white shadow-xl overflow-hidden shrink-0 select-none">
@@ -128,7 +171,10 @@ export default function DeviceMockup({ profile }) {
       </div>
 
       {/* Profile Scroll Container */}
-      <div className={`w-full h-full pt-10 pb-24 overflow-y-auto no-scrollbar ${bgStyle} ${fontStyleClass} scroll-smooth`}>
+      <div 
+        className={`w-full h-full pt-10 pb-24 overflow-y-auto no-scrollbar ${fontStyleClass} scroll-smooth`}
+        style={containerStyleObj}
+      >
         {/* Cover Photo */}
         <div className="relative h-32 w-full bg-neutral-200 overflow-hidden">
           {coverPhoto ? (
@@ -142,7 +188,7 @@ export default function DeviceMockup({ profile }) {
         {/* Profile Header Details */}
         <div className="px-4 relative -mt-12 mb-4 flex flex-col items-center text-center">
           {/* Avatar / Logo */}
-          <div className="relative w-20 h-20 rounded-[20px] border-4 border-white overflow-hidden bg-white shadow-sm">
+          <div className="relative w-20 h-20 rounded-[20px] border-4 border-white overflow-hidden bg-white shadow-sm" style={{ borderRadius: `${borderRadius}px` }}>
             {avatar ? (
               <img src={avatar} alt={name} className="w-full h-full object-cover" />
             ) : (
@@ -153,7 +199,7 @@ export default function DeviceMockup({ profile }) {
           </div>
 
           {/* Business Name */}
-          <h2 className="text-sm font-bold mt-2.5 flex items-center gap-1 text-neutral-950">
+          <h2 className="text-sm font-bold mt-2.5 flex items-center gap-1" style={{ color: textColor }}>
             {name}
             <CheckCircle2 className="w-4 h-4 fill-sky-500 text-white" />
           </h2>
@@ -171,7 +217,7 @@ export default function DeviceMockup({ profile }) {
           </span>
 
           {/* Description */}
-          <p className="text-[10px] mt-2.5 opacity-75 leading-relaxed max-w-xs px-2 line-clamp-3 text-neutral-550">
+          <p className="text-[10px] mt-2.5 opacity-75 leading-relaxed max-w-xs px-2 line-clamp-3" style={{ color: textColor }}>
             {bio}
           </p>
         </div>
@@ -180,10 +226,10 @@ export default function DeviceMockup({ profile }) {
         <div className="px-4 mb-4">
           <div className="grid grid-cols-3 gap-2.5">
             {/* Call */}
-            <div className={`p-2.5 rounded-2xl ${cardStyle} flex flex-col items-center justify-center gap-1`}>
+            <div className="p-2.5 flex flex-col items-center justify-center gap-1" style={cardStyleObj}>
               <div 
                 className="w-8 h-8 rounded-full flex items-center justify-center text-white"
-                style={{ backgroundColor: primaryColor }}
+                style={actionIconStyleObj}
               >
                 <FaPhone className="w-3.5 h-3.5" />
               </div>
@@ -191,16 +237,22 @@ export default function DeviceMockup({ profile }) {
             </div>
 
             {/* WhatsApp */}
-            <div className={`p-2.5 rounded-2xl ${cardStyle} flex flex-col items-center justify-center gap-1`}>
-              <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#25D366] text-white">
+            <div className="p-2.5 flex flex-col items-center justify-center gap-1" style={cardStyleObj}>
+              <div 
+                className="w-8 h-8 rounded-full flex items-center justify-center text-white"
+                style={actionIconStyleObj}
+              >
                 <FaWhatsapp className="w-4 h-4" />
               </div>
               <span className="text-[8px] font-bold uppercase tracking-wider text-neutral-400">WhatsApp</span>
             </div>
 
             {/* Maps */}
-            <div className={`p-2.5 rounded-2xl ${cardStyle} flex flex-col items-center justify-center gap-1`}>
-              <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#EA4335] text-white">
+            <div className="p-2.5 flex flex-col items-center justify-center gap-1" style={cardStyleObj}>
+              <div 
+                className="w-8 h-8 rounded-full flex items-center justify-center text-white"
+                style={actionIconStyleObj}
+              >
                 <FaMapMarkerAlt className="w-3.5 h-3.5" />
               </div>
               <span className="text-[8px] font-bold uppercase tracking-wider text-neutral-400">Directions</span>
@@ -211,18 +263,19 @@ export default function DeviceMockup({ profile }) {
         {/* Social Links Cards Grid */}
         {activeSocials.length > 0 && (
           <div className="px-4 mb-4 text-left">
-            <h3 className="text-[8px] font-bold uppercase tracking-widest text-neutral-400 mb-2 px-1">Social Connect</h3>
+            <h3 className="text-[8px] font-bold uppercase tracking-widest mb-2 px-1" style={{ color: textColor, opacity: 0.6 }}>Social Connect</h3>
             <div className="grid grid-cols-2 gap-2">
               {activeSocials.map(soc => (
                 <div
                   key={soc.key}
-                  className={`p-2.5 rounded-2xl flex items-center gap-2 border border-neutral-100 shadow-[0_2px_8px_rgba(0,0,0,0.005)] bg-white`}
+                  className="p-2.5 flex items-center gap-2 border border-neutral-100 shadow-[0_2px_8px_rgba(0,0,0,0.005)]"
+                  style={cardStyleObj}
                 >
                   <div className={`w-6.5 h-6.5 rounded-lg flex items-center justify-center ${soc.colorClass} ${soc.textColor} shrink-0`}>
                     <soc.icon className="w-3.5 h-3.5" />
                   </div>
                   <div className="overflow-hidden">
-                    <p className="text-[9px] font-bold truncate leading-none text-neutral-800 capitalize">{soc.name}</p>
+                    <p className="text-[9px] font-bold truncate leading-none capitalize" style={{ color: textColor }}>{soc.name}</p>
                     <p className="text-[7px] opacity-60 mt-1.5 truncate leading-none">Connect</p>
                   </div>
                 </div>
@@ -234,16 +287,16 @@ export default function DeviceMockup({ profile }) {
         {/* Business Hours Segment */}
         {hours && Object.keys(hours).length > 0 && (
           <div className="px-4 mb-4 text-left">
-            <h3 className="text-[8px] font-bold uppercase tracking-widest text-neutral-400 mb-2 px-1">Operational Hours</h3>
+            <h3 className="text-[8px] font-bold uppercase tracking-widest mb-2 px-1" style={{ color: textColor, opacity: 0.6 }}>Operational Hours</h3>
             
-            <div className={`p-3 rounded-2xl ${cardStyle} space-y-2`}>
+            <div className="p-3 space-y-2" style={cardStyleObj}>
               <div 
                 className="flex items-center justify-between cursor-pointer"
                 onClick={() => setShowHoursList(!showHoursList)}
               >
                 <div className="flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5 opacity-70" />
-                  <span className="text-[10px] font-bold">Schedule</span>
+                  <span className="text-[10px] font-bold" style={{ color: textColor }}>Schedule</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <span className={`text-[8px] font-bold px-1.5 py-0.5 rounded-full border ${currentStatus.class}`}>
@@ -260,8 +313,8 @@ export default function DeviceMockup({ profile }) {
                     if (day === 'timezone') return null;
                     return (
                       <div key={day} className="flex justify-between capitalize">
-                        <span className="opacity-70">{day}</span>
-                        <span className="font-mono text-[9px]">{range.open === 'closed' ? 'Closed' : `${range.open} - ${range.close}`}</span>
+                        <span className="opacity-70" style={{ color: textColor }}>{day}</span>
+                        <span className="font-mono text-[9px]" style={{ color: textColor }}>{range.open === 'closed' ? 'Closed' : `${range.open} - ${range.close}`}</span>
                       </div>
                     );
                   })}
@@ -275,8 +328,8 @@ export default function DeviceMockup({ profile }) {
       {/* Floating Save Action Bar in Mockup */}
       <div className="absolute bottom-0 inset-x-0 h-16 flex items-center justify-center px-4 border-t border-neutral-100 bg-white/70 backdrop-blur-md z-40">
         <button
-          className="w-full py-2.5 rounded-xl text-white font-bold text-xs shadow-md shadow-purple-500/10 active:scale-95 duration-100 flex items-center justify-center gap-1.5 cursor-pointer"
-          style={{ backgroundColor: primaryColor }}
+          className="w-full py-2.5 text-white font-bold text-xs active:scale-95 duration-100 flex items-center justify-center gap-1.5 cursor-pointer"
+          style={ctaButtonStyleObj}
         >
           <UserPlus className="w-3.5 h-3.5" /> Save Contact Card
         </button>

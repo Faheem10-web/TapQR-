@@ -99,7 +99,18 @@ export default function ProfileView() {
 
   const {
     primaryColor = '#10B981',
-    fontFamily = 'Outfit'
+    fontFamily = 'Outfit',
+    backgroundColor = '#f4f5f8',
+    cardBackgroundColor = '#ffffff',
+    buttonBackgroundColor = '#10B981',
+    buttonTextColor = '#ffffff',
+    iconBackgroundColor = '#10B981',
+    iconColor = '#ffffff',
+    textColor = '#111827',
+    borderRadius = 24,
+    shadowStyle = 'Soft',
+    glassEffect = true,
+    backgroundGradient = true
   } = theme;
 
   const fontStyleClass = fontFamily === 'Outfit' ? 'font-outfit' : 'font-sans';
@@ -157,9 +168,41 @@ export default function ProfileView() {
 
   const activeSocials = socialConfig.filter(s => s.path);
 
-  // Apple Premium Light Mode styles mapping
-  const bgStyle = 'bg-[#f4f5f8] text-neutral-800';
-  const cardStyle = 'bg-white border border-white/80 shadow-[0_8px_30px_rgba(0,0,0,0.015)] backdrop-blur-md rounded-[24px]';
+  // Dynamic Theme Customizations Objects
+  const containerStyleObj = {
+    backgroundColor: backgroundColor,
+    backgroundImage: backgroundGradient 
+      ? `linear-gradient(180deg, ${backgroundColor} 0%, ${backgroundColor}bb 100%)` 
+      : 'none',
+    color: textColor
+  };
+
+  const cardStyleObj = {
+    backgroundColor: glassEffect 
+      ? `${cardBackgroundColor}95`
+      : cardBackgroundColor,
+    borderRadius: `${borderRadius}px`,
+    boxShadow: shadowStyle === 'None' ? 'none' : 
+               shadowStyle === 'Hard' ? '0 16px 40px rgba(0, 0, 0, 0.16)' :
+               shadowStyle === 'Medium' ? '0 8px 30px rgba(0, 0, 0, 0.08)' :
+               '0 4px 16px rgba(0, 0, 0, 0.03)',
+    backdropFilter: glassEffect ? 'blur(24px)' : 'none',
+    WebkitBackdropFilter: glassEffect ? 'blur(24px)' : 'none',
+    border: glassEffect ? '1px solid rgba(255, 255, 255, 0.60)' : '1px solid rgba(0, 0, 0, 0.05)',
+    color: textColor
+  };
+
+  const ctaButtonStyleObj = {
+    backgroundColor: buttonBackgroundColor,
+    color: buttonTextColor,
+    borderRadius: `${borderRadius}px`,
+    boxShadow: shadowStyle === 'None' ? 'none' : `0 8px 24px ${buttonBackgroundColor}35`
+  };
+
+  const actionIconStyleObj = {
+    backgroundColor: iconBackgroundColor,
+    color: iconColor
+  };
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -202,7 +245,7 @@ export default function ProfileView() {
       </div>
 
       {/* Mobile Frame Container */}
-      <div className={`w-full max-w-[420px] min-h-screen md:min-h-[820px] md:h-[820px] md:rounded-[42px] md:border-[10px] md:border-white shadow-2xl relative flex flex-col justify-between overflow-y-auto no-scrollbar scroll-smooth ${bgStyle} ${fontStyleClass}`}>
+      <div className={`w-full max-w-[420px] min-h-screen md:min-h-[820px] md:h-[820px] md:rounded-[42px] md:border-[10px] md:border-white shadow-2xl relative flex flex-col justify-between overflow-y-auto no-scrollbar scroll-smooth ${fontStyleClass}`} style={containerStyleObj}>
         
         {/* Scrollable Container */}
         <div className="flex-1 pb-24 relative">
@@ -238,7 +281,7 @@ export default function ProfileView() {
           {/* Profile Card Header */}
           <div className="px-5 relative -mt-16 mb-5 flex flex-col items-center text-center">
             {/* Logo Avatar */}
-            <div className="relative w-28 h-28 rounded-[28px] border-4 border-white overflow-hidden bg-white shadow-md spring-hover">
+            <div className="relative w-28 h-28 border-4 border-white overflow-hidden bg-white shadow-md spring-hover" style={{ borderRadius: `${borderRadius + 8}px` }}>
               {avatar ? (
                 <img src={avatar} alt="Logo" className="w-full h-full object-cover" />
               ) : (
@@ -249,7 +292,7 @@ export default function ProfileView() {
             </div>
 
             {/* Business Title Block */}
-            <h2 className="text-xl md:text-2xl font-black mt-3.5 flex items-center gap-1.5 tracking-tight text-neutral-900 leading-tight">
+            <h2 className="text-xl md:text-2xl font-black mt-3.5 flex items-center gap-1.5 tracking-tight leading-tight" style={{ color: textColor }}>
               {name}
               <CheckCircle2 className="w-5 h-5 fill-sky-500 text-white shrink-0" />
             </h2>
@@ -267,7 +310,7 @@ export default function ProfileView() {
             </span>
 
             {/* Business Bio / Description */}
-            <p className="text-xs md:text-[13px] mt-4 opacity-75 leading-relaxed max-w-sm px-3 text-neutral-600">
+            <p className="text-xs md:text-[13px] mt-4 opacity-75 leading-relaxed max-w-sm px-3" style={{ color: textColor }}>
               {bio}
             </p>
           </div>
@@ -280,15 +323,16 @@ export default function ProfileView() {
                 href={phone ? `tel:${phone}` : '#'}
                 onClick={() => !phone && alert('No phone number configured.')}
                 aria-label="Call Business Phone"
-                className={`p-3.5 rounded-[24px] ${cardStyle} flex flex-col items-center justify-center gap-1.5 duration-150 active:scale-95 cursor-pointer`}
+                className="p-3.5 flex flex-col items-center justify-center gap-1.5 duration-150 active:scale-95 cursor-pointer"
+                style={cardStyleObj}
               >
                 <div 
-                  className="w-10 h-10 rounded-full flex items-center justify-center text-white shadow-sm"
-                  style={{ backgroundColor: primaryColor }}
+                  className="w-10 h-10 rounded-full flex items-center justify-center shadow-sm"
+                  style={actionIconStyleObj}
                 >
                   <FaPhone className="w-4 h-4" />
                 </div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-500">Call</span>
+                <span className="text-[10px] font-bold uppercase tracking-wider opacity-65" style={{ color: textColor }}>Call</span>
               </a>
 
               {/* WhatsApp */}
@@ -298,12 +342,16 @@ export default function ProfileView() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="Message Business on WhatsApp"
-                className={`p-3.5 rounded-[24px] ${cardStyle} flex flex-col items-center justify-center gap-1.5 duration-150 active:scale-95 cursor-pointer`}
+                className="p-3.5 flex flex-col items-center justify-center gap-1.5 duration-150 active:scale-95 cursor-pointer"
+                style={cardStyleObj}
               >
-                <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#25D366] text-white shadow-sm">
+                <div 
+                  className="w-10 h-10 rounded-full flex items-center justify-center shadow-sm"
+                  style={actionIconStyleObj}
+                >
                   <FaWhatsapp className="w-5.5 h-5.5" />
                 </div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-500">WhatsApp</span>
+                <span className="text-[10px] font-bold uppercase tracking-wider opacity-65" style={{ color: textColor }}>WhatsApp</span>
               </a>
 
               {/* Maps */}
@@ -313,12 +361,16 @@ export default function ProfileView() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="Get directions on Google Maps"
-                className={`p-3.5 rounded-[24px] ${cardStyle} flex flex-col items-center justify-center gap-1.5 duration-150 active:scale-95 cursor-pointer`}
+                className="p-3.5 flex flex-col items-center justify-center gap-1.5 duration-150 active:scale-95 cursor-pointer"
+                style={cardStyleObj}
               >
-                <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#EA4335] text-white shadow-sm">
+                <div 
+                  className="w-10 h-10 rounded-full flex items-center justify-center shadow-sm"
+                  style={actionIconStyleObj}
+                >
                   <FaMapMarkerAlt className="w-4.5 h-4.5" />
                 </div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-500">Directions</span>
+                <span className="text-[10px] font-bold uppercase tracking-wider opacity-65" style={{ color: textColor }}>Directions</span>
               </a>
             </div>
           </div>
@@ -326,7 +378,7 @@ export default function ProfileView() {
           {/* Social Links Cards Grid */}
           {activeSocials.length > 0 && (
             <div className="px-5 mb-6 text-left">
-              <h3 className="text-[10px] font-extrabold uppercase tracking-widest mb-3 px-1" style={{ color: '#9CA3AF' }}>Social Connect</h3>
+              <h3 className="text-[10px] font-extrabold uppercase tracking-widest mb-3 px-1" style={{ color: textColor, opacity: 0.6 }}>Social Connect</h3>
               <div className="grid grid-cols-2 gap-2.5">
                 {activeSocials.map(soc => (
                   <a
@@ -335,14 +387,15 @@ export default function ProfileView() {
                     target="_blank"
                     rel="noreferrer"
                     aria-label={`Connect with us on ${soc.name}`}
-                    className={`p-3.5 rounded-[24px] flex items-center gap-2.5 duration-200 border border-neutral-100 shadow-[0_4px_12px_rgba(0,0,0,0.01)] bg-white hover:-translate-y-0.5 active:scale-95 cursor-pointer`}
+                    className="p-3.5 flex items-center gap-2.5 duration-200 hover:-translate-y-0.5 active:scale-95 cursor-pointer"
+                    style={cardStyleObj}
                   >
                     <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${soc.colorClass} ${soc.textColor} shrink-0 shadow-sm`}>
                       <soc.icon className="w-5 h-5" />
                     </div>
                     <div className="overflow-hidden">
-                      <p className="text-[11px] font-bold truncate leading-none text-neutral-800 capitalize">{soc.name}</p>
-                      <p className="text-[8px] opacity-60 mt-1.5 truncate leading-none">Connect</p>
+                      <p className="text-[11px] font-bold truncate leading-none capitalize" style={{ color: textColor }}>{soc.name}</p>
+                      <p className="text-[8px] opacity-60 mt-1.5 truncate leading-none" style={{ color: textColor }}>Connect</p>
                     </div>
                   </a>
                 ))}
@@ -353,16 +406,16 @@ export default function ProfileView() {
           {/* Business Hours Segment */}
           {hours && Object.keys(hours).length > 0 && (
             <div className="px-5 mb-6 text-left">
-              <h3 className="text-[10px] font-extrabold uppercase tracking-widest mb-3 px-1" style={{ color: '#9CA3AF' }}>Operational Hours</h3>
+              <h3 className="text-[10px] font-extrabold uppercase tracking-widest mb-3 px-1" style={{ color: textColor, opacity: 0.6 }}>Operational Hours</h3>
               
-              <div className={`p-4 rounded-[24px] ${cardStyle} space-y-3`}>
+              <div className="p-4 space-y-3" style={cardStyleObj}>
                 <div 
                   className="flex items-center justify-between cursor-pointer"
                   onClick={() => setShowHoursList(!showHoursList)}
                 >
                   <div className="flex items-center gap-2">
                     <Clock className="w-4 h-4 opacity-70" />
-                    <span className="text-xs font-bold">Weekly Schedule</span>
+                    <span className="text-xs font-bold" style={{ color: textColor }}>Weekly Schedule</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full border ${currentStatus.class}`}>
@@ -379,8 +432,8 @@ export default function ProfileView() {
                       if (day === 'timezone') return null;
                       return (
                         <div key={day} className="flex justify-between capitalize">
-                          <span className="opacity-70">{day}</span>
-                          <span className="font-mono text-[11px]">{range.open === 'closed' ? 'Closed' : `${range.open} - ${range.close}`}</span>
+                          <span className="opacity-70" style={{ color: textColor }}>{day}</span>
+                          <span className="font-mono text-[11px]" style={{ color: textColor }}>{range.open === 'closed' ? 'Closed' : `${range.open} - ${range.close}`}</span>
                         </div>
                       );
                     })}
@@ -393,12 +446,12 @@ export default function ProfileView() {
         </div>
 
         {/* Floating Bottom sheet action layout */}
-        <div className="absolute bottom-0 inset-x-0 h-20 flex items-center justify-center px-5 border-t border-neutral-200/40 bg-white/80 backdrop-blur-lg z-35 md:rounded-b-[32px]">
+        <div className="absolute bottom-0 inset-x-0 h-20 flex items-center justify-center px-5 border-t z-35 md:rounded-b-[32px]" style={{ backgroundColor: glassEffect ? `${cardBackgroundColor}90` : cardBackgroundColor, borderTop: glassEffect ? '1px solid rgba(255, 255, 255, 0.40)' : '1px solid rgba(0, 0, 0, 0.05)', backdropFilter: glassEffect ? 'blur(20px)' : 'none' }}>
           <button
             onClick={handleSaveContact}
             aria-label="Save Business Contact to Phone"
-            className="w-full py-3 rounded-2xl text-white font-extrabold text-xs uppercase tracking-widest shadow-md hover:shadow-lg active:scale-[0.98] duration-150 flex items-center justify-center gap-2 cursor-pointer transition-all"
-            style={{ backgroundColor: primaryColor, boxShadow: `0 8px 24px ${primaryColor}35` }}
+            className="w-full py-3 text-white font-extrabold text-xs uppercase tracking-widest active:scale-[0.98] duration-150 flex items-center justify-center gap-2 cursor-pointer transition-all"
+            style={ctaButtonStyleObj}
           >
             <UserPlus className="w-4 h-4" /> Save Contact Card
           </button>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useProfiles } from '../context/ProfileContext';
 import DeviceMockup from '../components/DeviceMockup';
 import QrGenerator from '../components/QrGenerator';
@@ -20,6 +20,43 @@ export default function Dashboard() {
   const [copiedLink, setCopiedLink] = useState(false);
   const [showMobilePreview, setShowMobilePreview] = useState(true);
   const [saveState, setSaveState] = useState('idle'); // idle, saving, success
+
+  const defaultTheme = {
+    primaryColor: '#10B981',
+    fontFamily: 'Outfit',
+    backgroundColor: '#f4f5f8',
+    cardBackgroundColor: '#ffffff',
+    buttonBackgroundColor: '#10B981',
+    buttonTextColor: '#ffffff',
+    iconBackgroundColor: '#10B981',
+    iconColor: '#ffffff',
+    textColor: '#111827',
+    borderRadius: 20,
+    shadowStyle: 'Soft',
+    glassEffect: true,
+    backgroundGradient: true
+  };
+
+  const [draftTheme, setDraftTheme] = useState(() => ({
+    ...defaultTheme,
+    ...(currentProfile?.theme || {})
+  }));
+
+  // Update draftTheme when currentProfile changes
+  useEffect(() => {
+    setDraftTheme({
+      ...defaultTheme,
+      ...(currentProfile?.theme || {})
+    });
+  }, [currentProfile?.id]);
+
+  const previewProfile = {
+    ...currentProfile,
+    theme: {
+      ...currentProfile?.theme,
+      ...draftTheme
+    }
+  };
 
   const handleSaveClick = () => {
     setSaveState('saving');
@@ -109,7 +146,16 @@ export default function Dashboard() {
               <FaCog className="w-4 h-4 shrink-0" /> Profile Editor
             </button>
 
-
+            <button
+              onClick={() => setActiveView('design')}
+              className={`w-full px-3.5 py-3 rounded-2xl text-xs font-semibold flex items-center gap-3 transition-all duration-200 cursor-pointer tap-haptic ${
+                activeView === 'design'
+                  ? 'nav-item active'
+                  : 'nav-item text-neutral-500 hover:text-neutral-800'
+              }`}
+            >
+              <FaSlidersH className="w-4 h-4 shrink-0" /> Design Settings
+            </button>
 
             <button
               onClick={() => setActiveView('qr')}
@@ -203,7 +249,7 @@ export default function Dashboard() {
         <div className="flex-1 flex flex-col lg:flex-row relative">
           
           {/* MOBILE PREVIEW FIXED CARD (Static header on top) */}
-          {activeView === 'editor' && (
+          {(activeView === 'editor' || activeView === 'design') && (
             <div className="lg:hidden w-full border-b overflow-hidden transition-all duration-300 flex flex-col items-center justify-center shrink-0 z-25 sticky top-14"
                style={{ 
                  height: showMobilePreview ? '190px' : '44px',
@@ -215,7 +261,7 @@ export default function Dashboard() {
               {showMobilePreview ? (
                 <div className="relative w-full h-full flex items-center justify-center">
                   <div className="scale-[0.22] md:scale-[0.31] origin-center -translate-y-6">
-                    <DeviceMockup profile={currentProfile} />
+                    <DeviceMockup profile={previewProfile} />
                   </div>
                   <button
                     onClick={() => setShowMobilePreview(false)}
@@ -603,6 +649,241 @@ export default function Dashboard() {
                 </motion.div>
               )}
 
+              {/* VIEW: Design Settings */}
+              {activeView === 'design' && (
+                <motion.div
+                  key="design-view"
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.22, ease: 'easeOut' }}
+                  className="space-y-8 text-left max-w-3xl"
+                >
+                  <div className="glass-card p-6 md:p-8 rounded-[28px] space-y-6 hover-lift">
+                    <div className="flex items-center gap-2.5 border-b pb-4" style={{ borderColor: 'rgba(255,255,255,0.50)' }}>
+                      <div className="w-7 h-7 rounded-xl flex items-center justify-center" style={{ background: 'rgba(16,185,129,0.12)', color: '#059669' }}>
+                        <FaSlidersH className="w-3.5 h-3.5" />
+                      </div>
+                      <h3 className="text-[10px] uppercase font-extrabold tracking-widest" style={{ color: '#6B7280' }}>Design Customization</h3>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      {/* Color pickers */}
+                      <div className="space-y-4">
+                        <h4 className="text-[10px] uppercase font-extrabold tracking-wider" style={{ color: '#9CA3AF' }}>Branding Colors</h4>
+                        
+                        <div className="space-y-3">
+                          <div className="flex items-center justify-between p-3 rounded-2xl bg-white/40 border border-white/60">
+                            <span className="text-xs font-semibold text-neutral-700">Theme Color</span>
+                            <input 
+                              type="color" 
+                              value={draftTheme.primaryColor} 
+                              onChange={(e) => setDraftTheme(prev => ({ ...prev, primaryColor: e.target.value }))}
+                              className="w-10 h-7 rounded-lg border-0 cursor-pointer p-0"
+                            />
+                          </div>
+
+                          <div className="flex items-center justify-between p-3 rounded-2xl bg-white/40 border border-white/60">
+                            <span className="text-xs font-semibold text-neutral-700">Button Background</span>
+                            <input 
+                              type="color" 
+                              value={draftTheme.buttonBackgroundColor} 
+                              onChange={(e) => setDraftTheme(prev => ({ ...prev, buttonBackgroundColor: e.target.value }))}
+                              className="w-10 h-7 rounded-lg border-0 cursor-pointer p-0"
+                            />
+                          </div>
+
+                          <div className="flex items-center justify-between p-3 rounded-2xl bg-white/40 border border-white/60">
+                            <span className="text-xs font-semibold text-neutral-700">Button Text Color</span>
+                            <input 
+                              type="color" 
+                              value={draftTheme.buttonTextColor} 
+                              onChange={(e) => setDraftTheme(prev => ({ ...prev, buttonTextColor: e.target.value }))}
+                              className="w-10 h-7 rounded-lg border-0 cursor-pointer p-0"
+                            />
+                          </div>
+
+                          <div className="flex items-center justify-between p-3 rounded-2xl bg-white/40 border border-white/60">
+                            <span className="text-xs font-semibold text-neutral-700">Text Color</span>
+                            <input 
+                              type="color" 
+                              value={draftTheme.textColor} 
+                              onChange={(e) => setDraftTheme(prev => ({ ...prev, textColor: e.target.value }))}
+                              className="w-10 h-7 rounded-lg border-0 cursor-pointer p-0"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-4">
+                        <h4 className="text-[10px] uppercase font-extrabold tracking-wider" style={{ color: '#9CA3AF' }}>Container Colors</h4>
+                        
+                        <div className="space-y-3">
+                          <div className="flex items-center justify-between p-3 rounded-2xl bg-white/40 border border-white/60">
+                            <span className="text-xs font-semibold text-neutral-700">Background Color</span>
+                            <input 
+                              type="color" 
+                              value={draftTheme.backgroundColor} 
+                              onChange={(e) => setDraftTheme(prev => ({ ...prev, backgroundColor: e.target.value }))}
+                              className="w-10 h-7 rounded-lg border-0 cursor-pointer p-0"
+                            />
+                          </div>
+
+                          <div className="flex items-center justify-between p-3 rounded-2xl bg-white/40 border border-white/60">
+                            <span className="text-xs font-semibold text-neutral-700">Card Background</span>
+                            <input 
+                              type="color" 
+                              value={draftTheme.cardBackgroundColor} 
+                              onChange={(e) => setDraftTheme(prev => ({ ...prev, cardBackgroundColor: e.target.value }))}
+                              className="w-10 h-7 rounded-lg border-0 cursor-pointer p-0"
+                            />
+                          </div>
+
+                          <div className="flex items-center justify-between p-3 rounded-2xl bg-white/40 border border-white/60">
+                            <span className="text-xs font-semibold text-neutral-700">Icon Background</span>
+                            <input 
+                              type="color" 
+                              value={draftTheme.iconBackgroundColor} 
+                              onChange={(e) => setDraftTheme(prev => ({ ...prev, iconBackgroundColor: e.target.value }))}
+                              className="w-10 h-7 rounded-lg border-0 cursor-pointer p-0"
+                            />
+                          </div>
+
+                          <div className="flex items-center justify-between p-3 rounded-2xl bg-white/40 border border-white/60">
+                            <span className="text-xs font-semibold text-neutral-700">Icon Color</span>
+                            <input 
+                              type="color" 
+                              value={draftTheme.iconColor} 
+                              onChange={(e) => setDraftTheme(prev => ({ ...prev, iconColor: e.target.value }))}
+                              className="w-10 h-7 rounded-lg border-0 cursor-pointer p-0"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4 border-t" style={{ borderColor: 'rgba(255,255,255,0.40)' }}>
+                      {/* Structure Customizations */}
+                      <div className="space-y-4">
+                        <h4 className="text-[10px] uppercase font-extrabold tracking-wider" style={{ color: '#9CA3AF' }}>Structure & Layout</h4>
+                        
+                        <div className="space-y-4">
+                          <div>
+                            <div className="flex justify-between items-center mb-1.5">
+                              <label className="text-xs font-semibold text-neutral-700">Border Radius</label>
+                              <span className="text-xs font-mono font-bold text-neutral-500">{draftTheme.borderRadius}px</span>
+                            </div>
+                            <input 
+                              type="range" 
+                              min="0" 
+                              max="40" 
+                              value={draftTheme.borderRadius} 
+                              onChange={(e) => setDraftTheme(prev => ({ ...prev, borderRadius: parseInt(e.target.value) }))}
+                              className="w-full accent-emerald-500"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-xs font-semibold text-neutral-700 mb-1.5">Shadow Style</label>
+                            <select 
+                              value={draftTheme.shadowStyle} 
+                              onChange={(e) => setDraftTheme(prev => ({ ...prev, shadowStyle: e.target.value }))}
+                              className="w-full glass-input rounded-2xl px-4 py-2.5 text-xs focus:outline-none cursor-pointer"
+                              style={{ color: '#111827' }}
+                            >
+                              <option value="None">None</option>
+                              <option value="Soft">Soft</option>
+                              <option value="Medium">Medium</option>
+                              <option value="Hard">Hard</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Effects Customizations */}
+                      <div className="space-y-4">
+                        <h4 className="text-[10px] uppercase font-extrabold tracking-wider" style={{ color: '#9CA3AF' }}>Effects & Overlays</h4>
+                        
+                        <div className="space-y-3">
+                          <div className="flex items-center justify-between p-3 rounded-2xl bg-white/40 border border-white/60">
+                            <span className="text-xs font-semibold text-neutral-700">Glassmorphism Effect</span>
+                            <label className="relative inline-flex items-center cursor-pointer">
+                              <input 
+                                type="checkbox" 
+                                checked={draftTheme.glassEffect} 
+                                onChange={(e) => setDraftTheme(prev => ({ ...prev, glassEffect: e.target.checked }))}
+                                className="sr-only peer"
+                              />
+                              <div className="w-9 h-5 bg-neutral-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
+                            </label>
+                          </div>
+
+                          <div className="flex items-center justify-between p-3 rounded-2xl bg-white/40 border border-white/60">
+                            <span className="text-xs font-semibold text-neutral-700">Background Gradient</span>
+                            <label className="relative inline-flex items-center cursor-pointer">
+                              <input 
+                                type="checkbox" 
+                                checked={draftTheme.backgroundGradient} 
+                                onChange={(e) => setDraftTheme(prev => ({ ...prev, backgroundGradient: e.target.checked }))}
+                                className="sr-only peer"
+                              />
+                              <div className="w-9 h-5 bg-neutral-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Settings Actions (Reset to Default / Save Changes) */}
+                  <div className="flex justify-between items-center pt-2">
+                    <button
+                      onClick={() => {
+                        if (confirm('Reset custom design styles to default values?')) {
+                          setDraftTheme(defaultTheme);
+                        }
+                      }}
+                      className="px-6 py-3 btn-glass-secondary rounded-full text-xs font-bold transition-all active:scale-95 duration-100 cursor-pointer"
+                    >
+                      Reset to Default
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setSaveState('saving');
+                        setTimeout(() => {
+                          updateProfile(currentProfile.id, {
+                            theme: {
+                              ...currentProfile.theme,
+                              ...draftTheme
+                            }
+                          });
+                          setSaveState('success');
+                          setTimeout(() => {
+                            setSaveState('idle');
+                          }, 2000);
+                        }, 800);
+                      }}
+                      className="px-8 py-3 btn-glass-primary rounded-full text-xs font-bold transition-all active:scale-95 duration-100 flex items-center gap-1.5 cursor-pointer"
+                    >
+                      {saveState === 'saving' ? (
+                        <>
+                          <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                          Saving...
+                        </>
+                      ) : saveState === 'success' ? (
+                        <>
+                          <Check className="w-3.5 h-3.5 text-white" />
+                          Saved Changes
+                        </>
+                      ) : (
+                        'Save Changes'
+                      )}
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+
 
 
               {/* VIEW: QR Customizer */}
@@ -647,7 +928,7 @@ export default function Dashboard() {
           {/* RIGHT DESKTOP STICKY PREVIEW COLUMN */}
           <div className="hidden lg:flex w-[440px] flex-col items-center justify-start shrink-0 z-20 preview-sticky py-6 pr-6 my-6 mr-6">
             <div className="scale-[0.82] xl:scale-[0.90] origin-top transition-all duration-300">
-              <DeviceMockup profile={currentProfile} />
+              <DeviceMockup profile={previewProfile} />
             </div>
           </div>
 
@@ -669,8 +950,19 @@ export default function Dashboard() {
               <span className="text-[8px] font-bold uppercase tracking-wider">Editor</span>
             </button>
 
+            <button
+              onClick={() => setActiveView('design')}
+              className={`flex-1 py-2 rounded-full flex flex-col items-center justify-center gap-0.5 transition-all tap-haptic cursor-pointer ${
+                activeView === 'design'
+                  ? 'text-white shadow-sm'
+                  : 'text-neutral-500 hover:text-neutral-800'
+              }`}
+              style={activeView === 'design' ? { background: 'linear-gradient(135deg, #10B981, #059669)' } : {}}
+            >
+              <FaSlidersH className="w-3.5 h-3.5" />
+              <span className="text-[8px] font-bold uppercase tracking-wider">Design</span>
+            </button>
 
-            
             <button
               onClick={() => setActiveView('qr')}
               className={`flex-1 py-2 rounded-full flex flex-col items-center justify-center gap-0.5 transition-all tap-haptic cursor-pointer ${
