@@ -14,7 +14,7 @@ export default function QrGenerator({ profileUrl, profile }) {
   // Trigger QR generation whenever options change
   useEffect(() => {
     generateQr();
-  }, [profileUrl, profile?.avatar, fgColor, bgColor, logoType, customLogo, qrSize]);
+  }, [profileUrl, profile?.avatar, profile?.theme?.primaryColor, fgColor, bgColor, logoType, customLogo, qrSize]);
 
   const drawRoundedRect = (ctx, x, y, width, height, radius) => {
     ctx.beginPath();
@@ -255,7 +255,7 @@ export default function QrGenerator({ profileUrl, profile }) {
           <select
             value={qrSize}
             onChange={(e) => setQrSize(Number(e.target.value))}
-            className="w-full glass-input rounded-xl px-3 py-2.5 text-xs focus:outline-none"
+            className="w-full glass-input rounded-xl px-4 py-3 text-xs focus:outline-none cursor-pointer"
           >
             <option value={128}>128 x 128 px (Web-optimized)</option>
             <option value={256}>256 x 256 px (Standard)</option>

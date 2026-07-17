@@ -10,6 +10,7 @@ import {
   Image as ImageIcon
 } from 'lucide-react';
 import { FaCog, FaQrcode, FaChartBar, FaSlidersH } from 'react-icons/fa';
+import TemplatesGallery from '../components/TemplatesGallery';
 
 export default function Dashboard() {
   const { 
@@ -100,6 +101,17 @@ export default function Dashboard() {
               }`}
             >
               <FaCog className="w-4.5 h-4.5" /> Profile Editor
+            </button>
+
+            <button
+              onClick={() => setActiveView('templates')}
+              className={`w-full px-3.5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-3 transition-all duration-150 cursor-pointer tap-haptic ${
+                activeView === 'templates'
+                  ? 'bg-neutral-100/80 text-purple-600'
+                  : 'text-neutral-500 hover:bg-neutral-50 hover:text-neutral-800'
+              }`}
+            >
+              <Sparkles className="w-4.5 h-4.5 text-amber-500 animate-pulse" /> QR Templates ⭐
             </button>
             
             <button
@@ -220,10 +232,36 @@ export default function Dashboard() {
             </div>
           )}
 
-          {/* CENTER EDITOR PANEL */}
+          {/* LEFT SCROLLABLE EDITOR PANEL */}
           <div className="flex-1 p-6 md:p-8 space-y-8 pb-28 relative">
             <AnimatePresence mode="wait">
               
+              {/* VIEW: QR Templates Gallery */}
+              {activeView === 'templates' && (
+                <motion.div
+                  key="templates-view"
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.22, ease: 'easeOut' }}
+                >
+                  <TemplatesGallery 
+                    profile={currentProfile} 
+                    onApplyTheme={(tpl) => {
+                      updateProfile(currentProfile.id, {
+                        theme: {
+                          ...currentProfile.theme,
+                          primaryColor: tpl.primaryColor,
+                          fontFamily: tpl.fontFamily,
+                          themeMode: tpl.themeMode
+                        },
+                        coverPhoto: tpl.coverPhoto
+                      });
+                    }}
+                  />
+                </motion.div>
+              )}
+
               {/* VIEW: Form Editor */}
               {activeView === 'editor' && (
                 <motion.div
@@ -608,8 +646,8 @@ export default function Dashboard() {
         </div>
 
         {/* 3. MOBILE FLOATING NAVIGATION BAR (Visible below lg) */}
-        <div className="lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-40 w-[90%] max-w-[340px]">
-          <div className="glass-premium shadow-[0_12px_40px_rgba(0,0,0,0.06)] border border-white/85 rounded-full py-2.5 px-3 flex items-center justify-between gap-1 shadow-purple-500/5">
+        <div className="lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-40 w-[94%] max-w-[420px]">
+          <div className="glass-premium shadow-[0_12px_40px_rgba(0,0,0,0.06)] border border-white/85 rounded-full py-2 px-2.5 flex items-center justify-between gap-1 shadow-purple-500/5">
             <button
               onClick={() => setActiveView('editor')}
               className={`flex-1 py-2 rounded-full flex flex-col items-center justify-center gap-0.5 transition-all tap-haptic cursor-pointer ${
@@ -618,8 +656,20 @@ export default function Dashboard() {
                   : 'text-neutral-500 hover:text-neutral-800'
               }`}
             >
-              <FaCog className="w-4 h-4" />
+              <FaCog className="w-3.5 h-3.5" />
               <span className="text-[8px] font-bold uppercase tracking-wider">Editor</span>
+            </button>
+
+            <button
+              onClick={() => setActiveView('templates')}
+              className={`flex-1 py-2 rounded-full flex flex-col items-center justify-center gap-0.5 transition-all tap-haptic cursor-pointer ${
+                activeView === 'templates'
+                  ? 'bg-purple-600 text-white shadow-sm'
+                  : 'text-neutral-500 hover:text-neutral-800'
+              }`}
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              <span className="text-[8px] font-bold uppercase tracking-wider">Templates</span>
             </button>
             
             <button
@@ -630,7 +680,7 @@ export default function Dashboard() {
                   : 'text-neutral-500 hover:text-neutral-800'
               }`}
             >
-              <FaQrcode className="w-4 h-4" />
+              <FaQrcode className="w-3.5 h-3.5" />
               <span className="text-[8px] font-bold uppercase tracking-wider">QR Code</span>
             </button>
 
@@ -642,7 +692,7 @@ export default function Dashboard() {
                   : 'text-neutral-500 hover:text-neutral-800'
               }`}
             >
-              <FaChartBar className="w-4 h-4" />
+              <FaChartBar className="w-3.5 h-3.5" />
               <span className="text-[8px] font-bold uppercase tracking-wider">Analytics</span>
             </button>
           </div>
