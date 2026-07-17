@@ -69,8 +69,7 @@ export default function Dashboard() {
   };
 
   const handleCopyLink = () => {
-    const link = `${window.location.origin}/profile/${currentProfile.id}`;
-    navigator.clipboard.writeText(link);
+    navigator.clipboard.writeText(profileUrl);
     setCopiedLink(true);
     setTimeout(() => setCopiedLink(false), 2000);
   };
@@ -102,13 +101,22 @@ export default function Dashboard() {
   const daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
   
   // Dynamic URL configuration ensuring public production domain mapping
-  const getPublicProfileUrl = (profileId) => {
+  const getPublicProfileUrl = (profileId, themeObj) => {
     const origin = window.location.origin;
     const isLocal = origin.includes('localhost') || origin.includes('127.0.0.1') || origin.includes('192.168.');
     const base = isLocal ? 'https://tap-qr.vercel.app' : origin;
-    return `${base}/profile/${profileId}`;
+    let url = `${base}/profile/${profileId}`;
+    if (themeObj) {
+      try {
+        const themeStr = encodeURIComponent(btoa(JSON.stringify(themeObj)));
+        url += `?t=${themeStr}`;
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    return url;
   };
-  const profileUrl = getPublicProfileUrl(currentProfile.id);
+  const profileUrl = getPublicProfileUrl(currentProfile.id, currentProfile.theme);
 
   // Shared floating label input style
   const floatInputClass = "peer w-full rounded-2xl px-4 py-3 text-xs text-neutral-800 placeholder-transparent focus:outline-none transition-all duration-250 shadow-sm";
@@ -192,7 +200,7 @@ export default function Dashboard() {
           </button>
           
           <a
-            href={`/profile/${currentProfile.id}`}
+            href={profileUrl}
             target="_blank"
             rel="noreferrer"
             className="w-full py-2.5 px-4 btn-glass-primary rounded-2xl text-xs font-semibold flex items-center justify-center gap-1.5 text-center block tap-haptic"
@@ -235,7 +243,7 @@ export default function Dashboard() {
             </button>
             
             <a
-              href={`/profile/${currentProfile.id}`}
+              href={profileUrl}
               target="_blank"
               rel="noreferrer"
               className="p-2 btn-glass-primary rounded-xl cursor-pointer tap-haptic"

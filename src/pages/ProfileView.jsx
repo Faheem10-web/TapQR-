@@ -45,6 +45,26 @@ export default function ProfileView() {
     if (!found && profileId === 'default') {
       found = DEFAULT_PROFILES[0];
     }
+
+    // Check if there is an encoded theme in the URL query string parameter
+    if (found) {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const encodedTheme = params.get('t');
+        if (encodedTheme) {
+          const decodedTheme = JSON.parse(atob(decodeURIComponent(encodedTheme)));
+          found = {
+            ...found,
+            theme: {
+              ...found.theme,
+              ...decodedTheme
+            }
+          };
+        }
+      } catch (e) {
+        console.error('Failed to parse theme from URL', e);
+      }
+    }
     
     setProfile(found);
   }, [profileId, getProfile]);
@@ -53,14 +73,23 @@ export default function ProfileView() {
   useEffect(() => {
     if (showShareSheet && qrCanvasRef.current && profile) {
       // Dynamic url targeting the public vercel domain instead of local test variables
-      const getPublicProfileUrl = (profileId) => {
+      const getPublicProfileUrl = (profileId, themeObj) => {
         const origin = window.location.origin;
         const isLocal = origin.includes('localhost') || origin.includes('127.0.0.1') || origin.includes('192.168.');
         const base = isLocal ? 'https://tap-qr.vercel.app' : origin;
-        return `${base}/profile/${profileId}`;
+        let url = `${base}/profile/${profileId}`;
+        if (themeObj) {
+          try {
+            const themeStr = encodeURIComponent(btoa(JSON.stringify(themeObj)));
+            url += `?t=${themeStr}`;
+          } catch (e) {
+            console.error(e);
+          }
+        }
+        return url;
       };
 
-      const targetUrl = getPublicProfileUrl(profile.id);
+      const targetUrl = getPublicProfileUrl(profile.id, profile.theme);
 
       QRCode.toCanvas(qrCanvasRef.current, targetUrl, {
         width: 240,
