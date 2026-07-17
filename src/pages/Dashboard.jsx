@@ -466,7 +466,7 @@ export default function Dashboard() {
                           placeholder=" "
                           value={draftProfile.name}
                           onChange={(e) => updateDraftField('name', e.target.value)}
-                          className={`peer ${floatInputClass} bg-white/70 border border-white/70 focus:bg-white focus:border-emerald-500/50`}
+                          className={`peer ${floatInputClass}`}
                         />
                         <label
                           htmlFor="biz-name"
@@ -485,7 +485,7 @@ export default function Dashboard() {
                           placeholder=" "
                           value={draftProfile.category || ''}
                           onChange={(e) => updateDraftField('category', e.target.value)}
-                          className={`peer ${floatInputClass} bg-white/70 border border-white/70 focus:bg-white focus:border-emerald-500/50`}
+                          className={`peer ${floatInputClass}`}
                         />
                         <label
                           htmlFor="biz-category"
@@ -555,7 +555,7 @@ export default function Dashboard() {
                         onChange={(e) => updateDraftField('bio', e.target.value)}
                         rows={3}
                         placeholder=" "
-                        className={`peer ${floatInputClass} bg-white/70 border border-white/70 focus:bg-white focus:border-emerald-500/50 resize-none`}
+                        className={`peer ${floatInputClass} h-auto min-h-[140px] py-4 resize-none`}
                       />
                       <label
                         htmlFor="biz-bio"
@@ -585,7 +585,7 @@ export default function Dashboard() {
                           placeholder=" "
                           value={draftProfile.phone}
                           onChange={(e) => updateDraftField('phone', e.target.value)}
-                          className={`peer ${floatInputClass} bg-white/70 border border-white/70 focus:bg-white focus:border-emerald-500/50`}
+                          className={`peer ${floatInputClass}`}
                         />
                         <label htmlFor="biz-phone" className="absolute left-4 -top-2.5 px-1.5 bg-white/80 text-[9px] font-bold uppercase tracking-widest transition-all duration-200 select-none pointer-events-none peer-placeholder-shown:text-xs peer-placeholder-shown:top-3 peer-placeholder-shown:bg-transparent peer-placeholder-shown:font-semibold peer-placeholder-shown:text-neutral-400 peer-focus:-top-2.5 peer-focus:text-[9px] peer-focus:bg-white" style={{ color: '#9CA3AF' }}>Phone Number</label>
                       </div>
@@ -598,7 +598,7 @@ export default function Dashboard() {
                           placeholder=" "
                           value={draftProfile.whatsapp || ''}
                           onChange={(e) => updateDraftField('whatsapp', e.target.value)}
-                          className={`peer ${floatInputClass} bg-white/70 border border-white/70 focus:bg-white focus:border-emerald-500/50`}
+                          className={`peer ${floatInputClass}`}
                         />
                         <label htmlFor="biz-whatsapp" className="absolute left-4 -top-2.5 px-1.5 bg-white/80 text-[9px] font-bold uppercase tracking-widest transition-all duration-200 select-none pointer-events-none peer-placeholder-shown:text-xs peer-placeholder-shown:top-3 peer-placeholder-shown:bg-transparent peer-placeholder-shown:font-semibold peer-placeholder-shown:text-neutral-400 peer-focus:-top-2.5 peer-focus:text-[9px] peer-focus:bg-white" style={{ color: '#9CA3AF' }}>WhatsApp Number</label>
                       </div>
@@ -611,7 +611,7 @@ export default function Dashboard() {
                           placeholder=" "
                           value={draftProfile.email}
                           onChange={(e) => updateDraftField('email', e.target.value)}
-                          className={`peer ${floatInputClass} bg-white/70 border border-white/70 focus:bg-white focus:border-emerald-500/50`}
+                          className={`peer ${floatInputClass}`}
                         />
                         <label htmlFor="biz-email" className="absolute left-4 -top-2.5 px-1.5 bg-white/80 text-[9px] font-bold uppercase tracking-widest transition-all duration-200 select-none pointer-events-none peer-placeholder-shown:text-xs peer-placeholder-shown:top-3 peer-placeholder-shown:bg-transparent peer-placeholder-shown:font-semibold peer-placeholder-shown:text-neutral-400 peer-focus:-top-2.5 peer-focus:text-[9px] peer-focus:bg-white" style={{ color: '#9CA3AF' }}>Email Address</label>
                       </div>
@@ -624,7 +624,7 @@ export default function Dashboard() {
                           placeholder=" "
                           value={draftProfile.website}
                           onChange={(e) => updateDraftField('website', e.target.value)}
-                          className={`peer ${floatInputClass} bg-white/70 border border-white/70 focus:bg-white focus:border-emerald-500/50`}
+                          className={`peer ${floatInputClass}`}
                         />
                         <label htmlFor="biz-website" className="absolute left-4 -top-2.5 px-1.5 bg-white/80 text-[9px] font-bold uppercase tracking-widest transition-all duration-200 select-none pointer-events-none peer-placeholder-shown:text-xs peer-placeholder-shown:top-3 peer-placeholder-shown:bg-transparent peer-placeholder-shown:font-semibold peer-placeholder-shown:text-neutral-400 peer-focus:-top-2.5 peer-focus:text-[9px] peer-focus:bg-white" style={{ color: '#9CA3AF' }}>Website Address</label>
                       </div>
@@ -638,7 +638,7 @@ export default function Dashboard() {
                         placeholder=" "
                         value={draftProfile.address}
                         onChange={(e) => updateDraftField('address', e.target.value)}
-                        className={`peer ${floatInputClass} bg-white/70 border border-white/70 focus:bg-white focus:border-emerald-500/50`}
+                        className={`peer ${floatInputClass}`}
                       />
                       <label htmlFor="biz-address" className="absolute left-4 -top-2.5 px-1.5 bg-white/80 text-[9px] font-bold uppercase tracking-widest transition-all duration-200 select-none pointer-events-none peer-placeholder-shown:text-xs peer-placeholder-shown:top-3 peer-placeholder-shown:bg-transparent peer-placeholder-shown:font-semibold peer-placeholder-shown:text-neutral-400 peer-focus:-top-2.5 peer-focus:text-[9px] peer-focus:bg-white" style={{ color: '#9CA3AF' }}>Physical Location Address</label>
                       <p className="text-[9px] mt-2 px-1 leading-normal" style={{ color: '#9CA3AF' }}>
