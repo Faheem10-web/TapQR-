@@ -75,10 +75,12 @@ export default function Dashboard() {
   const profileUrl = getPublicProfileUrl(currentProfile.id);
 
   return (
-    <div className="min-h-screen bg-[#f4f5f8] text-neutral-800 flex flex-col lg:flex-row font-sans relative">
+    <div className="min-h-screen text-neutral-800 flex flex-col lg:flex-row font-sans relative z-10">
+      {/* Ambient glow orb (3rd) */}
+      <div className="ambient-glow" />
       
       {/* 1. DESKTOP SIDEBAR PANEL */}
-      <aside className="hidden lg:flex w-64 bg-white border border-neutral-200/80 flex-col justify-between p-6 shrink-0 rounded-[24px] z-30 shadow-[0_8px_30px_rgba(0,0,0,0.015)] sidebar my-6 ml-6">
+      <aside className="hidden lg:flex w-64 glass-sidebar flex-col justify-between p-6 shrink-0 rounded-[28px] z-30 sidebar my-6 ml-6">
         <div className="space-y-8 text-left">
           {/* BRAND */}
           <div className="flex items-center gap-2.5">
@@ -96,8 +98,8 @@ export default function Dashboard() {
               onClick={() => setActiveView('editor')}
               className={`w-full px-3.5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-3 transition-all duration-150 cursor-pointer tap-haptic ${
                 activeView === 'editor'
-                  ? 'bg-neutral-100/80 text-purple-600'
-                  : 'text-neutral-500 hover:bg-neutral-50 hover:text-neutral-800'
+                  ? 'nav-item active bg-white/80 text-purple-600 shadow-glass-sm'
+                  : 'nav-item text-neutral-500 hover:text-neutral-800'
               }`}
             >
               <FaCog className="w-4.5 h-4.5" /> Profile Editor
@@ -108,8 +110,8 @@ export default function Dashboard() {
               onClick={() => setActiveView('qr')}
               className={`w-full px-3.5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-3 transition-all duration-150 cursor-pointer tap-haptic ${
                 activeView === 'qr'
-                  ? 'bg-neutral-100/80 text-purple-600'
-                  : 'text-neutral-500 hover:bg-neutral-50 hover:text-neutral-800'
+                  ? 'nav-item active bg-white/80 text-purple-600 shadow-glass-sm'
+                  : 'nav-item text-neutral-500 hover:text-neutral-800'
               }`}
             >
               <FaQrcode className="w-4.5 h-4.5" /> QR Designer
@@ -119,8 +121,8 @@ export default function Dashboard() {
               onClick={() => setActiveView('analytics')}
               className={`w-full px-3.5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-3 transition-all duration-150 cursor-pointer tap-haptic ${
                 activeView === 'analytics'
-                  ? 'bg-neutral-100/80 text-purple-600'
-                  : 'text-neutral-500 hover:bg-neutral-50 hover:text-neutral-800'
+                  ? 'nav-item active bg-white/80 text-purple-600 shadow-glass-sm'
+                  : 'nav-item text-neutral-500 hover:text-neutral-800'
               }`}
             >
               <FaChartBar className="w-4.5 h-4.5" /> Tap Analytics
@@ -132,7 +134,7 @@ export default function Dashboard() {
         <div className="space-y-3.5 text-left border-t border-neutral-100 pt-5">
           <button
             onClick={handleCopyLink}
-            className="w-full py-2.5 px-4 bg-neutral-50 hover:bg-neutral-100 text-neutral-600 border border-neutral-200/60 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 duration-100 cursor-pointer tap-haptic"
+            className="w-full py-2.5 px-4 btn-glass-secondary rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 duration-100 cursor-pointer tap-haptic"
           >
             {copiedLink ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
             {copiedLink ? 'Copied Link' : 'Copy Profile URL'}
@@ -142,7 +144,7 @@ export default function Dashboard() {
             href={`/profile/${currentProfile.id}`}
             target="_blank"
             rel="noreferrer"
-            className="w-full py-2.5 px-4 bg-purple-600 hover:bg-purple-750 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 duration-100 shadow-md shadow-purple-500/10 text-center block tap-haptic"
+            className="w-full py-2.5 px-4 btn-glass-primary rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 duration-100 text-center block tap-haptic"
           >
             <Eye className="w-3.5 h-3.5 inline-block -mt-0.5 mr-1" /> View Live Profile
           </a>
@@ -162,7 +164,7 @@ export default function Dashboard() {
       <div className="flex-1 flex flex-col min-h-screen relative">
         
         {/* MOBILE HEADER (Visible below lg) */}
-        <header className="lg:hidden h-14 border-b border-neutral-200/80 bg-white/70 backdrop-blur-md px-6 flex flex-row items-center justify-between z-30 sticky top-0 shadow-[0_2px_12px_rgba(0,0,0,0.01)]">
+        <header className="lg:hidden h-14 glass-navbar px-6 flex flex-row items-center justify-between z-30 sticky top-0">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-purple-600 to-indigo-500 flex items-center justify-center shadow-sm">
               <FaQrcode className="w-4 h-4 text-white" />
@@ -196,8 +198,12 @@ export default function Dashboard() {
           
           {/* MOBILE PREVIEW FIXED CARD (Static header on top) */}
           {activeView === 'editor' && (
-            <div className="lg:hidden w-full bg-white/80 border-b border-neutral-200/60 shadow-[0_2px_12px_rgba(0,0,0,0.015)] overflow-hidden transition-all duration-300 flex flex-col items-center justify-center shrink-0 z-25 sticky top-14"
-                 style={{ height: showMobilePreview ? '190px' : '44px' }}
+            <div className="lg:hidden w-full border-b border-white/50 shadow-glass-sm overflow-hidden transition-all duration-300 flex flex-col items-center justify-center shrink-0 z-25 sticky top-14"
+               style={{ 
+                 height: showMobilePreview ? '190px' : '44px',
+                 background: 'rgba(255,255,255,0.55)',
+                 backdropFilter: 'blur(24px)'
+               }}
             >
               {showMobilePreview ? (
                 <div className="relative w-full h-full flex items-center justify-center">
@@ -238,9 +244,9 @@ export default function Dashboard() {
                   className="space-y-8 text-left max-w-3xl"
                 >
                   
-                  {/* GROUP 1: Core Branding (Notion/Stripe Floating Labels Style) */}
-                  <div className="bg-white border border-neutral-200/80 p-6 md:p-8 rounded-[24px] space-y-6 shadow-[0_8px_30px_rgba(0,0,0,0.015)] backdrop-blur-md">
-                    <div className="flex items-center gap-2 border-b border-neutral-100 pb-3">
+                  {/* GROUP 1: Core Branding */}
+                  <div className="glass-card p-6 md:p-8 rounded-[28px] space-y-6 hover-lift border border-white/60 bg-white/40 shadow-glass-md">
+                    <div className="flex items-center gap-2 border-b pb-3" style={{ borderColor: 'rgba(255,255,255,0.5)' }}>
                       <Shield className="w-4.5 h-4.5 text-purple-600" />
                       <h3 className="text-[10px] uppercase font-extrabold tracking-widest text-neutral-450">Core Branding Details</h3>
                     </div>
@@ -254,11 +260,11 @@ export default function Dashboard() {
                           placeholder=" "
                           value={currentProfile.name}
                           onChange={(e) => updateProfileField('name', e.target.value)}
-                          className="peer w-full bg-neutral-50/55 border border-neutral-200 rounded-2xl px-4 py-3 text-xs text-neutral-850 placeholder-transparent focus:bg-white focus:border-purple-600 focus:outline-none transition-all duration-250 shadow-sm"
+                          className="peer w-full bg-white/60 border border-white/60 rounded-2xl px-4 py-3 text-xs text-neutral-850 placeholder-transparent focus:bg-white focus:border-purple-600 focus:outline-none transition-all duration-250 shadow-sm"
                         />
                         <label
                           htmlFor="biz-name"
-                          className="absolute left-4 -top-2.5 px-1.5 bg-white text-[9px] font-bold text-neutral-450 uppercase tracking-widest transition-all duration-200 select-none pointer-events-none peer-placeholder-shown:text-xs peer-placeholder-shown:top-3 peer-placeholder-shown:bg-transparent peer-placeholder-shown:font-semibold peer-placeholder-shown:text-neutral-400 peer-focus:-top-2.5 peer-focus:text-[9px] peer-focus:text-purple-600 peer-focus:bg-white"
+                          className="absolute left-4 -top-2.5 px-1.5 bg-white/80 text-[9px] font-bold text-neutral-450 uppercase tracking-widest transition-all duration-200 select-none pointer-events-none peer-placeholder-shown:text-xs peer-placeholder-shown:top-3 peer-placeholder-shown:bg-transparent peer-placeholder-shown:font-semibold peer-placeholder-shown:text-neutral-400 peer-focus:-top-2.5 peer-focus:text-[9px] peer-focus:text-purple-600 peer-focus:bg-white"
                         >
                           Business Name
                         </label>
@@ -272,11 +278,11 @@ export default function Dashboard() {
                           placeholder=" "
                           value={currentProfile.category || ''}
                           onChange={(e) => updateProfileField('category', e.target.value)}
-                          className="peer w-full bg-neutral-50/55 border border-neutral-200 rounded-2xl px-4 py-3 text-xs text-neutral-850 placeholder-transparent focus:bg-white focus:border-purple-600 focus:outline-none transition-all duration-250 shadow-sm"
+                          className="peer w-full bg-white/60 border border-white/60 rounded-2xl px-4 py-3 text-xs text-neutral-850 placeholder-transparent focus:bg-white focus:border-purple-600 focus:outline-none transition-all duration-250 shadow-sm"
                         />
                         <label
                           htmlFor="biz-category"
-                          className="absolute left-4 -top-2.5 px-1.5 bg-white text-[9px] font-bold text-neutral-450 uppercase tracking-widest transition-all duration-200 select-none pointer-events-none peer-placeholder-shown:text-xs peer-placeholder-shown:top-3 peer-placeholder-shown:bg-transparent peer-placeholder-shown:font-semibold peer-placeholder-shown:text-neutral-400 peer-focus:-top-2.5 peer-focus:text-[9px] peer-focus:text-purple-600 peer-focus:bg-white"
+                          className="absolute left-4 -top-2.5 px-1.5 bg-white/80 text-[9px] font-bold text-neutral-450 uppercase tracking-widest transition-all duration-200 select-none pointer-events-none peer-placeholder-shown:text-xs peer-placeholder-shown:top-3 peer-placeholder-shown:bg-transparent peer-placeholder-shown:font-semibold peer-placeholder-shown:text-neutral-400 peer-focus:-top-2.5 peer-focus:text-[9px] peer-focus:text-purple-600 peer-focus:bg-white"
                         >
                           Business Category
                         </label>
@@ -292,9 +298,9 @@ export default function Dashboard() {
                             value={currentProfile.avatar}
                             onChange={(e) => updateProfileField('avatar', e.target.value)}
                             placeholder="Paste external image link..."
-                            className="flex-1 bg-neutral-50/50 border border-neutral-200/80 rounded-2xl px-4 py-3 text-xs text-neutral-800 focus:bg-white focus:border-purple-600 focus:outline-none transition-all shadow-sm"
+                            className="flex-1 bg-white/60 border border-white/60 rounded-2xl px-4 py-3 text-xs text-neutral-800 focus:bg-white focus:border-purple-600 focus:outline-none transition-all shadow-sm"
                           />
-                          <label className="px-4 py-3 bg-neutral-100 hover:bg-neutral-200/80 active:scale-95 text-neutral-600 rounded-2xl text-xs font-bold flex items-center justify-center gap-1.5 duration-100 cursor-pointer shadow-sm shrink-0 border border-neutral-200/40 select-none tap-haptic">
+                          <label className="px-4 py-3 bg-white/60 hover:bg-white/80 active:scale-95 text-neutral-600 rounded-2xl text-xs font-bold flex items-center justify-center gap-1.5 duration-100 cursor-pointer shadow-sm shrink-0 border border-white/60 select-none tap-haptic">
                             <input
                               type="file"
                               accept="image/*"
@@ -316,9 +322,9 @@ export default function Dashboard() {
                             value={currentProfile.coverPhoto}
                             onChange={(e) => updateProfileField('coverPhoto', e.target.value)}
                             placeholder="Paste external image link..."
-                            className="flex-1 bg-neutral-50/50 border border-neutral-200/80 rounded-2xl px-4 py-3 text-xs text-neutral-800 focus:bg-white focus:border-purple-600 focus:outline-none transition-all shadow-sm"
+                            className="flex-1 bg-white/60 border border-white/60 rounded-2xl px-4 py-3 text-xs text-neutral-800 focus:bg-white focus:border-purple-600 focus:outline-none transition-all shadow-sm"
                           />
-                          <label className="px-4 py-3 bg-neutral-100 hover:bg-neutral-200/80 active:scale-95 text-neutral-600 rounded-2xl text-xs font-bold flex items-center justify-center gap-1.5 duration-100 cursor-pointer shadow-sm shrink-0 border border-neutral-200/40 select-none tap-haptic">
+                          <label className="px-4 py-3 bg-white/60 hover:bg-white/80 active:scale-95 text-neutral-600 rounded-2xl text-xs font-bold flex items-center justify-center gap-1.5 duration-100 cursor-pointer shadow-sm shrink-0 border border-white/60 select-none tap-haptic">
                             <input
                               type="file"
                               accept="image/*"
@@ -339,11 +345,11 @@ export default function Dashboard() {
                         onChange={(e) => updateProfileField('bio', e.target.value)}
                         rows={3}
                         placeholder=" "
-                        className="peer w-full bg-neutral-50/55 border border-neutral-200 rounded-2xl px-4 py-3 text-xs text-neutral-850 placeholder-transparent focus:bg-white focus:border-purple-600 focus:outline-none transition-all duration-250 resize-none shadow-sm"
+                        className="peer w-full bg-white/60 border border-white/60 rounded-2xl px-4 py-3 text-xs text-neutral-850 placeholder-transparent focus:bg-white focus:border-purple-600 focus:outline-none transition-all duration-250 resize-none shadow-sm"
                       />
                       <label
                         htmlFor="biz-bio"
-                        className="absolute left-4 -top-2.5 px-1.5 bg-white text-[9px] font-bold text-neutral-450 uppercase tracking-widest transition-all duration-200 select-none pointer-events-none peer-placeholder-shown:text-xs peer-placeholder-shown:top-3.5 peer-placeholder-shown:bg-transparent peer-placeholder-shown:font-semibold peer-placeholder-shown:text-neutral-400 peer-focus:-top-2.5 peer-focus:text-[9px] peer-focus:text-purple-600 peer-focus:bg-white"
+                        className="absolute left-4 -top-2.5 px-1.5 bg-white/80 text-[9px] font-bold text-neutral-450 uppercase tracking-widest transition-all duration-200 select-none pointer-events-none peer-placeholder-shown:text-xs peer-placeholder-shown:top-3.5 peer-placeholder-shown:bg-transparent peer-placeholder-shown:font-semibold peer-placeholder-shown:text-neutral-400 peer-focus:-top-2.5 peer-focus:text-[9px] peer-focus:text-purple-600 peer-focus:bg-white"
                       >
                         Business Description (Bio)
                       </label>
@@ -351,8 +357,8 @@ export default function Dashboard() {
                   </div>
 
                   {/* GROUP 2: Contact Channels & Location */}
-                  <div className="bg-white border border-neutral-200/80 p-6 md:p-8 rounded-[24px] space-y-6 shadow-[0_8px_30px_rgba(0,0,0,0.015)] backdrop-blur-md">
-                    <div className="flex items-center gap-2 border-b border-neutral-100 pb-3">
+                  <div className="glass-card p-6 md:p-8 rounded-[28px] space-y-6 hover-lift border border-white/60 bg-white/40 shadow-glass-md">
+                    <div className="flex items-center gap-2 border-b pb-3" style={{ borderColor: 'rgba(255,255,255,0.5)' }}>
                       <Phone className="w-4.5 h-4.5 text-purple-600" />
                       <h3 className="text-[10px] uppercase font-extrabold tracking-widest text-neutral-450">Contact Channels & Location</h3>
                     </div>
@@ -366,11 +372,11 @@ export default function Dashboard() {
                           placeholder=" "
                           value={currentProfile.phone}
                           onChange={(e) => updateProfileField('phone', e.target.value)}
-                          className="peer w-full bg-neutral-50/55 border border-neutral-200 rounded-2xl px-4 py-3 text-xs text-neutral-850 placeholder-transparent focus:bg-white focus:border-purple-600 focus:outline-none transition-all duration-250 shadow-sm"
+                          className="peer w-full bg-white/60 border border-white/60 rounded-2xl px-4 py-3 text-xs text-neutral-850 placeholder-transparent focus:bg-white focus:border-purple-600 focus:outline-none transition-all duration-250 shadow-sm"
                         />
                         <label
                           htmlFor="biz-phone"
-                          className="absolute left-4 -top-2.5 px-1.5 bg-white text-[9px] font-bold text-neutral-450 uppercase tracking-widest transition-all duration-200 select-none pointer-events-none peer-placeholder-shown:text-xs peer-placeholder-shown:top-3 peer-placeholder-shown:bg-transparent peer-placeholder-shown:font-semibold peer-placeholder-shown:text-neutral-400 peer-focus:-top-2.5 peer-focus:text-[9px] peer-focus:text-purple-600 peer-focus:bg-white"
+                          className="absolute left-4 -top-2.5 px-1.5 bg-white/80 text-[9px] font-bold text-neutral-450 uppercase tracking-widest transition-all duration-200 select-none pointer-events-none peer-placeholder-shown:text-xs peer-placeholder-shown:top-3 peer-placeholder-shown:bg-transparent peer-placeholder-shown:font-semibold peer-placeholder-shown:text-neutral-400 peer-focus:-top-2.5 peer-focus:text-[9px] peer-focus:text-purple-600 peer-focus:bg-white"
                         >
                           Phone Number
                         </label>
@@ -384,11 +390,11 @@ export default function Dashboard() {
                           placeholder=" "
                           value={currentProfile.whatsapp || ''}
                           onChange={(e) => updateProfileField('whatsapp', e.target.value)}
-                          className="peer w-full bg-neutral-50/55 border border-neutral-200 rounded-2xl px-4 py-3 text-xs text-neutral-850 placeholder-transparent focus:bg-white focus:border-purple-600 focus:outline-none transition-all duration-250 shadow-sm"
+                          className="peer w-full bg-white/60 border border-white/60 rounded-2xl px-4 py-3 text-xs text-neutral-850 placeholder-transparent focus:bg-white focus:border-purple-600 focus:outline-none transition-all duration-250 shadow-sm"
                         />
                         <label
                           htmlFor="biz-whatsapp"
-                          className="absolute left-4 -top-2.5 px-1.5 bg-white text-[9px] font-bold text-neutral-450 uppercase tracking-widest transition-all duration-200 select-none pointer-events-none peer-placeholder-shown:text-xs peer-placeholder-shown:top-3 peer-placeholder-shown:bg-transparent peer-placeholder-shown:font-semibold peer-placeholder-shown:text-neutral-400 peer-focus:-top-2.5 peer-focus:text-[9px] peer-focus:text-purple-600 peer-focus:bg-white"
+                          className="absolute left-4 -top-2.5 px-1.5 bg-white/80 text-[9px] font-bold text-neutral-450 uppercase tracking-widest transition-all duration-200 select-none pointer-events-none peer-placeholder-shown:text-xs peer-placeholder-shown:top-3 peer-placeholder-shown:bg-transparent peer-placeholder-shown:font-semibold peer-placeholder-shown:text-neutral-400 peer-focus:-top-2.5 peer-focus:text-[9px] peer-focus:text-purple-600 peer-focus:bg-white"
                         >
                           WhatsApp Number
                         </label>
@@ -402,11 +408,11 @@ export default function Dashboard() {
                           placeholder=" "
                           value={currentProfile.email}
                           onChange={(e) => updateProfileField('email', e.target.value)}
-                          className="peer w-full bg-neutral-50/55 border border-neutral-200 rounded-2xl px-4 py-3 text-xs text-neutral-850 placeholder-transparent focus:bg-white focus:border-purple-600 focus:outline-none transition-all duration-250 shadow-sm"
+                          className="peer w-full bg-white/60 border border-white/60 rounded-2xl px-4 py-3 text-xs text-neutral-850 placeholder-transparent focus:bg-white focus:border-purple-600 focus:outline-none transition-all duration-250 shadow-sm"
                         />
                         <label
                           htmlFor="biz-email"
-                          className="absolute left-4 -top-2.5 px-1.5 bg-white text-[9px] font-bold text-neutral-450 uppercase tracking-widest transition-all duration-200 select-none pointer-events-none peer-placeholder-shown:text-xs peer-placeholder-shown:top-3 peer-placeholder-shown:bg-transparent peer-placeholder-shown:font-semibold peer-placeholder-shown:text-neutral-400 peer-focus:-top-2.5 peer-focus:text-[9px] peer-focus:text-purple-600 peer-focus:bg-white"
+                          className="absolute left-4 -top-2.5 px-1.5 bg-white/80 text-[9px] font-bold text-neutral-450 uppercase tracking-widest transition-all duration-200 select-none pointer-events-none peer-placeholder-shown:text-xs peer-placeholder-shown:top-3 peer-placeholder-shown:bg-transparent peer-placeholder-shown:font-semibold peer-placeholder-shown:text-neutral-400 peer-focus:-top-2.5 peer-focus:text-[9px] peer-focus:text-purple-600 peer-focus:bg-white"
                         >
                           Email Address
                         </label>
@@ -420,11 +426,11 @@ export default function Dashboard() {
                           placeholder=" "
                           value={currentProfile.website}
                           onChange={(e) => updateProfileField('website', e.target.value)}
-                          className="peer w-full bg-neutral-50/55 border border-neutral-200 rounded-2xl px-4 py-3 text-xs text-neutral-850 placeholder-transparent focus:bg-white focus:border-purple-600 focus:outline-none transition-all duration-250 shadow-sm"
+                          className="peer w-full bg-white/60 border border-white/60 rounded-2xl px-4 py-3 text-xs text-neutral-850 placeholder-transparent focus:bg-white focus:border-purple-600 focus:outline-none transition-all duration-250 shadow-sm"
                         />
                         <label
                           htmlFor="biz-website"
-                          className="absolute left-4 -top-2.5 px-1.5 bg-white text-[9px] font-bold text-neutral-450 uppercase tracking-widest transition-all duration-200 select-none pointer-events-none peer-placeholder-shown:text-xs peer-placeholder-shown:top-3 peer-placeholder-shown:bg-transparent peer-placeholder-shown:font-semibold peer-placeholder-shown:text-neutral-400 peer-focus:-top-2.5 peer-focus:text-[9px] peer-focus:text-purple-600 peer-focus:bg-white"
+                          className="absolute left-4 -top-2.5 px-1.5 bg-white/80 text-[9px] font-bold text-neutral-450 uppercase tracking-widest transition-all duration-200 select-none pointer-events-none peer-placeholder-shown:text-xs peer-placeholder-shown:top-3 peer-placeholder-shown:bg-transparent peer-placeholder-shown:font-semibold peer-placeholder-shown:text-neutral-400 peer-focus:-top-2.5 peer-focus:text-[9px] peer-focus:text-purple-600 peer-focus:bg-white"
                         >
                           Website Address
                         </label>
@@ -439,11 +445,11 @@ export default function Dashboard() {
                         placeholder=" "
                         value={currentProfile.address}
                         onChange={(e) => updateProfileField('address', e.target.value)}
-                        className="peer w-full bg-neutral-50/55 border border-neutral-200 rounded-2xl px-4 py-3 text-xs text-neutral-855 placeholder-transparent focus:bg-white focus:border-purple-600 focus:outline-none transition-all duration-250 shadow-sm"
+                        className="peer w-full bg-white/60 border border-white/60 rounded-2xl px-4 py-3 text-xs text-neutral-855 placeholder-transparent focus:bg-white focus:border-purple-600 focus:outline-none transition-all duration-250 shadow-sm"
                       />
                       <label
                         htmlFor="biz-address"
-                        className="absolute left-4 -top-2.5 px-1.5 bg-white text-[9px] font-bold text-neutral-450 uppercase tracking-widest transition-all duration-200 select-none pointer-events-none peer-placeholder-shown:text-xs peer-placeholder-shown:top-3 peer-placeholder-shown:bg-transparent peer-placeholder-shown:font-semibold peer-placeholder-shown:text-neutral-400 peer-focus:-top-2.5 peer-focus:text-[9px] peer-focus:text-purple-600 peer-focus:bg-white"
+                        className="absolute left-4 -top-2.5 px-1.5 bg-white/80 text-[9px] font-bold text-neutral-450 uppercase tracking-widest transition-all duration-200 select-none pointer-events-none peer-placeholder-shown:text-xs peer-placeholder-shown:top-3 peer-placeholder-shown:bg-transparent peer-placeholder-shown:font-semibold peer-placeholder-shown:text-neutral-400 peer-focus:-top-2.5 peer-focus:text-[9px] peer-focus:text-purple-600 peer-focus:bg-white"
                       >
                         Physical Location Address
                       </label>
@@ -454,8 +460,8 @@ export default function Dashboard() {
                   </div>
 
                   {/* GROUP 3: Social Connections handles */}
-                  <div className="bg-white border border-neutral-200/80 p-6 md:p-8 rounded-[24px] space-y-6 shadow-[0_8px_30px_rgba(0,0,0,0.015)] backdrop-blur-md">
-                    <div className="flex items-center gap-2 border-b border-neutral-100 pb-3">
+                  <div className="glass-card p-6 md:p-8 rounded-[28px] space-y-6 hover-lift border border-white/60 bg-white/40 shadow-glass-md">
+                    <div className="flex items-center gap-2 border-b pb-3" style={{ borderColor: 'rgba(255,255,255,0.5)' }}>
                       <Globe className="w-4.5 h-4.5 text-purple-600" />
                       <h3 className="text-[10px] uppercase font-extrabold tracking-widest text-neutral-450">Social Connections</h3>
                     </div>
@@ -466,8 +472,8 @@ export default function Dashboard() {
                         const val = currentProfile.socials[plat] || '';
                         if (!val) return null;
                         return (
-                          <div key={plat} className="flex rounded-2xl overflow-hidden border border-neutral-200 shadow-sm">
-                            <label htmlFor={`social-${plat}`} className="bg-neutral-50 text-neutral-555 text-[9px] uppercase font-bold tracking-wider px-4 flex items-center border-r border-neutral-100 w-24 select-none cursor-pointer">
+                          <div key={plat} className="flex rounded-2xl overflow-hidden glass-input border shadow-glass-sm bg-white/40" style={{ borderColor: 'rgba(255,255,255,0.5)' }}>
+                            <label htmlFor={`social-${plat}`} className="bg-white/30 text-neutral-500 text-[9px] uppercase font-bold tracking-wider px-4 flex items-center border-r w-24 select-none cursor-pointer" style={{ borderColor: 'rgba(255,255,255,0.5)' }}>
                               {plat === 'twitter' ? 'X / Twitter' : plat}
                             </label>
                             <input
@@ -476,7 +482,7 @@ export default function Dashboard() {
                               value={val}
                               onChange={(e) => updateNestedField('socials', plat, e.target.value)}
                               placeholder={`https://${plat === 'twitter' ? 'twitter' : plat}.com/...`}
-                              className="flex-1 bg-white text-neutral-800 px-3.5 py-3 text-xs focus:outline-none"
+                              className="flex-1 bg-transparent text-neutral-800 px-3.5 py-3 text-xs focus:outline-none"
                             />
                           </div>
                         );
@@ -494,8 +500,8 @@ export default function Dashboard() {
                           const val = currentProfile.socials[plat] || '';
                           if (val) return null;
                           return (
-                            <div key={plat} className="flex rounded-2xl overflow-hidden border border-dashed border-neutral-300 shadow-sm opacity-70 focus-within:opacity-100 focus-within:border-purple-400 transition-all">
-                              <label htmlFor={`social-add-${plat}`} className="bg-neutral-50 text-neutral-555 text-[9px] uppercase font-bold tracking-wider px-4 flex items-center border-r border-neutral-100 w-24 select-none cursor-pointer">
+                            <div key={plat} className="flex rounded-2xl overflow-hidden border border-dashed opacity-70 focus-within:opacity-100 transition-all" style={{ borderColor: 'rgba(168,85,247,0.3)' }}>
+                              <label htmlFor={`social-add-${plat}`} className="bg-white/20 text-neutral-500 text-[9px] uppercase font-bold tracking-wider px-4 flex items-center border-r w-24 select-none cursor-pointer" style={{ borderColor: 'rgba(255,255,255,0.4)' }}>
                                 {plat === 'twitter' ? 'X / Twitter' : plat}
                               </label>
                               <input
@@ -504,7 +510,7 @@ export default function Dashboard() {
                                 value={val}
                                 onChange={(e) => updateNestedField('socials', plat, e.target.value)}
                                 placeholder={`https://${plat === 'twitter' ? 'twitter' : plat}.com/...`}
-                                className="flex-1 bg-white text-neutral-800 px-3.5 py-3 text-xs focus:outline-none"
+                                className="flex-1 bg-transparent text-neutral-800 px-3.5 py-3 text-xs focus:outline-none"
                               />
                             </div>
                           );
@@ -514,8 +520,8 @@ export default function Dashboard() {
                   </div>
 
                   {/* GROUP 4: Business Operating Hours */}
-                  <div className="bg-white border border-neutral-200/80 p-6 md:p-8 rounded-[24px] space-y-6 shadow-[0_8px_30px_rgba(0,0,0,0.015)] backdrop-blur-md">
-                    <div className="flex items-center gap-2 border-b border-neutral-100 pb-3">
+                  <div className="glass-card p-6 md:p-8 rounded-[28px] space-y-6 hover-lift">
+                    <div className="flex items-center gap-2 border-b pb-3" style={{ borderColor: 'rgba(255,255,255,0.5)' }}>
                       <Clock className="w-4.5 h-4.5 text-purple-600" />
                       <h3 className="text-[10px] uppercase font-extrabold tracking-widest text-neutral-450">Weekly Operating Hours</h3>
                     </div>
@@ -526,7 +532,7 @@ export default function Dashboard() {
                         const isClosed = dayHours.open === 'closed';
 
                         return (
-                          <div key={day} className="flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-2xl bg-neutral-50 border border-neutral-200/60 gap-3">
+                          <div key={day} className="flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-2xl gap-3" style={{ background: 'rgba(255,255,255,0.5)', border: '1px solid rgba(255,255,255,0.6)' }}>
                             <span className="text-xs font-bold capitalize text-neutral-700 min-w-24">{day}</span>
                             
                             <div className="flex items-center gap-3.5">
@@ -577,7 +583,7 @@ export default function Dashboard() {
                   <div className="pt-4 flex items-center justify-end">
                     <button
                       onClick={handleSaveClick}
-                      className="px-8 py-3 bg-purple-600 hover:bg-purple-750 text-white rounded-xl text-xs font-bold transition-all shadow-md shadow-purple-500/10 active:scale-95 duration-100 flex items-center gap-1.5 cursor-pointer tap-haptic"
+                      className="px-8 py-3 btn-glass-primary rounded-xl text-xs font-bold transition-all active:scale-95 duration-100 flex items-center gap-1.5 cursor-pointer tap-haptic"
                     >
                       {saveState === 'saving' ? (
                         <>
@@ -608,8 +614,8 @@ export default function Dashboard() {
                   transition={{ duration: 0.22, ease: 'easeOut' }}
                   className="space-y-4 max-w-3xl text-left"
                 >
-                  <div className="bg-white border border-neutral-200/80 p-6 md:p-8 rounded-[24px] shadow-[0_8px_30px_rgba(0,0,0,0.015)] backdrop-blur-md">
-                    <div className="flex items-center gap-2 border-b border-neutral-100 pb-3 mb-6">
+                  <div className="glass-card p-6 md:p-8 rounded-[28px] shadow-glass-md hover-lift">
+                    <div className="flex items-center gap-2 border-b pb-3 mb-6" style={{ borderColor: 'rgba(255,255,255,0.5)' }}>
                       <QrCode className="w-4.5 h-4.5 text-purple-600" />
                       <h3 className="text-[10px] uppercase font-extrabold tracking-widest text-neutral-450">QR Studio Designer</h3>
                     </div>
