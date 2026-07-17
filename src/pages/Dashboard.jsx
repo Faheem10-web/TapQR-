@@ -129,7 +129,22 @@ export default function Dashboard() {
     let url = `${base}/profile/${profileId}`;
     if (profileObj) {
       try {
-        const { analytics, ...cleanProfile } = profileObj;
+        // Only serialize user-customizable text and theme settings to keep the QR code size small
+        const cleanProfile = {
+          name: profileObj.name,
+          category: profileObj.category,
+          bio: profileObj.bio,
+          phone: profileObj.phone,
+          whatsapp: profileObj.whatsapp,
+          email: profileObj.email,
+          website: profileObj.website,
+          address: profileObj.address,
+          avatar: profileObj.avatar && profileObj.avatar.startsWith('data:') ? '' : profileObj.avatar,
+          coverPhoto: profileObj.coverPhoto && profileObj.coverPhoto.startsWith('data:') ? '' : profileObj.coverPhoto,
+          socials: profileObj.socials || {},
+          hours: profileObj.hours || {},
+          theme: profileObj.theme || {}
+        };
         const profileStr = encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(cleanProfile)))));
         url += `?p=${profileStr}`;
       } catch (e) {
