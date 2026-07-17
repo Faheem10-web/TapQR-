@@ -13,11 +13,10 @@ createRoot(document.getElementById('root')).render(
   </StrictMode>,
 )
 
-// Register Progressive Web App (PWA) Service Worker for offline support
+// Unregister any stale Service Workers to prevent old cached JS from loading
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
-      .then((reg) => console.log('PWA Service Worker registered:', reg.scope))
-      .catch((err) => console.error('PWA Registration failed:', err));
+  navigator.serviceWorker.getRegistrations().then((registrations) => {
+    registrations.forEach((reg) => reg.unregister());
   });
 }
+
