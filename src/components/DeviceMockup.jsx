@@ -1,25 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import * as Icons from 'lucide-react';
+import { Link2 } from 'lucide-react';
 import { 
   FaInstagram, FaFacebook, FaWhatsapp, FaYoutube, FaLinkedin, 
   FaTelegram, FaDiscord, FaPinterest, FaSnapchat, FaTiktok,
   FaPhone, FaGlobe, FaEnvelope, FaMapMarkerAlt
 } from 'react-icons/fa';
 import { SiX } from 'react-icons/si';
-
-// Dynamic icon helper to map string keys to Lucide icon components
-export const DynamicIcon = ({ name, className = 'w-5 h-5' }) => {
-  if (!name) return <Icons.Link2 className={className} />;
-  
-  // Convert kebab-case to PascalCase
-  const pascalName = name
-    .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join('');
-    
-  const IconComponent = Icons[pascalName] || Icons.Link2;
-  return <IconComponent className={className} />;
-};
 
 export default function DeviceMockup({ profile }) {
   const [time, setTime] = useState('09:41');

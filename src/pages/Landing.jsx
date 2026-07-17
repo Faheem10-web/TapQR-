@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, QrCode, Sparkles, Smartphone, ShieldCheck, BarChart3, Star, Heart } from 'lucide-react';
-import { DynamicIcon } from '../components/DeviceMockup';
+import { ArrowRight, QrCode, Sparkles, Smartphone, ShieldCheck, BarChart3, Star, Heart, Globe, Phone } from 'lucide-react';
 
 export default function Landing() {
   const navigate = useNavigate();
@@ -183,7 +182,7 @@ export default function Landing() {
               <div className="grid grid-cols-2 gap-2 text-left pt-2 border-t border-neutral-100">
                 <div className="p-2 rounded-xl bg-neutral-50/50 border border-neutral-200/60 flex items-center gap-2">
                   <div className="w-6 h-6 rounded-lg bg-white flex items-center justify-center shadow-sm" style={{ color: demoColor }}>
-                    <DynamicIcon name="globe" className="w-3 h-3" />
+                    <Globe className="w-3 h-3" />
                   </div>
                   <div>
                     <p className="text-[7px] font-bold text-neutral-400">Portfolio</p>
@@ -193,7 +192,7 @@ export default function Landing() {
 
                 <div className="p-2 rounded-xl bg-neutral-50/50 border border-neutral-200/60 flex items-center gap-2">
                   <div className="w-6 h-6 rounded-lg bg-white flex items-center justify-center shadow-sm" style={{ color: demoColor }}>
-                    <DynamicIcon name="phone" className="w-3 h-3" />
+                    <Phone className="w-3 h-3" />
                   </div>
                   <div>
                     <p className="text-[7px] font-bold text-neutral-400">Call Me</p>
