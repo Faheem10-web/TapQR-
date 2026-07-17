@@ -1,0 +1,26 @@
+{
+  "short_name": "TapQR",
+  "name": "TapQR — Premium Business Profiles",
+  "description": "Design and share your premium digital business profile. Generate customized QR codes and track link interactions with tap analytics.",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "maskable"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#030303",
+  "theme_color": "#a855f7",
+  "display": "standalone",
+  "orientation": "portrait",
+  "display_override": ["window-controls-overlay", "standalone"],
+  "categories": ["business", "productivity", "utilities"]
+}
