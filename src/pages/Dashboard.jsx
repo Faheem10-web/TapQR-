@@ -101,22 +101,23 @@ export default function Dashboard() {
   const daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
   
   // Dynamic URL configuration ensuring public production domain mapping
-  const getPublicProfileUrl = (profileId, themeObj) => {
+  const getPublicProfileUrl = (profileId, profileObj) => {
     const origin = window.location.origin;
     const isLocal = origin.includes('localhost') || origin.includes('127.0.0.1') || origin.includes('192.168.');
     const base = isLocal ? 'https://tap-qr.vercel.app' : origin;
     let url = `${base}/profile/${profileId}`;
-    if (themeObj) {
+    if (profileObj) {
       try {
-        const themeStr = encodeURIComponent(btoa(JSON.stringify(themeObj)));
-        url += `?t=${themeStr}`;
+        const { analytics, ...cleanProfile } = profileObj;
+        const profileStr = encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(cleanProfile)))));
+        url += `?p=${profileStr}`;
       } catch (e) {
         console.error(e);
       }
     }
     return url;
   };
-  const profileUrl = getPublicProfileUrl(currentProfile.id, currentProfile.theme);
+  const profileUrl = getPublicProfileUrl(currentProfile.id, currentProfile);
 
   // Shared floating label input style
   const floatInputClass = "peer w-full rounded-2xl px-4 py-3 text-xs text-neutral-800 placeholder-transparent focus:outline-none transition-all duration-250 shadow-sm";

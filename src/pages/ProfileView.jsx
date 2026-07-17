@@ -46,13 +46,22 @@ export default function ProfileView() {
       found = DEFAULT_PROFILES[0];
     }
 
-    // Check if there is an encoded theme in the URL query string parameter
-    if (found) {
-      try {
-        const params = new URLSearchParams(window.location.search);
+    // Check if there is an encoded profile or theme in the URL query string parameter
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const encodedProfile = params.get('p');
+      if (encodedProfile) {
+        const decodedProfile = JSON.parse(decodeURIComponent(escape(atob(encodedProfile))));
+        if (decodedProfile && decodedProfile.id === profileId) {
+          found = {
+            ...found,
+            ...decodedProfile
+          };
+        }
+      } else {
         const encodedTheme = params.get('t');
-        if (encodedTheme) {
-          const decodedTheme = JSON.parse(atob(decodeURIComponent(encodedTheme)));
+        if (encodedTheme && found) {
+          const decodedTheme = JSON.parse(decodeURIComponent(escape(atob(encodedTheme))));
           found = {
             ...found,
             theme: {
@@ -61,9 +70,9 @@ export default function ProfileView() {
             }
           };
         }
-      } catch (e) {
-        console.error('Failed to parse theme from URL', e);
       }
+    } catch (e) {
+      console.error('Failed to parse profile/theme from URL', e);
     }
     
     setProfile(found);
@@ -73,15 +82,16 @@ export default function ProfileView() {
   useEffect(() => {
     if (showShareSheet && qrCanvasRef.current && profile) {
       // Dynamic url targeting the public vercel domain instead of local test variables
-      const getPublicProfileUrl = (profileId, themeObj) => {
+      const getPublicProfileUrl = (profileId, profileObj) => {
         const origin = window.location.origin;
         const isLocal = origin.includes('localhost') || origin.includes('127.0.0.1') || origin.includes('192.168.');
         const base = isLocal ? 'https://tap-qr.vercel.app' : origin;
         let url = `${base}/profile/${profileId}`;
-        if (themeObj) {
+        if (profileObj) {
           try {
-            const themeStr = encodeURIComponent(btoa(JSON.stringify(themeObj)));
-            url += `?t=${themeStr}`;
+            const { analytics, ...cleanProfile } = profileObj;
+            const profileStr = encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(cleanProfile)))));
+            url += `?p=${profileStr}`;
           } catch (e) {
             console.error(e);
           }
@@ -89,7 +99,7 @@ export default function ProfileView() {
         return url;
       };
 
-      const targetUrl = getPublicProfileUrl(profile.id, profile.theme);
+      const targetUrl = getPublicProfileUrl(profile.id, profile);
 
       QRCode.toCanvas(qrCanvasRef.current, targetUrl, {
         width: 240,
