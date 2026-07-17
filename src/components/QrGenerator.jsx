@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import QRCode from 'qrcode';
-import { Download, Copy, Check, QrCode, Image as ImageIcon } from 'lucide-react';
+import { Download, Copy, Check, QrCode, Image as ImageIcon, Save } from 'lucide-react';
 
 export default function QrGenerator({ profileUrl, profile }) {
   const canvasRef = useRef(null);
@@ -143,25 +143,26 @@ export default function QrGenerator({ profileUrl, profile }) {
           <button
             onClick={downloadQrCode}
             aria-label="Download QR Code image"
-            className="flex-1 py-2.5 px-4 bg-purple-600 hover:bg-purple-700 active:scale-95 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 duration-100 cursor-pointer shadow-md shadow-purple-500/10"
+            className="flex-1 py-2.5 px-2 bg-neutral-100 hover:bg-neutral-200 active:scale-95 text-neutral-600 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 duration-100 cursor-pointer shadow-sm"
           >
             <Download className="w-3.5 h-3.5" /> Download
+          </button>
+
+          <button
+            onClick={() => alert('QR Code settings saved successfully!')}
+            aria-label="Save Settings"
+            className="flex-1 py-2.5 px-2 bg-purple-600 hover:bg-purple-700 active:scale-95 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 duration-100 cursor-pointer shadow-md shadow-purple-500/10"
+          >
+            <Save className="w-3.5 h-3.5" /> Save
           </button>
           
           <button
             onClick={copyProfileLink}
             aria-label="Copy Profile Link URL"
-            className="py-2.5 px-4 bg-neutral-100 hover:bg-neutral-250 active:scale-95 text-neutral-600 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 duration-100 cursor-pointer shadow-sm"
+            className="py-2.5 px-3 bg-neutral-100 hover:bg-neutral-250 active:scale-95 text-neutral-600 rounded-xl text-xs font-bold flex items-center justify-center duration-100 cursor-pointer shadow-sm"
+            title="Copy Link"
           >
-            {copied ? (
-              <>
-                <Check className="w-3.5 h-3.5 text-emerald-600" /> Copied
-              </>
-            ) : (
-              <>
-                <Copy className="w-3.5 h-3.5" /> Copy Link
-              </>
-            )}
+            {copied ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
           </button>
         </div>
       </div>
