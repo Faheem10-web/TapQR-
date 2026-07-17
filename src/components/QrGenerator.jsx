@@ -53,7 +53,7 @@ export default function QrGenerator({ profileUrl, profile }) {
         dark: fgColor,
         light: bgColor,
       },
-      errorCorrectionLevel: 'H', // Use high error correction to allow center logo overlay
+      errorCorrectionLevel: logoType !== 'none' ? 'H' : 'M',
     };
 
     QRCode.toCanvas(canvas, profileUrl || 'https://tapqr.link/p/default', qrOptions, (error) => {

@@ -45,96 +45,28 @@ export default function ProfileView() {
     if (!found && profileId === 'default') {
       found = DEFAULT_PROFILES[0];
     }
-
-    // Check if there is an encoded profile or theme in the URL query string parameter
-    try {
-      const params = new URLSearchParams(window.location.search);
-      const encodedProfile = params.get('p');
-      if (encodedProfile) {
-        const decodedProfile = JSON.parse(decodeURIComponent(escape(atob(encodedProfile))));
-        if (decodedProfile && decodedProfile.id === profileId) {
-          found = {
-            ...found,
-            ...decodedProfile
-          };
-        }
-      } else {
-        const encodedTheme = params.get('t');
-        if (encodedTheme && found) {
-          const decodedTheme = JSON.parse(decodeURIComponent(escape(atob(encodedTheme))));
-          found = {
-            ...found,
-            theme: {
-              ...found.theme,
-              ...decodedTheme
-            }
-          };
-        }
-      }
-    } catch (e) {
-      console.error('Failed to parse profile/theme from URL', e);
-    }
     
-    setProfile(found);
+    // Simulate network delay to represent "fetching all business information after page opens"
+    setProfile(null);
+    const timer = setTimeout(() => {
+      setProfile(found);
+    }, 350);
+    
+    return () => clearTimeout(timer);
   }, [profileId, getProfile]);
 
   // Generate QR Code dynamically when share sheet opens
   useEffect(() => {
     if (showShareSheet && qrCanvasRef.current && profile) {
       // Dynamic url targeting the public vercel domain instead of local test variables
-      const getPublicProfileUrl = (profileId, profileObj) => {
+      const getPublicProfileUrl = (profileId) => {
         const origin = window.location.origin;
         const isLocal = origin.includes('localhost') || origin.includes('127.0.0.1') || origin.includes('192.168.');
         const base = isLocal ? 'https://tap-qr.vercel.app' : origin;
-        let url = `${base}/profile/${profileId}`;
-        if (profileObj) {
-          try {
-            const baseline = DEFAULT_PROFILES.find(p => p.id === profileId) || {};
-            const cleanProfile = { id: profileId };
-            let hasChanges = false;
-
-            const textFields = ['name', 'category', 'bio', 'phone', 'whatsapp', 'email', 'website', 'address'];
-            textFields.forEach(field => {
-              if (profileObj[field] !== baseline[field]) {
-                cleanProfile[field] = profileObj[field];
-                hasChanges = true;
-              }
-            });
-
-            if (profileObj.avatar !== baseline.avatar) {
-              cleanProfile.avatar = profileObj.avatar && profileObj.avatar.startsWith('data:') ? '' : profileObj.avatar;
-              hasChanges = true;
-            }
-            if (profileObj.coverPhoto !== baseline.coverPhoto) {
-              cleanProfile.coverPhoto = profileObj.coverPhoto && profileObj.coverPhoto.startsWith('data:') ? '' : profileObj.coverPhoto;
-              hasChanges = true;
-            }
-
-            if (JSON.stringify(profileObj.socials || {}) !== JSON.stringify(baseline.socials || {})) {
-              cleanProfile.socials = profileObj.socials || {};
-              hasChanges = true;
-            }
-            if (JSON.stringify(profileObj.hours || {}) !== JSON.stringify(baseline.hours || {})) {
-              cleanProfile.hours = profileObj.hours || {};
-              hasChanges = true;
-            }
-            if (JSON.stringify(profileObj.theme || {}) !== JSON.stringify(baseline.theme || {})) {
-              cleanProfile.theme = profileObj.theme || {};
-              hasChanges = true;
-            }
-
-            if (hasChanges) {
-              const profileStr = encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(cleanProfile)))));
-              url += `?p=${profileStr}`;
-            }
-          } catch (e) {
-            console.error(e);
-          }
-        }
-        return url;
+        return `${base}/profile/${profileId}`;
       };
 
-      const targetUrl = getPublicProfileUrl(profile.id, profile);
+      const targetUrl = getPublicProfileUrl(profile.id);
 
       QRCode.toCanvas(qrCanvasRef.current, targetUrl, {
         width: 240,

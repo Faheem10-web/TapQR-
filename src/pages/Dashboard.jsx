@@ -123,58 +123,13 @@ export default function Dashboard() {
   const daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
   
   // Dynamic URL configuration ensuring public production domain mapping
-  const getPublicProfileUrl = (profileId, profileObj) => {
+  const getPublicProfileUrl = (profileId) => {
     const origin = window.location.origin;
     const isLocal = origin.includes('localhost') || origin.includes('127.0.0.1') || origin.includes('192.168.');
     const base = isLocal ? 'https://tap-qr.vercel.app' : origin;
-    let url = `${base}/profile/${profileId}`;
-    if (profileObj) {
-      try {
-        const baseline = DEFAULT_PROFILES.find(p => p.id === profileId) || {};
-        const cleanProfile = { id: profileId };
-        let hasChanges = false;
-
-        const textFields = ['name', 'category', 'bio', 'phone', 'whatsapp', 'email', 'website', 'address'];
-        textFields.forEach(field => {
-          if (profileObj[field] !== baseline[field]) {
-            cleanProfile[field] = profileObj[field];
-            hasChanges = true;
-          }
-        });
-
-        if (profileObj.avatar !== baseline.avatar) {
-          cleanProfile.avatar = profileObj.avatar && profileObj.avatar.startsWith('data:') ? '' : profileObj.avatar;
-          hasChanges = true;
-        }
-        if (profileObj.coverPhoto !== baseline.coverPhoto) {
-          cleanProfile.coverPhoto = profileObj.coverPhoto && profileObj.coverPhoto.startsWith('data:') ? '' : profileObj.coverPhoto;
-          hasChanges = true;
-        }
-
-        if (JSON.stringify(profileObj.socials || {}) !== JSON.stringify(baseline.socials || {})) {
-          cleanProfile.socials = profileObj.socials || {};
-          hasChanges = true;
-        }
-        if (JSON.stringify(profileObj.hours || {}) !== JSON.stringify(baseline.hours || {})) {
-          cleanProfile.hours = profileObj.hours || {};
-          hasChanges = true;
-        }
-        if (JSON.stringify(profileObj.theme || {}) !== JSON.stringify(baseline.theme || {})) {
-          cleanProfile.theme = profileObj.theme || {};
-          hasChanges = true;
-        }
-
-        if (hasChanges) {
-          const profileStr = encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(cleanProfile)))));
-          url += `?p=${profileStr}`;
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    }
-    return url;
+    return `${base}/profile/${profileId}`;
   };
-  const profileUrl = getPublicProfileUrl(currentProfile.id, currentProfile);
+  const profileUrl = getPublicProfileUrl(currentProfile.id);
 
   // Shared floating label input style
   const floatInputClass = "peer w-full rounded-2xl px-4 py-3 text-xs text-neutral-800 placeholder-transparent focus:outline-none transition-all duration-250 shadow-sm";
