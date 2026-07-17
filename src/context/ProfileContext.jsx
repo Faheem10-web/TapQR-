@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { DEFAULT_PROFILES } from '../utils/mockData';
 
 const ProfileContext = createContext();
@@ -25,7 +25,7 @@ export const ProfileProvider = ({ children }) => {
     localStorage.setItem('tapqr_profiles', JSON.stringify(profiles));
   }, [profiles]);
 
-  const addProfile = (newProfile) => {
+  const addProfile = useCallback((newProfile) => {
     const profileWithId = {
       ...newProfile,
       id: newProfile.id || `profile-${Date.now()}`
@@ -33,30 +33,33 @@ export const ProfileProvider = ({ children }) => {
     setProfiles((prev) => [...prev, profileWithId]);
     setActiveProfileId(profileWithId.id);
     return profileWithId;
-  };
+  }, []);
 
-  const updateProfile = (id, updatedFields) => {
+  const updateProfile = useCallback((id, updatedFields) => {
     setProfiles((prev) =>
       prev.map((prof) => (prof.id === id ? { ...prof, ...updatedFields } : prof))
     );
-  };
+  }, []);
 
-  const deleteProfile = (id) => {
-    const updated = profiles.filter((prof) => prof.id !== id);
-    setProfiles(updated);
-    if (activeProfileId === id && updated.length > 0) {
-      setActiveProfileId(updated[0].id);
-    }
-  };
+  const deleteProfile = useCallback((id) => {
+    setProfiles((prev) => {
+      const updated = prev.filter((prof) => prof.id !== id);
+      setActiveProfileId((current) => {
+        if (current === id && updated.length > 0) return updated[0].id;
+        return current;
+      });
+      return updated;
+    });
+  }, []);
 
-  const getProfile = (id) => {
-    return profiles.find((prof) => prof.id === id);
-  };
+  const getProfile = useCallback((id) => {
+    return profiles.find((prof) => prof.id === id) || null;
+  }, [profiles]);
 
-  const resetToDefaults = () => {
+  const resetToDefaults = useCallback(() => {
     setProfiles(DEFAULT_PROFILES);
     setActiveProfileId(DEFAULT_PROFILES[0].id);
-  };
+  }, []);
 
   const currentProfile = profiles.find((prof) => prof.id === activeProfileId) || profiles[0];
 

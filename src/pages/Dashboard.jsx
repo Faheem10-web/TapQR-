@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useProfiles } from '../context/ProfileContext';
 import DeviceMockup from '../components/DeviceMockup';
 import QrGenerator from '../components/QrGenerator';
@@ -10,14 +10,13 @@ import {
   Image as ImageIcon
 } from 'lucide-react';
 import { FaCog, FaQrcode, FaChartBar, FaSlidersH } from 'react-icons/fa';
-import { DEFAULT_PROFILES } from '../utils/mockData';
 
 export default function Dashboard() {
   const { 
     currentProfile, updateProfile, resetToDefaults 
   } = useProfiles();
 
-  const [activeView, setActiveView] = useState('editor'); // editor, qr, analytics
+  const [activeView, setActiveView] = useState('editor');
   const [copiedLink, setCopiedLink] = useState(false);
   const [showMobilePreview, setShowMobilePreview] = useState(true);
   const [saveState, setSaveState] = useState('idle'); // idle, saving, success
@@ -38,6 +37,9 @@ export default function Dashboard() {
     backgroundGradient: true
   };
 
+  // Track the active profile ID to detect actual profile switches
+  const activeProfileIdRef = useRef(currentProfile?.id);
+
   const [draftTheme, setDraftTheme] = useState(() => ({
     ...defaultTheme,
     ...(currentProfile?.theme || {})
@@ -47,44 +49,44 @@ export default function Dashboard() {
     ...currentProfile
   }));
 
-  // Update draftTheme and draftProfile when currentProfile changes
+  // FIX 2: Only reset drafts when the active profile ID changes — not on every save/field update
   useEffect(() => {
-    setDraftTheme({
-      ...defaultTheme,
-      ...(currentProfile?.theme || {})
-    });
-    setDraftProfile({
-      ...currentProfile
-    });
-  }, [currentProfile]);
+    if (currentProfile?.id !== activeProfileIdRef.current) {
+      activeProfileIdRef.current = currentProfile?.id;
+      setDraftTheme({
+        ...defaultTheme,
+        ...(currentProfile?.theme || {})
+      });
+      setDraftProfile({ ...currentProfile });
+    }
+  }, [currentProfile?.id]);
 
+  // Live preview always reflects the latest draft (not the saved context state)
   const previewProfile = {
-    ...currentProfile,
     ...draftProfile,
     theme: {
-      ...currentProfile?.theme,
-      ...draftProfile?.theme,
+      ...defaultTheme,
+      ...(draftProfile?.theme || {}),
       ...draftTheme
     }
   };
 
-  const handleSaveClick = () => {
+  // FIX 3: Single unified save handler used by both Profile Editor and Design Settings
+  const handleSaveClick = useCallback(() => {
     setSaveState('saving');
     setTimeout(() => {
       updateProfile(currentProfile.id, {
         ...draftProfile,
         theme: {
-          ...currentProfile.theme,
-          ...draftProfile.theme,
+          ...defaultTheme,
+          ...(draftProfile.theme || {}),
           ...draftTheme
         }
       });
       setSaveState('success');
-      setTimeout(() => {
-        setSaveState('idle');
-      }, 2000);
-    }, 800);
-  };
+      setTimeout(() => setSaveState('idle'), 2000);
+    }, 600);
+  }, [currentProfile?.id, draftProfile, draftTheme, updateProfile]);
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(profileUrl);
@@ -93,17 +95,15 @@ export default function Dashboard() {
   };
 
   const updateDraftField = (field, val) => {
-    setDraftProfile(prev => ({
-      ...prev,
-      [field]: val
-    }));
+    setDraftProfile(prev => ({ ...prev, [field]: val }));
   };
 
+  // FIX 10: Safe nested field update with null-coalescing for socials/hours
   const updateDraftNestedField = (parent, field, val) => {
     setDraftProfile(prev => ({
       ...prev,
       [parent]: {
-        ...prev[parent],
+        ...(prev[parent] || {}),
         [field]: val
       }
     }));
@@ -111,18 +111,15 @@ export default function Dashboard() {
 
   const handleDraftImageUpload = (e, field) => {
     const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        updateDraftField(field, reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => updateDraftField(field, reader.result);
+    reader.readAsDataURL(file);
   };
 
   const daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
   
-  // Dynamic URL configuration ensuring public production domain mapping
+  // Clean public profile URL — only the slug, no query params
   const getPublicProfileUrl = (profileId) => {
     const origin = window.location.origin;
     const isLocal = origin.includes('localhost') || origin.includes('127.0.0.1') || origin.includes('192.168.');
@@ -836,23 +833,7 @@ export default function Dashboard() {
                     </button>
 
                     <button
-                      onClick={() => {
-                        setSaveState('saving');
-                        setTimeout(() => {
-                          updateProfile(currentProfile.id, {
-                            ...draftProfile,
-                            theme: {
-                              ...currentProfile.theme,
-                              ...draftProfile.theme,
-                              ...draftTheme
-                            }
-                          });
-                          setSaveState('success');
-                          setTimeout(() => {
-                            setSaveState('idle');
-                          }, 2000);
-                        }, 800);
-                      }}
+                      onClick={handleSaveClick}
                       className="px-8 py-3 btn-glass-primary rounded-full text-xs font-bold transition-all active:scale-95 duration-100 flex items-center gap-1.5 cursor-pointer"
                     >
                       {saveState === 'saving' ? (
