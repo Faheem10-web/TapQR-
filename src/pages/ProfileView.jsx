@@ -66,7 +66,7 @@ export default function ProfileView() {
         width: 240,
         margin: 4,
         color: {
-          dark: '#000000',
+          dark: '#111827',
           light: '#ffffff'
         },
         errorCorrectionLevel: 'H'
@@ -98,7 +98,7 @@ export default function ProfileView() {
   } = profile;
 
   const {
-    primaryColor = '#a855f7',
+    primaryColor = '#10B981',
     fontFamily = 'Outfit'
   } = theme;
 
@@ -195,7 +195,7 @@ export default function ProfileView() {
         <button
           onClick={() => navigate('/dashboard')}
           aria-label="Back to Dashboard"
-          className="px-4 py-2 rounded-xl bg-white/80 hover:bg-white border border-neutral-200/80 text-neutral-700 active:scale-95 duration-150 backdrop-blur-md cursor-pointer flex items-center gap-1.5 text-xs font-bold font-outfit shadow-sm"
+          className="px-4 py-2 rounded-full btn-glass-secondary text-neutral-700 active:scale-95 duration-150 cursor-pointer flex items-center gap-1.5 text-xs font-semibold"
         >
           <ArrowLeft className="w-4 h-4" /> Back to Dashboard
         </button>
@@ -212,15 +212,15 @@ export default function ProfileView() {
             {coverPhoto ? (
               <img src={coverPhoto} alt="Business Cover" className="w-full h-full object-cover" />
             ) : (
-              <div className="w-full h-full bg-gradient-to-r from-neutral-200 to-neutral-100"></div>
+              <div className="w-full h-full" style={{ background: 'linear-gradient(135deg, rgba(110,231,183,0.30) 0%, rgba(125,211,252,0.20) 100%)' }}></div>
             )}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-black/5"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/05"></div>
 
             {/* Back Button for mobile viewports */}
             <button
               onClick={() => navigate('/dashboard')}
               aria-label="Back to Dashboard"
-              className="md:hidden absolute top-4 left-4 p-2 rounded-full bg-white/70 backdrop-blur-md text-neutral-800 border border-white active:scale-90 duration-150 cursor-pointer shadow-sm"
+              className="md:hidden absolute top-4 left-4 p-2 rounded-full bg-white/72 backdrop-blur-md text-neutral-800 border border-white active:scale-90 duration-150 cursor-pointer shadow-sm"
             >
               <ArrowLeft className="w-4 h-4" />
             </button>
@@ -229,7 +229,7 @@ export default function ProfileView() {
             <button
               onClick={() => setShowShareSheet(true)}
               aria-label="Share this Business Profile"
-              className="absolute top-4 right-4 p-2 rounded-full bg-white/70 backdrop-blur-md text-neutral-800 border border-white active:scale-90 duration-150 cursor-pointer shadow-sm"
+              className="absolute top-4 right-4 p-2 rounded-full bg-white/72 backdrop-blur-md text-neutral-800 border border-white active:scale-90 duration-150 cursor-pointer shadow-sm"
             >
               <Share2 className="w-4 h-4" />
             </button>
@@ -326,7 +326,7 @@ export default function ProfileView() {
           {/* Social Links Cards Grid */}
           {activeSocials.length > 0 && (
             <div className="px-5 mb-6 text-left">
-              <h3 className="text-[10px] font-extrabold uppercase tracking-widest text-neutral-450 mb-3 px-1">Social Connect</h3>
+              <h3 className="text-[10px] font-extrabold uppercase tracking-widest mb-3 px-1" style={{ color: '#9CA3AF' }}>Social Connect</h3>
               <div className="grid grid-cols-2 gap-2.5">
                 {activeSocials.map(soc => (
                   <a
@@ -353,7 +353,7 @@ export default function ProfileView() {
           {/* Business Hours Segment */}
           {hours && Object.keys(hours).length > 0 && (
             <div className="px-5 mb-6 text-left">
-              <h3 className="text-[10px] font-extrabold uppercase tracking-widest text-neutral-450 mb-3 px-1">Operational Hours</h3>
+              <h3 className="text-[10px] font-extrabold uppercase tracking-widest mb-3 px-1" style={{ color: '#9CA3AF' }}>Operational Hours</h3>
               
               <div className={`p-4 rounded-[24px] ${cardStyle} space-y-3`}>
                 <div 
@@ -393,12 +393,12 @@ export default function ProfileView() {
         </div>
 
         {/* Floating Bottom sheet action layout */}
-        <div className="absolute bottom-0 inset-x-0 h-20 flex items-center justify-center px-5 border-t border-neutral-200/40 bg-white/75 backdrop-blur-lg z-35 md:rounded-b-[32px]">
+        <div className="absolute bottom-0 inset-x-0 h-20 flex items-center justify-center px-5 border-t border-neutral-200/40 bg-white/80 backdrop-blur-lg z-35 md:rounded-b-[32px]">
           <button
             onClick={handleSaveContact}
             aria-label="Save Business Contact to Phone"
-            className="w-full py-3 rounded-2xl text-white font-extrabold text-xs uppercase tracking-widest shadow-md hover:shadow-lg active:scale-[0.98] duration-150 flex items-center justify-center gap-2 cursor-pointer shadow-purple-500/10 transition-all"
-            style={{ backgroundColor: primaryColor }}
+            className="w-full py-3 rounded-2xl text-white font-extrabold text-xs uppercase tracking-widest shadow-md hover:shadow-lg active:scale-[0.98] duration-150 flex items-center justify-center gap-2 cursor-pointer transition-all"
+            style={{ backgroundColor: primaryColor, boxShadow: `0 8px 24px ${primaryColor}35` }}
           >
             <UserPlus className="w-4 h-4" /> Save Contact Card
           </button>
@@ -408,9 +408,10 @@ export default function ProfileView() {
 
       {/* Slide up bottom share drawer sheet */}
       {showShareSheet && (
-        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/30 backdrop-blur-sm transition-opacity" onClick={() => setShowShareSheet(false)}>
+        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/25 backdrop-blur-sm transition-opacity" onClick={() => setShowShareSheet(false)}>
           <div 
-            className="w-full max-w-[420px] bg-white border-t border-white/80 rounded-t-[32px] p-6 text-center space-y-5 animate-slide-up shadow-2xl relative text-neutral-800"
+            className="w-full max-w-[420px] rounded-t-[32px] p-6 text-center space-y-5 animate-slide-up shadow-2xl relative text-neutral-800"
+            style={{ background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(30px)', borderTop: '1px solid rgba(255,255,255,0.75)' }}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Draw Handle */}
@@ -432,7 +433,7 @@ export default function ProfileView() {
               <div className="p-3 bg-white rounded-2xl border border-neutral-200 inline-block shadow-md">
                 <canvas ref={qrCanvasRef} className="rounded-lg" style={{ width: '180px', height: '180px' }} />
               </div>
-              <p className="text-[10px] text-neutral-450 font-bold uppercase tracking-wider">Scan code to view profile</p>
+              <p className="text-[10px] font-bold uppercase tracking-wider" style={{ color: '#9CA3AF' }}>Scan code to view profile</p>
             </div>
 
             {/* Action Buttons */}
@@ -440,11 +441,11 @@ export default function ProfileView() {
               <button
                 onClick={handleCopyLink}
                 aria-label="Copy Business Profile Link URL"
-                className="py-3 px-4 bg-neutral-100 hover:bg-neutral-200 active:scale-95 text-neutral-700 border border-neutral-200/80 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 duration-100 cursor-pointer"
+                className="py-3 px-4 btn-glass-secondary rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 duration-100 cursor-pointer"
               >
                 {copiedLink ? (
                   <>
-                    <Check className="w-4 h-4 text-emerald-600" /> Copied Link
+                    <Check className="w-4 h-4" style={{ color: '#10B981' }} /> Copied Link
                   </>
                 ) : (
                   <>
@@ -456,7 +457,7 @@ export default function ProfileView() {
               <button
                 onClick={handleNativeShare}
                 aria-label="Share Business Profile Link"
-                className="py-3 px-4 bg-purple-600 hover:bg-purple-700 active:scale-95 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 duration-100 cursor-pointer shadow-md shadow-purple-500/10"
+                className="py-3 px-4 btn-glass-primary rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 duration-100 cursor-pointer"
               >
                 <Share2 className="w-4 h-4" /> Web Share API
               </button>

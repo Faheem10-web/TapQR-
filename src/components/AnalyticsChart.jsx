@@ -49,59 +49,59 @@ export default function AnalyticsChart({ profileId }) {
   };
 
   return (
-    <div className="space-y-6 w-full text-[#1d1d1f]">
+    <div className="space-y-6 w-full" style={{ color: '#111827' }}>
       {/* Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {/* Card 1 */}
-        <div className="bg-white border border-neutral-200/80 p-5 rounded-2xl flex items-center justify-between shadow-[0_4px_16px_rgba(0,0,0,0.015)] relative overflow-hidden group">
-          <div className="absolute -right-2 -bottom-2 w-14 h-14 bg-purple-500/5 rounded-full blur-xl group-hover:bg-purple-500/10 duration-300"></div>
+        {/* Card 1 — Views */}
+        <div className="glass-card p-5 rounded-[24px] flex items-center justify-between hover-lift relative overflow-hidden group">
+          <div className="absolute -right-3 -bottom-3 w-16 h-16 rounded-full blur-2xl transition-all duration-300 group-hover:opacity-70" style={{ background: 'rgba(16,185,129,0.12)' }}></div>
           <div>
-            <span className="text-[10px] font-bold text-neutral-450 uppercase tracking-wider block mb-1">Total Page Views</span>
+            <span className="text-[10px] font-bold uppercase tracking-wider block mb-1" style={{ color: '#6B7280' }}>Total Page Views</span>
             <span className="text-2xl font-black text-neutral-800 font-outfit">{totalViews.toLocaleString()}</span>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-600">
+          <div className="w-10 h-10 rounded-2xl flex items-center justify-center" style={{ background: 'rgba(16,185,129,0.10)', border: '1px solid rgba(16,185,129,0.20)', color: '#059669' }}>
             <Eye className="w-5 h-5" />
           </div>
         </div>
 
-        {/* Card 2 */}
-        <div className="bg-white border border-neutral-200/80 p-5 rounded-2xl flex items-center justify-between shadow-[0_4px_16px_rgba(0,0,0,0.015)] relative overflow-hidden group">
-          <div className="absolute -right-2 -bottom-2 w-14 h-14 bg-sky-500/5 rounded-full blur-xl group-hover:bg-sky-500/10 duration-300"></div>
+        {/* Card 2 — Clicks */}
+        <div className="glass-card p-5 rounded-[24px] flex items-center justify-between hover-lift relative overflow-hidden group">
+          <div className="absolute -right-3 -bottom-3 w-16 h-16 rounded-full blur-2xl transition-all duration-300 group-hover:opacity-70" style={{ background: 'rgba(125,211,252,0.15)' }}></div>
           <div>
-            <span className="text-[10px] font-bold text-neutral-450 uppercase tracking-wider block mb-1">Total Link Clicks</span>
+            <span className="text-[10px] font-bold uppercase tracking-wider block mb-1" style={{ color: '#6B7280' }}>Total Link Clicks</span>
             <span className="text-2xl font-black text-neutral-800 font-outfit">{totalClicks.toLocaleString()}</span>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-600">
+          <div className="w-10 h-10 rounded-2xl flex items-center justify-center" style={{ background: 'rgba(125,211,252,0.12)', border: '1px solid rgba(125,211,252,0.25)', color: '#0284c7' }}>
             <MousePointerClick className="w-5 h-5" />
           </div>
         </div>
 
-        {/* Card 3 */}
-        <div className="bg-white border border-neutral-200/80 p-5 rounded-2xl flex items-center justify-between shadow-[0_4px_16px_rgba(0,0,0,0.015)] relative overflow-hidden group">
-          <div className="absolute -right-2 -bottom-2 w-14 h-14 bg-emerald-500/5 rounded-full blur-xl group-hover:bg-emerald-500/10 duration-300"></div>
+        {/* Card 3 — CTR */}
+        <div className="glass-card p-5 rounded-[24px] flex items-center justify-between hover-lift relative overflow-hidden group">
+          <div className="absolute -right-3 -bottom-3 w-16 h-16 rounded-full blur-2xl transition-all duration-300 group-hover:opacity-70" style={{ background: 'rgba(244,213,141,0.20)' }}></div>
           <div>
-            <span className="text-[10px] font-bold text-neutral-450 uppercase tracking-wider block mb-1">Average CTR</span>
+            <span className="text-[10px] font-bold uppercase tracking-wider block mb-1" style={{ color: '#6B7280' }}>Average CTR</span>
             <span className="text-2xl font-black text-neutral-800 font-outfit">{ctr}</span>
           </div>
-          <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-600">
+          <div className="w-10 h-10 rounded-2xl flex items-center justify-center" style={{ background: 'rgba(244,213,141,0.18)', border: '1px solid rgba(244,213,141,0.40)', color: '#b45309' }}>
             <Percent className="w-5 h-5" />
           </div>
         </div>
       </div>
 
       {/* SVG Interactive Line Chart */}
-      <div className="bg-white border border-neutral-200/80 p-5 rounded-2xl text-left shadow-[0_4px_16px_rgba(0,0,0,0.015)]">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-[10px] font-extrabold uppercase tracking-widest text-neutral-450 flex items-center gap-2">
-            <TrendingUp className="w-4 h-4 text-purple-600" /> Weekly Traffic Performance
+      <div className="glass-card p-5 md:p-6 rounded-[24px] text-left hover-lift">
+        <div className="flex items-center justify-between mb-5">
+          <h3 className="text-[10px] font-extrabold uppercase tracking-widest flex items-center gap-2" style={{ color: '#6B7280' }}>
+            <TrendingUp className="w-4 h-4" style={{ color: '#10B981' }} /> Weekly Traffic Performance
           </h3>
           {/* Legend */}
-          <div className="flex items-center gap-4 text-xs font-semibold text-neutral-500">
+          <div className="flex items-center gap-4 text-xs font-semibold" style={{ color: '#6B7280' }}>
             <div className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-purple-500"></span> Views
+              <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: '#10B981' }}></span> Views
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-sky-400"></span> Clicks
+              <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: '#7DD3FC' }}></span> Clicks
             </div>
           </div>
         </div>
@@ -119,7 +119,7 @@ export default function AnalyticsChart({ profileId }) {
                   y1={y}
                   x2={width - padding}
                   y2={y}
-                  stroke="#f1f2f6"
+                  stroke="rgba(229,231,235,0.80)"
                   strokeWidth="1.5"
                   strokeDasharray="4 4"
                 />
@@ -129,12 +129,12 @@ export default function AnalyticsChart({ profileId }) {
             {/* Gradient Fills */}
             <defs>
               <linearGradient id="viewsGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#a855f7" stopOpacity="0.15" />
-                <stop offset="100%" stopColor="#a855f7" stopOpacity="0" />
+                <stop offset="0%" stopColor="#10B981" stopOpacity="0.18" />
+                <stop offset="100%" stopColor="#10B981" stopOpacity="0" />
               </linearGradient>
               <linearGradient id="clicksGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.15" />
-                <stop offset="100%" stopColor="#38bdf8" stopOpacity="0" />
+                <stop offset="0%" stopColor="#7DD3FC" stopOpacity="0.18" />
+                <stop offset="100%" stopColor="#7DD3FC" stopOpacity="0" />
               </linearGradient>
             </defs>
 
@@ -146,7 +146,7 @@ export default function AnalyticsChart({ profileId }) {
             <path
               d={buildPathString(viewsPoints)}
               fill="none"
-              stroke="#a855f7"
+              stroke="#10B981"
               strokeWidth="2.5"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -154,7 +154,7 @@ export default function AnalyticsChart({ profileId }) {
             <path
               d={buildPathString(clicksPoints)}
               fill="none"
-              stroke="#38bdf8"
+              stroke="#7DD3FC"
               strokeWidth="2.5"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -170,7 +170,7 @@ export default function AnalyticsChart({ profileId }) {
                     y1={padding}
                     x2={pt.x}
                     y2={height - padding}
-                    stroke="#e4e4e7"
+                    stroke="rgba(16,185,129,0.20)"
                     strokeWidth="1.5"
                     strokeDasharray="2 2"
                   />
@@ -181,7 +181,7 @@ export default function AnalyticsChart({ profileId }) {
                   cy={pt.y}
                   r={hoveredDay === pt.day ? 6 : 4}
                   fill="#ffffff"
-                  stroke="#a855f7"
+                  stroke="#10B981"
                   strokeWidth="2"
                   className="transition-all duration-150"
                 />
@@ -191,7 +191,7 @@ export default function AnalyticsChart({ profileId }) {
                   cy={clicksPoints[idx].y}
                   r={hoveredDay === clicksPoints[idx].day ? 6 : 4}
                   fill="#ffffff"
-                  stroke="#38bdf8"
+                  stroke="#7DD3FC"
                   strokeWidth="2"
                   className="transition-all duration-150"
                 />
@@ -216,7 +216,7 @@ export default function AnalyticsChart({ profileId }) {
                 x={pt.x}
                 y={height - 8}
                 textAnchor="middle"
-                fill="#a3a3a3"
+                fill="#9CA3AF"
                 fontSize="10"
                 fontWeight="600"
               >
@@ -230,10 +230,10 @@ export default function AnalyticsChart({ profileId }) {
             const dayData = dailyData.find(d => d.name === hoveredDay);
             if (!dayData) return null;
             return (
-              <div className="absolute top-2 right-2 bg-white border border-neutral-200 rounded-xl p-2.5 text-[10px] space-y-1 font-semibold pointer-events-none shadow-md text-neutral-800">
-                <p className="text-neutral-400 font-bold uppercase tracking-wider">{hoveredDay}</p>
-                <p className="text-purple-600">Views: <span className="text-neutral-900 font-mono">{dayData.views}</span></p>
-                <p className="text-sky-600">Clicks: <span className="text-neutral-900 font-mono">{dayData.clicks}</span></p>
+              <div className="absolute top-2 right-2 glass-card rounded-xl p-2.5 text-[10px] space-y-1 font-semibold pointer-events-none" style={{ color: '#111827' }}>
+                <p className="font-bold uppercase tracking-wider" style={{ color: '#9CA3AF' }}>{hoveredDay}</p>
+                <p style={{ color: '#059669' }}>Views: <span className="text-neutral-900 font-mono">{dayData.views}</span></p>
+                <p style={{ color: '#0284c7' }}>Clicks: <span className="text-neutral-900 font-mono">{dayData.clicks}</span></p>
               </div>
             );
           })()}
@@ -241,20 +241,20 @@ export default function AnalyticsChart({ profileId }) {
       </div>
 
       {/* Distribution Splits */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 text-left">
         {/* Referrers */}
-        <div className="bg-white border border-neutral-200/80 p-5 rounded-2xl space-y-4 shadow-[0_4px_16px_rgba(0,0,0,0.015)]">
-          <h3 className="text-[10px] font-extrabold uppercase tracking-widest text-neutral-450 flex items-center gap-2">
-            <Compass className="w-4 h-4 text-emerald-500" /> Top Referral Channels
+        <div className="glass-card p-5 rounded-[24px] space-y-4 hover-lift">
+          <h3 className="text-[10px] font-extrabold uppercase tracking-widest flex items-center gap-2" style={{ color: '#6B7280' }}>
+            <Compass className="w-4 h-4" style={{ color: '#10B981' }} /> Top Referral Channels
           </h3>
           <div className="space-y-3">
             {referrers.map((ref) => (
               <div key={ref.name} className="space-y-1.5">
                 <div className="flex justify-between text-xs font-semibold">
                   <span className="text-neutral-700">{ref.name}</span>
-                  <span className="text-neutral-500">{ref.value}%</span>
+                  <span style={{ color: '#6B7280' }}>{ref.value}%</span>
                 </div>
-                <div className="w-full h-2 bg-neutral-100 rounded-full overflow-hidden">
+                <div className="w-full h-2 rounded-full overflow-hidden" style={{ background: 'rgba(229,231,235,0.80)' }}>
                   <div
                     className="h-full rounded-full transition-all duration-500"
                     style={{ width: `${ref.value}%`, backgroundColor: ref.color }}
@@ -266,18 +266,18 @@ export default function AnalyticsChart({ profileId }) {
         </div>
 
         {/* Devices */}
-        <div className="bg-white border border-neutral-200/80 p-5 rounded-2xl space-y-4 shadow-[0_4px_16px_rgba(0,0,0,0.015)]">
-          <h3 className="text-[10px] font-extrabold uppercase tracking-widest text-neutral-450 flex items-center gap-2">
-            <Monitor className="w-4 h-4 text-sky-500" /> Device Distribution
+        <div className="glass-card p-5 rounded-[24px] space-y-4 hover-lift">
+          <h3 className="text-[10px] font-extrabold uppercase tracking-widest flex items-center gap-2" style={{ color: '#6B7280' }}>
+            <Monitor className="w-4 h-4" style={{ color: '#7DD3FC' }} /> Device Distribution
           </h3>
           <div className="space-y-3">
             {devices.map((dev) => (
               <div key={dev.name} className="space-y-1.5">
                 <div className="flex justify-between text-xs font-semibold">
                   <span className="text-neutral-700">{dev.name}</span>
-                  <span className="text-neutral-500">{dev.value}%</span>
+                  <span style={{ color: '#6B7280' }}>{dev.value}%</span>
                 </div>
-                <div className="w-full h-2 bg-neutral-100 rounded-full overflow-hidden">
+                <div className="w-full h-2 rounded-full overflow-hidden" style={{ background: 'rgba(229,231,235,0.80)' }}>
                   <div
                     className="h-full rounded-full transition-all duration-500"
                     style={{ width: `${dev.value}%`, backgroundColor: dev.color }}
@@ -290,25 +290,25 @@ export default function AnalyticsChart({ profileId }) {
       </div>
 
       {/* Link Click Stats Table */}
-      <div className="bg-white border border-neutral-200/80 p-5 rounded-2xl text-left space-y-3 shadow-[0_4px_16px_rgba(0,0,0,0.015)]">
-        <h3 className="text-[10px] font-extrabold uppercase tracking-widest text-neutral-450">
+      <div className="glass-card p-5 md:p-6 rounded-[24px] text-left space-y-4 hover-lift">
+        <h3 className="text-[10px] font-extrabold uppercase tracking-widest" style={{ color: '#6B7280' }}>
           Interaction Breakdown by Link
         </h3>
         <div className="overflow-x-auto">
-          <table className="w-full text-xs font-semibold text-neutral-600">
+          <table className="w-full text-xs font-semibold" style={{ color: '#6B7280' }}>
             <thead>
-              <tr className="border-b border-neutral-100 text-neutral-450">
-                <th className="py-2 text-left">Link Label</th>
-                <th className="py-2 text-right">Unique Clicks</th>
-                <th className="py-2 text-right">Click Through (CTR)</th>
+              <tr className="border-b" style={{ borderColor: 'rgba(255,255,255,0.60)' }}>
+                <th className="py-2.5 text-left" style={{ color: '#9CA3AF' }}>Link Label</th>
+                <th className="py-2.5 text-right" style={{ color: '#9CA3AF' }}>Unique Clicks</th>
+                <th className="py-2.5 text-right" style={{ color: '#9CA3AF' }}>Click Through (CTR)</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-neutral-100">
+            <tbody>
               {linkStats.map((link) => (
-                <tr key={link.name} className="hover:bg-neutral-50/50">
+                <tr key={link.name} className="border-b transition-colors hover:bg-white/40" style={{ borderColor: 'rgba(255,255,255,0.40)' }}>
                   <td className="py-3 font-bold text-neutral-800">{link.name}</td>
                   <td className="py-3 text-right text-neutral-700 font-mono">{link.clicks}</td>
-                  <td className="py-3 text-right text-emerald-600 font-mono">{link.ctr}</td>
+                  <td className="py-3 text-right font-mono font-bold" style={{ color: '#059669' }}>{link.ctr}</td>
                 </tr>
               ))}
             </tbody>
