@@ -118,10 +118,14 @@ export default function ProfileView() {
     address = '',
     avatar = '',
     coverPhoto = '',
-    theme = {},
-    socials = {},
-    hours = {}
+    theme: rawTheme,
+    socials: rawSocials,
+    hours: rawHours
   } = profile;
+
+  const theme = rawTheme || {};
+  const socials = rawSocials || {};
+  const hours = rawHours || {};
 
   const {
     primaryColor = '#10B981',
