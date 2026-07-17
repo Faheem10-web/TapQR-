@@ -6,11 +6,10 @@ import AnalyticsChart from '../components/AnalyticsChart';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Building2, Phone, MapPin, Share2, Eye, RefreshCw, 
-  Check, Copy, Clock, Globe, Shield, Sparkles, QrCode, BarChart3,
+  Check, Copy, Clock, Globe, Shield, QrCode, BarChart3,
   Image as ImageIcon
 } from 'lucide-react';
 import { FaCog, FaQrcode, FaChartBar, FaSlidersH } from 'react-icons/fa';
-import TemplatesGallery from '../components/TemplatesGallery';
 
 export default function Dashboard() {
   const { 
@@ -110,16 +109,7 @@ export default function Dashboard() {
               <FaCog className="w-4 h-4 shrink-0" /> Profile Editor
             </button>
 
-            <button
-              onClick={() => setActiveView('templates')}
-              className={`w-full px-3.5 py-3 rounded-2xl text-xs font-semibold flex items-center gap-3 transition-all duration-200 cursor-pointer tap-haptic ${
-                activeView === 'templates'
-                  ? 'nav-item active'
-                  : 'nav-item text-neutral-500 hover:text-neutral-800'
-              }`}
-            >
-              <Sparkles className="w-4 h-4 shrink-0" /> Templates
-            </button>
+
 
             <button
               onClick={() => setActiveView('qr')}
@@ -613,30 +603,7 @@ export default function Dashboard() {
                 </motion.div>
               )}
 
-              {/* VIEW: Templates Gallery */}
-              {activeView === 'templates' && (
-                <motion.div
-                  key="templates-view"
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.22, ease: 'easeOut' }}
-                  className="space-y-4 max-w-5xl"
-                >
-                  <TemplatesGallery
-                    profile={currentProfile}
-                    onApplyTheme={(tpl) => {
-                      updateProfile(currentProfile.id, {
-                        theme: {
-                          ...currentProfile.theme,
-                          primaryColor: tpl.primaryColor,
-                          fontFamily: tpl.fontFamily,
-                        }
-                      });
-                    }}
-                  />
-                </motion.div>
-              )}
+
 
               {/* VIEW: QR Customizer */}
               {activeView === 'qr' && (
@@ -702,18 +669,7 @@ export default function Dashboard() {
               <span className="text-[8px] font-bold uppercase tracking-wider">Editor</span>
             </button>
 
-            <button
-              onClick={() => setActiveView('templates')}
-              className={`flex-1 py-2 rounded-full flex flex-col items-center justify-center gap-0.5 transition-all tap-haptic cursor-pointer ${
-                activeView === 'templates'
-                  ? 'text-white shadow-sm'
-                  : 'text-neutral-500 hover:text-neutral-800'
-              }`}
-              style={activeView === 'templates' ? { background: 'linear-gradient(135deg, #10B981, #059669)' } : {}}
-            >
-              <Sparkles className="w-3.5 h-3.5" />
-              <span className="text-[8px] font-bold uppercase tracking-wider">Templates</span>
-            </button>
+
             
             <button
               onClick={() => setActiveView('qr')}
