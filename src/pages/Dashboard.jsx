@@ -103,17 +103,7 @@ export default function Dashboard() {
               <FaCog className="w-4.5 h-4.5" /> Profile Editor
             </button>
 
-            <button
-              onClick={() => setActiveView('templates')}
-              className={`w-full px-3.5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-3 transition-all duration-150 cursor-pointer tap-haptic ${
-                activeView === 'templates'
-                  ? 'bg-neutral-100/80 text-purple-600'
-                  : 'text-neutral-500 hover:bg-neutral-50 hover:text-neutral-800'
-              }`}
-            >
-              <Sparkles className="w-4.5 h-4.5 text-amber-500 animate-pulse" /> QR Templates ⭐
-            </button>
-            
+
             <button
               onClick={() => setActiveView('qr')}
               className={`w-full px-3.5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-3 transition-all duration-150 cursor-pointer tap-haptic ${
@@ -236,31 +226,6 @@ export default function Dashboard() {
           <div className="flex-1 p-6 md:p-8 space-y-8 pb-28 relative">
             <AnimatePresence mode="wait">
               
-              {/* VIEW: QR Templates Gallery */}
-              {activeView === 'templates' && (
-                <motion.div
-                  key="templates-view"
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.22, ease: 'easeOut' }}
-                >
-                  <TemplatesGallery 
-                    profile={currentProfile} 
-                    onApplyTheme={(tpl) => {
-                      updateProfile(currentProfile.id, {
-                        theme: {
-                          ...currentProfile.theme,
-                          primaryColor: tpl.primaryColor,
-                          fontFamily: tpl.fontFamily,
-                          themeMode: tpl.themeMode
-                        },
-                        coverPhoto: tpl.coverPhoto
-                      });
-                    }}
-                  />
-                </motion.div>
-              )}
 
               {/* VIEW: Form Editor */}
               {activeView === 'editor' && (
