@@ -42,18 +42,27 @@ export default function Dashboard() {
     ...(currentProfile?.theme || {})
   }));
 
-  // Update draftTheme when currentProfile changes
+  const [draftProfile, setDraftProfile] = useState(() => ({
+    ...currentProfile
+  }));
+
+  // Update draftTheme and draftProfile when currentProfile changes
   useEffect(() => {
     setDraftTheme({
       ...defaultTheme,
       ...(currentProfile?.theme || {})
     });
-  }, [currentProfile?.id]);
+    setDraftProfile({
+      ...currentProfile
+    });
+  }, [currentProfile]);
 
   const previewProfile = {
     ...currentProfile,
+    ...draftProfile,
     theme: {
       ...currentProfile?.theme,
+      ...draftProfile?.theme,
       ...draftTheme
     }
   };
@@ -61,6 +70,14 @@ export default function Dashboard() {
   const handleSaveClick = () => {
     setSaveState('saving');
     setTimeout(() => {
+      updateProfile(currentProfile.id, {
+        ...draftProfile,
+        theme: {
+          ...currentProfile.theme,
+          ...draftProfile.theme,
+          ...draftTheme
+        }
+      });
       setSaveState('success');
       setTimeout(() => {
         setSaveState('idle');
@@ -74,25 +91,29 @@ export default function Dashboard() {
     setTimeout(() => setCopiedLink(false), 2000);
   };
 
-  const updateProfileField = (field, val) => {
-    updateProfile(currentProfile.id, { [field]: val });
+  const updateDraftField = (field, val) => {
+    setDraftProfile(prev => ({
+      ...prev,
+      [field]: val
+    }));
   };
 
-  const updateNestedField = (parent, field, val) => {
-    updateProfile(currentProfile.id, {
+  const updateDraftNestedField = (parent, field, val) => {
+    setDraftProfile(prev => ({
+      ...prev,
       [parent]: {
-        ...currentProfile[parent],
+        ...prev[parent],
         [field]: val
       }
-    });
+    }));
   };
 
-  const handleImageUpload = (e, field) => {
+  const handleDraftImageUpload = (e, field) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        updateProfileField(field, reader.result);
+        updateDraftField(field, reader.result);
       };
       reader.readAsDataURL(file);
     }
@@ -323,8 +344,8 @@ export default function Dashboard() {
                           id="biz-name"
                           type="text"
                           placeholder=" "
-                          value={currentProfile.name}
-                          onChange={(e) => updateProfileField('name', e.target.value)}
+                          value={draftProfile.name}
+                          onChange={(e) => updateDraftField('name', e.target.value)}
                           className={`peer ${floatInputClass} bg-white/70 border border-white/70 focus:bg-white focus:border-emerald-500/50`}
                         />
                         <label
@@ -342,8 +363,8 @@ export default function Dashboard() {
                           id="biz-category"
                           type="text"
                           placeholder=" "
-                          value={currentProfile.category || ''}
-                          onChange={(e) => updateProfileField('category', e.target.value)}
+                          value={draftProfile.category || ''}
+                          onChange={(e) => updateDraftField('category', e.target.value)}
                           className={`peer ${floatInputClass} bg-white/70 border border-white/70 focus:bg-white focus:border-emerald-500/50`}
                         />
                         <label
@@ -362,8 +383,8 @@ export default function Dashboard() {
                           <input
                             id="biz-logo"
                             type="text"
-                            value={currentProfile.avatar}
-                            onChange={(e) => updateProfileField('avatar', e.target.value)}
+                            value={draftProfile.avatar}
+                            onChange={(e) => updateDraftField('avatar', e.target.value)}
                             placeholder="Paste external image link..."
                             className="flex-1 bg-white/70 border border-white/70 rounded-2xl px-4 py-3 text-xs text-neutral-800 focus:bg-white focus:outline-none transition-all shadow-sm"
                             style={{ borderColor: 'rgba(255,255,255,0.70)' }}
@@ -372,7 +393,7 @@ export default function Dashboard() {
                             <input
                               type="file"
                               accept="image/*"
-                              onChange={(e) => handleImageUpload(e, 'avatar')}
+                              onChange={(e) => handleDraftImageUpload(e, 'avatar')}
                               className="hidden"
                             />
                             <ImageIcon className="w-3.5 h-3.5" /> Upload
@@ -387,8 +408,8 @@ export default function Dashboard() {
                           <input
                             id="biz-cover"
                             type="text"
-                            value={currentProfile.coverPhoto}
-                            onChange={(e) => updateProfileField('coverPhoto', e.target.value)}
+                            value={draftProfile.coverPhoto}
+                            onChange={(e) => updateDraftField('coverPhoto', e.target.value)}
                             placeholder="Paste external image link..."
                             className="flex-1 bg-white/70 border border-white/70 rounded-2xl px-4 py-3 text-xs text-neutral-800 focus:bg-white focus:outline-none transition-all shadow-sm"
                             style={{ borderColor: 'rgba(255,255,255,0.70)' }}
@@ -397,7 +418,7 @@ export default function Dashboard() {
                             <input
                               type="file"
                               accept="image/*"
-                              onChange={(e) => handleImageUpload(e, 'coverPhoto')}
+                              onChange={(e) => handleDraftImageUpload(e, 'coverPhoto')}
                               className="hidden"
                             />
                             <ImageIcon className="w-3.5 h-3.5" /> Upload
@@ -410,8 +431,8 @@ export default function Dashboard() {
                     <div className="relative group mt-2">
                       <textarea
                         id="biz-bio"
-                        value={currentProfile.bio}
-                        onChange={(e) => updateProfileField('bio', e.target.value)}
+                        value={draftProfile.bio}
+                        onChange={(e) => updateDraftField('bio', e.target.value)}
                         rows={3}
                         placeholder=" "
                         className={`peer ${floatInputClass} bg-white/70 border border-white/70 focus:bg-white focus:border-emerald-500/50 resize-none`}
@@ -442,8 +463,8 @@ export default function Dashboard() {
                           id="biz-phone"
                           type="tel"
                           placeholder=" "
-                          value={currentProfile.phone}
-                          onChange={(e) => updateProfileField('phone', e.target.value)}
+                          value={draftProfile.phone}
+                          onChange={(e) => updateDraftField('phone', e.target.value)}
                           className={`peer ${floatInputClass} bg-white/70 border border-white/70 focus:bg-white focus:border-emerald-500/50`}
                         />
                         <label htmlFor="biz-phone" className="absolute left-4 -top-2.5 px-1.5 bg-white/80 text-[9px] font-bold uppercase tracking-widest transition-all duration-200 select-none pointer-events-none peer-placeholder-shown:text-xs peer-placeholder-shown:top-3 peer-placeholder-shown:bg-transparent peer-placeholder-shown:font-semibold peer-placeholder-shown:text-neutral-400 peer-focus:-top-2.5 peer-focus:text-[9px] peer-focus:bg-white" style={{ color: '#9CA3AF' }}>Phone Number</label>
@@ -455,8 +476,8 @@ export default function Dashboard() {
                           id="biz-whatsapp"
                           type="tel"
                           placeholder=" "
-                          value={currentProfile.whatsapp || ''}
-                          onChange={(e) => updateProfileField('whatsapp', e.target.value)}
+                          value={draftProfile.whatsapp || ''}
+                          onChange={(e) => updateDraftField('whatsapp', e.target.value)}
                           className={`peer ${floatInputClass} bg-white/70 border border-white/70 focus:bg-white focus:border-emerald-500/50`}
                         />
                         <label htmlFor="biz-whatsapp" className="absolute left-4 -top-2.5 px-1.5 bg-white/80 text-[9px] font-bold uppercase tracking-widest transition-all duration-200 select-none pointer-events-none peer-placeholder-shown:text-xs peer-placeholder-shown:top-3 peer-placeholder-shown:bg-transparent peer-placeholder-shown:font-semibold peer-placeholder-shown:text-neutral-400 peer-focus:-top-2.5 peer-focus:text-[9px] peer-focus:bg-white" style={{ color: '#9CA3AF' }}>WhatsApp Number</label>
@@ -468,8 +489,8 @@ export default function Dashboard() {
                           id="biz-email"
                           type="email"
                           placeholder=" "
-                          value={currentProfile.email}
-                          onChange={(e) => updateProfileField('email', e.target.value)}
+                          value={draftProfile.email}
+                          onChange={(e) => updateDraftField('email', e.target.value)}
                           className={`peer ${floatInputClass} bg-white/70 border border-white/70 focus:bg-white focus:border-emerald-500/50`}
                         />
                         <label htmlFor="biz-email" className="absolute left-4 -top-2.5 px-1.5 bg-white/80 text-[9px] font-bold uppercase tracking-widest transition-all duration-200 select-none pointer-events-none peer-placeholder-shown:text-xs peer-placeholder-shown:top-3 peer-placeholder-shown:bg-transparent peer-placeholder-shown:font-semibold peer-placeholder-shown:text-neutral-400 peer-focus:-top-2.5 peer-focus:text-[9px] peer-focus:bg-white" style={{ color: '#9CA3AF' }}>Email Address</label>
@@ -481,8 +502,8 @@ export default function Dashboard() {
                           id="biz-website"
                           type="url"
                           placeholder=" "
-                          value={currentProfile.website}
-                          onChange={(e) => updateProfileField('website', e.target.value)}
+                          value={draftProfile.website}
+                          onChange={(e) => updateDraftField('website', e.target.value)}
                           className={`peer ${floatInputClass} bg-white/70 border border-white/70 focus:bg-white focus:border-emerald-500/50`}
                         />
                         <label htmlFor="biz-website" className="absolute left-4 -top-2.5 px-1.5 bg-white/80 text-[9px] font-bold uppercase tracking-widest transition-all duration-200 select-none pointer-events-none peer-placeholder-shown:text-xs peer-placeholder-shown:top-3 peer-placeholder-shown:bg-transparent peer-placeholder-shown:font-semibold peer-placeholder-shown:text-neutral-400 peer-focus:-top-2.5 peer-focus:text-[9px] peer-focus:bg-white" style={{ color: '#9CA3AF' }}>Website Address</label>
@@ -495,8 +516,8 @@ export default function Dashboard() {
                         id="biz-address"
                         type="text"
                         placeholder=" "
-                        value={currentProfile.address}
-                        onChange={(e) => updateProfileField('address', e.target.value)}
+                        value={draftProfile.address}
+                        onChange={(e) => updateDraftField('address', e.target.value)}
                         className={`peer ${floatInputClass} bg-white/70 border border-white/70 focus:bg-white focus:border-emerald-500/50`}
                       />
                       <label htmlFor="biz-address" className="absolute left-4 -top-2.5 px-1.5 bg-white/80 text-[9px] font-bold uppercase tracking-widest transition-all duration-200 select-none pointer-events-none peer-placeholder-shown:text-xs peer-placeholder-shown:top-3 peer-placeholder-shown:bg-transparent peer-placeholder-shown:font-semibold peer-placeholder-shown:text-neutral-400 peer-focus:-top-2.5 peer-focus:text-[9px] peer-focus:bg-white" style={{ color: '#9CA3AF' }}>Physical Location Address</label>
@@ -518,7 +539,7 @@ export default function Dashboard() {
                     {/* Only show filled platforms */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {['instagram', 'facebook', 'twitter', 'youtube', 'linkedin', 'tiktok', 'whatsapp', 'telegram', 'snapchat', 'pinterest', 'discord'].map(plat => {
-                        const val = currentProfile.socials[plat] || '';
+                        const val = draftProfile.socials[plat] || '';
                         if (!val) return null;
                         return (
                           <div key={plat} className="flex rounded-2xl overflow-hidden border" style={{ background: 'rgba(255,255,255,0.60)', borderColor: 'rgba(255,255,255,0.65)' }}>
@@ -529,7 +550,7 @@ export default function Dashboard() {
                               id={`social-${plat}`}
                               type="url"
                               value={val}
-                              onChange={(e) => updateNestedField('socials', plat, e.target.value)}
+                              onChange={(e) => updateDraftNestedField('socials', plat, e.target.value)}
                               placeholder={`https://${plat === 'twitter' ? 'twitter' : plat}.com/...`}
                               className="flex-1 bg-transparent text-neutral-800 px-3.5 py-3 text-xs focus:outline-none"
                             />
@@ -546,7 +567,7 @@ export default function Dashboard() {
                       </summary>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
                         {['instagram', 'facebook', 'twitter', 'youtube', 'linkedin', 'tiktok', 'whatsapp', 'telegram', 'snapchat', 'pinterest', 'discord'].map(plat => {
-                          const val = currentProfile.socials[plat] || '';
+                          const val = draftProfile.socials[plat] || '';
                           if (val) return null;
                           return (
                             <div key={plat} className="flex rounded-2xl overflow-hidden border border-dashed opacity-70 focus-within:opacity-100 transition-all" style={{ borderColor: 'rgba(16,185,129,0.30)' }}>
@@ -557,7 +578,7 @@ export default function Dashboard() {
                                 id={`social-add-${plat}`}
                                 type="url"
                                 value={val}
-                                onChange={(e) => updateNestedField('socials', plat, e.target.value)}
+                                onChange={(e) => updateDraftNestedField('socials', plat, e.target.value)}
                                 placeholder={`https://${plat === 'twitter' ? 'twitter' : plat}.com/...`}
                                 className="flex-1 bg-transparent text-neutral-800 px-3.5 py-3 text-xs focus:outline-none"
                               />
@@ -579,7 +600,7 @@ export default function Dashboard() {
 
                     <div className="space-y-2">
                       {daysOfWeek.map(day => {
-                        const dayHours = currentProfile.hours[day] || { open: 'closed', close: 'closed' };
+                        const dayHours = draftProfile.hours[day] || { open: 'closed', close: 'closed' };
                         const isClosed = dayHours.open === 'closed';
 
                         return (
@@ -587,7 +608,7 @@ export default function Dashboard() {
                             <span className="text-xs font-semibold capitalize text-neutral-700 min-w-24">{day}</span>
                             
                             <div className="flex items-center gap-3.5">
-                              <label htmlFor={`chk-${day}`} className="inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-500 cursor-pointer">
+                               <label htmlFor={`chk-${day}`} className="inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-500 cursor-pointer">
                                 <input
                                   id={`chk-${day}`}
                                   type="checkbox"
@@ -595,7 +616,7 @@ export default function Dashboard() {
                                   onChange={(e) => {
                                     const nextOpenState = e.target.checked ? '09:00' : 'closed';
                                     const nextCloseState = e.target.checked ? '17:00' : 'closed';
-                                    updateNestedField('hours', day, { open: nextOpenState, close: nextCloseState });
+                                    updateDraftNestedField('hours', day, { open: nextOpenState, close: nextCloseState });
                                   }}
                                   className="w-3.5 h-3.5 rounded cursor-pointer"
                                   style={{ accentColor: '#10B981' }}
@@ -610,7 +631,7 @@ export default function Dashboard() {
                                     aria-label={`${day} opening hour`}
                                     value={dayHours.open}
                                     placeholder="09:00"
-                                    onChange={(e) => updateNestedField('hours', day, { ...dayHours, open: e.target.value })}
+                                    onChange={(e) => updateDraftNestedField('hours', day, { ...dayHours, open: e.target.value })}
                                     className="w-16 bg-white border border-neutral-200 text-neutral-800 rounded-xl px-2 py-1 text-center font-mono text-xs focus:outline-none"
                                     style={{ borderColor: 'rgba(16,185,129,0.30)' }}
                                   />
@@ -620,7 +641,7 @@ export default function Dashboard() {
                                     aria-label={`${day} closing hour`}
                                     value={dayHours.close}
                                     placeholder="17:00"
-                                    onChange={(e) => updateNestedField('hours', day, { ...dayHours, close: e.target.value })}
+                                    onChange={(e) => updateDraftNestedField('hours', day, { ...dayHours, close: e.target.value })}
                                     className="w-16 bg-white border border-neutral-200 text-neutral-800 rounded-xl px-2 py-1 text-center font-mono text-xs focus:outline-none"
                                     style={{ borderColor: 'rgba(16,185,129,0.30)' }}
                                   />
@@ -862,8 +883,10 @@ export default function Dashboard() {
                         setSaveState('saving');
                         setTimeout(() => {
                           updateProfile(currentProfile.id, {
+                            ...draftProfile,
                             theme: {
                               ...currentProfile.theme,
+                              ...draftProfile.theme,
                               ...draftTheme
                             }
                           });
