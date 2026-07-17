@@ -314,40 +314,6 @@ export default function Dashboard() {
         {/* WORKSPACE ROW CONTAINER (Editor + Mockup Preview) */}
         <div className="flex-1 flex flex-col lg:flex-row relative">
           
-          {/* MOBILE PREVIEW FIXED CARD (Static header on top) */}
-          {(activeView === 'editor' || activeView === 'design') && (
-            <div className="lg:hidden w-full border-b overflow-hidden transition-all duration-300 flex flex-col items-center justify-center shrink-0 z-25 sticky top-14"
-               style={{ 
-                 height: showMobilePreview ? '190px' : '44px',
-                 background: 'rgba(255,255,255,0.58)',
-                 backdropFilter: 'blur(24px)',
-                 borderColor: 'rgba(255,255,255,0.50)'
-               }}
-            >
-              {showMobilePreview ? (
-                <div className="relative w-full h-full flex items-center justify-center">
-                  <div className="scale-[0.22] md:scale-[0.31] origin-center -translate-y-6">
-                    <DeviceMockup profile={previewProfile} />
-                  </div>
-                  <button
-                    onClick={() => setShowMobilePreview(false)}
-                    className="absolute top-2 right-2 px-2.5 py-1 rounded-full text-[10px] font-bold hover:text-neutral-900 shadow-sm cursor-pointer z-30 btn-glass-secondary"
-                    style={{ color: '#6B7280' }}
-                  >
-                    Hide Preview
-                  </button>
-                </div>
-              ) : (
-                <button
-                  onClick={() => setShowMobilePreview(true)}
-                  className="px-3 py-1 rounded-full text-[10px] font-bold cursor-pointer btn-glass-secondary"
-                  style={{ color: '#059669' }}
-                >
-                  Show Live Preview
-                </button>
-              )}
-            </div>
-          )}
 
           {/* LEFT SCROLLABLE EDITOR PANEL */}
           <div className="flex-1 p-6 md:p-8 space-y-8 pb-28 relative">
