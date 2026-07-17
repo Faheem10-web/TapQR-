@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import * as Icons from 'lucide-react';
-
-// Custom SVG WhatsApp icon for authentic branding
-const WhatsAppIcon = ({ className = 'w-5 h-5' }) => (
-  <svg 
-    viewBox="0 0 24 24" 
-    fill="currentColor" 
-    className={className}
-  >
-    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.457L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.963C16.59 1.98 14.124.954 11.5.954c-5.442 0-9.863 4.372-9.867 9.802 0 1.691.451 3.344 1.306 4.795l-.997 3.639 3.734-.973zm13.04-5.321c-.328-.162-1.942-.947-2.242-1.054-.3-.109-.519-.163-.737.163-.218.327-.847 1.055-1.037 1.272-.19.218-.379.245-.708.083-.328-.162-1.385-.504-2.638-1.61-.976-.862-1.634-1.927-1.825-2.253-.19-.327-.02-.504.143-.666.148-.146.328-.382.493-.573.164-.19.219-.327.328-.545.109-.218.055-.409-.028-.573-.082-.164-.737-1.745-1.01-2.399-.266-.639-.56-.543-.737-.552-.191-.01-.409-.011-.628-.011-.219 0-.573.082-.873.409-.3.327-1.146 1.109-1.146 2.701 0 1.592 1.164 3.129 1.328 3.347.164.218 2.291 3.468 5.549 4.86.776.332 1.382.529 1.854.679.78.246 1.49.211 2.051.128.625-.093 1.943-.786 2.216-1.545.273-.76.273-1.411.191-1.545-.083-.134-.301-.218-.628-.381z" />
-  </svg>
-);
+import { 
+  FaInstagram, FaFacebook, FaWhatsapp, FaYoutube, FaLinkedin, 
+  FaTelegram, FaDiscord, FaPinterest, FaSnapchat, FaTiktok,
+  FaPhone, FaGlobe, FaEnvelope, FaMapMarkerAlt
+} from 'react-icons/fa';
+import { SiX } from 'react-icons/si';
 
 // Dynamic icon helper to map string keys to Lucide icon components
 export const DynamicIcon = ({ name, className = 'w-5 h-5' }) => {
@@ -104,14 +99,21 @@ export default function DeviceMockup({ profile }) {
 
   const currentStatus = getOpenStatus();
 
-  // Social handles definitions
+  // Social handles definitions with official icons and branding styles
   const socialConfig = [
-    { name: 'Instagram', key: 'instagram', path: socials.instagram, theme: 'hover:text-pink-600 bg-pink-500/5 hover:bg-pink-500/10 border-pink-500/10' },
-    { name: 'Facebook', key: 'facebook', path: socials.facebook, theme: 'hover:text-blue-700 bg-blue-600/5 hover:bg-blue-600/10 border-blue-600/10' },
-    { name: 'X / Twitter', key: 'twitter', path: socials.twitter, theme: 'hover:text-neutral-900 bg-neutral-500/5 hover:bg-neutral-500/10 border-neutral-500/10' },
-    { name: 'YouTube', key: 'youtube', path: socials.youtube, theme: 'hover:text-red-600 bg-red-500/5 hover:bg-red-500/10 border-red-500/10' },
-    { name: 'Website', key: 'website', path: website, theme: 'hover:text-purple-600 bg-purple-500/5 hover:bg-purple-500/10 border-purple-500/10' },
-    { name: 'Email', key: 'email', path: email, theme: 'hover:text-emerald-600 bg-emerald-50/5 hover:bg-emerald-500/10 border-emerald-500/10' }
+    { name: 'Instagram', key: 'instagram', icon: FaInstagram, path: socials.instagram, colorClass: 'bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888]', textColor: 'text-white' },
+    { name: 'Facebook', key: 'facebook', icon: FaFacebook, path: socials.facebook, colorClass: 'bg-[#1877F2]', textColor: 'text-white' },
+    { name: 'WhatsApp', key: 'whatsapp', icon: FaWhatsapp, path: socials.whatsapp ? `https://wa.me/${socials.whatsapp.replace(/[^0-9]/g, '')}` : '', colorClass: 'bg-[#25D366]', textColor: 'text-white' },
+    { name: 'X / Twitter', key: 'twitter', icon: SiX, path: socials.twitter, colorClass: 'bg-[#000000]', textColor: 'text-white' },
+    { name: 'YouTube', key: 'youtube', icon: FaYoutube, path: socials.youtube, colorClass: 'bg-[#FF0000]', textColor: 'text-white' },
+    { name: 'LinkedIn', key: 'linkedin', icon: FaLinkedin, path: socials.linkedin, colorClass: 'bg-[#0A66C2]', textColor: 'text-white' },
+    { name: 'TikTok', key: 'tiktok', icon: FaTiktok, path: socials.tiktok, colorClass: 'bg-[#000000]', textColor: 'text-white' },
+    { name: 'Telegram', key: 'telegram', icon: FaTelegram, path: socials.telegram, colorClass: 'bg-[#229ED9]', textColor: 'text-white' },
+    { name: 'Snapchat', key: 'snapchat', icon: FaSnapchat, path: socials.snapchat, colorClass: 'bg-[#FFFC00]', textColor: 'text-black font-extrabold' },
+    { name: 'Pinterest', key: 'pinterest', icon: FaPinterest, path: socials.pinterest, colorClass: 'bg-[#E60023]', textColor: 'text-white' },
+    { name: 'Discord', key: 'discord', icon: FaDiscord, path: socials.discord, colorClass: 'bg-[#5865F2]', textColor: 'text-white' },
+    { name: 'Website', key: 'website', icon: FaGlobe, path: website, colorClass: 'bg-neutral-500', textColor: 'text-white' },
+    { name: 'Email', key: 'email', icon: FaEnvelope, path: email, colorClass: 'bg-neutral-600', textColor: 'text-white' }
   ];
 
   const activeSocials = socialConfig.filter(s => s.path);
@@ -197,23 +199,23 @@ export default function DeviceMockup({ profile }) {
                 className="w-8 h-8 rounded-full flex items-center justify-center text-white"
                 style={{ backgroundColor: primaryColor }}
               >
-                <Icons.Phone className="w-3.5 h-3.5" />
+                <FaPhone className="w-3.5 h-3.5" />
               </div>
               <span className="text-[8px] font-bold uppercase tracking-wider text-neutral-400">Call</span>
             </div>
 
             {/* WhatsApp */}
             <div className={`p-2.5 rounded-2xl ${cardStyle} flex flex-col items-center justify-center gap-1`}>
-              <div className="w-8 h-8 rounded-full flex items-center justify-center bg-emerald-500 text-white">
-                <WhatsAppIcon className="w-3.5 h-3.5" />
+              <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#25D366] text-white">
+                <FaWhatsapp className="w-4 h-4" />
               </div>
               <span className="text-[8px] font-bold uppercase tracking-wider text-neutral-400">WhatsApp</span>
             </div>
 
             {/* Maps */}
             <div className={`p-2.5 rounded-2xl ${cardStyle} flex flex-col items-center justify-center gap-1`}>
-              <div className="w-8 h-8 rounded-full flex items-center justify-center bg-sky-500 text-white">
-                <Icons.MapPin className="w-3.5 h-3.5" />
+              <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#EA4335] text-white">
+                <FaMapMarkerAlt className="w-3.5 h-3.5" />
               </div>
               <span className="text-[8px] font-bold uppercase tracking-wider text-neutral-400">Directions</span>
             </div>
@@ -228,13 +230,10 @@ export default function DeviceMockup({ profile }) {
               {activeSocials.map(soc => (
                 <div
                   key={soc.key}
-                  className={`p-2.5 rounded-2xl flex items-center gap-2 border border-transparent shadow-sm ${cardStyle} ${soc.theme}`}
+                  className={`p-2.5 rounded-2xl flex items-center gap-2 border border-neutral-100 shadow-[0_2px_8px_rgba(0,0,0,0.005)] bg-white`}
                 >
-                  <div 
-                    className="w-6 h-6 rounded-lg flex items-center justify-center text-white shrink-0"
-                    style={{ backgroundColor: primaryColor }}
-                  >
-                    {soc.key === 'email' ? <Icons.Mail className="w-3 h-3" /> : <Icons.Globe className="w-3 h-3" />}
+                  <div className={`w-6.5 h-6.5 rounded-lg flex items-center justify-center ${soc.colorClass} ${soc.textColor} shrink-0`}>
+                    <soc.icon className="w-3.5 h-3.5" />
                   </div>
                   <div className="overflow-hidden">
                     <p className="text-[9px] font-bold truncate leading-none text-neutral-800 capitalize">{soc.name}</p>

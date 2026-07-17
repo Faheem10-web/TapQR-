@@ -9,6 +9,7 @@ import {
   Check, Copy, Clock, Globe, Shield, Sparkles, QrCode, BarChart3,
   Image as ImageIcon
 } from 'lucide-react';
+import { FaCog, FaQrcode, FaChartBar, FaSlidersH } from 'react-icons/fa';
 
 export default function Dashboard() {
   const { 
@@ -73,15 +74,15 @@ export default function Dashboard() {
   const profileUrl = getPublicProfileUrl(currentProfile.id);
 
   return (
-    <div className="min-h-screen bg-[#f4f5f8] text-neutral-800 flex flex-col lg:flex-row font-sans relative overflow-hidden">
+    <div className="min-h-screen bg-[#f4f5f8] text-neutral-800 flex flex-col lg:flex-row font-sans relative">
       
       {/* 1. DESKTOP SIDEBAR PANEL */}
-      <aside className="hidden lg:flex w-64 bg-white border-r border-neutral-200/80 flex-col justify-between p-6 shrink-0 h-screen sticky top-0 z-30 shadow-[4px_0_24px_rgba(0,0,0,0.01)]">
+      <aside className="hidden lg:flex w-64 bg-white border border-neutral-200/80 flex-col justify-between p-6 shrink-0 rounded-[24px] z-30 shadow-[0_8px_30px_rgba(0,0,0,0.015)] sidebar my-6 ml-6">
         <div className="space-y-8 text-left">
           {/* BRAND */}
           <div className="flex items-center gap-2.5">
             <div className="w-8.5 h-8.5 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-505 flex items-center justify-center shadow-md shadow-purple-500/10">
-              <Building2 className="w-4.5 h-4.5 text-white" />
+              <FaQrcode className="w-4.5 h-4.5 text-white" />
             </div>
             <span className="font-outfit font-extrabold text-lg tracking-tight text-neutral-900">
               Tap<span className="text-purple-600">QR</span>
@@ -98,7 +99,7 @@ export default function Dashboard() {
                   : 'text-neutral-500 hover:bg-neutral-50 hover:text-neutral-800'
               }`}
             >
-              <Building2 className="w-4.5 h-4.5" /> Profile Editor
+              <FaCog className="w-4.5 h-4.5" /> Profile Editor
             </button>
             
             <button
@@ -109,7 +110,7 @@ export default function Dashboard() {
                   : 'text-neutral-500 hover:bg-neutral-50 hover:text-neutral-800'
               }`}
             >
-              <QrCode className="w-4.5 h-4.5" /> QR Designer
+              <FaQrcode className="w-4.5 h-4.5" /> QR Designer
             </button>
 
             <button
@@ -120,7 +121,7 @@ export default function Dashboard() {
                   : 'text-neutral-500 hover:bg-neutral-50 hover:text-neutral-800'
               }`}
             >
-              <BarChart3 className="w-4.5 h-4.5" /> Tap Analytics
+              <FaChartBar className="w-4.5 h-4.5" /> Tap Analytics
             </button>
           </nav>
         </div>
@@ -156,13 +157,13 @@ export default function Dashboard() {
       </aside>
 
       {/* 2. MAIN CONTENT VIEWPORT */}
-      <div className="flex-1 flex flex-col min-h-screen overflow-hidden relative">
+      <div className="flex-1 flex flex-col min-h-screen relative">
         
         {/* MOBILE HEADER (Visible below lg) */}
-        <header className="lg:hidden border-b border-neutral-200/80 bg-white/70 backdrop-blur-md px-6 py-4 flex flex-row items-center justify-between z-30 sticky top-0 shadow-[0_2px_12px_rgba(0,0,0,0.01)]">
+        <header className="lg:hidden h-14 border-b border-neutral-200/80 bg-white/70 backdrop-blur-md px-6 flex flex-row items-center justify-between z-30 sticky top-0 shadow-[0_2px_12px_rgba(0,0,0,0.01)]">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-purple-600 to-indigo-500 flex items-center justify-center shadow-sm">
-              <Building2 className="w-4 h-4 text-white" />
+              <FaQrcode className="w-4 h-4 text-white" />
             </div>
             <span className="font-outfit font-extrabold text-sm tracking-tight text-neutral-900">
               TapQR
@@ -189,11 +190,11 @@ export default function Dashboard() {
         </header>
 
         {/* WORKSPACE ROW CONTAINER (Editor + Mockup Preview) */}
-        <div className="flex-1 flex flex-col lg:flex-row overflow-hidden relative">
+        <div className="flex-1 flex flex-col lg:flex-row relative">
           
           {/* MOBILE PREVIEW FIXED CARD (Static header on top) */}
           {activeView === 'editor' && (
-            <div className="lg:hidden w-full bg-white/80 border-b border-neutral-200/60 shadow-[0_2px_12px_rgba(0,0,0,0.015)] overflow-hidden transition-all duration-300 flex flex-col items-center justify-center shrink-0 z-25 relative"
+            <div className="lg:hidden w-full bg-white/80 border-b border-neutral-200/60 shadow-[0_2px_12px_rgba(0,0,0,0.015)] overflow-hidden transition-all duration-300 flex flex-col items-center justify-center shrink-0 z-25 sticky top-14"
                  style={{ height: showMobilePreview ? '190px' : '44px' }}
             >
               {showMobilePreview ? (
@@ -219,8 +220,8 @@ export default function Dashboard() {
             </div>
           )}
 
-          {/* LEFT SCROLLABLE EDITOR PANEL */}
-          <div className="flex-1 overflow-y-auto p-6 md:p-8 space-y-8 scroll-smooth pb-28 relative no-scrollbar">
+          {/* CENTER EDITOR PANEL */}
+          <div className="flex-1 p-6 md:p-8 space-y-8 pb-28 relative">
             <AnimatePresence mode="wait">
               
               {/* VIEW: Form Editor */}
@@ -598,8 +599,8 @@ export default function Dashboard() {
           </div>
 
           {/* RIGHT DESKTOP STICKY PREVIEW COLUMN */}
-          <div className="hidden lg:flex w-[440px] border-l border-neutral-200/80 bg-neutral-50/50 flex-col items-center justify-start overflow-y-auto no-scrollbar relative pt-6 pb-20 h-full shrink-0">
-            <div className="scale-[0.82] xl:scale-[0.90] origin-top transition-all duration-300 sticky top-6">
+          <div className="hidden lg:flex w-[440px] flex-col items-center justify-start shrink-0 z-20 preview-sticky py-6 pr-6 my-6 mr-6">
+            <div className="scale-[0.82] xl:scale-[0.90] origin-top transition-all duration-300">
               <DeviceMockup profile={currentProfile} />
             </div>
           </div>
@@ -617,7 +618,7 @@ export default function Dashboard() {
                   : 'text-neutral-500 hover:text-neutral-800'
               }`}
             >
-              <Building2 className="w-4 h-4" />
+              <FaCog className="w-4 h-4" />
               <span className="text-[8px] font-bold uppercase tracking-wider">Editor</span>
             </button>
             
@@ -629,7 +630,7 @@ export default function Dashboard() {
                   : 'text-neutral-500 hover:text-neutral-800'
               }`}
             >
-              <QrCode className="w-4 h-4" />
+              <FaQrcode className="w-4 h-4" />
               <span className="text-[8px] font-bold uppercase tracking-wider">QR Code</span>
             </button>
 
@@ -641,7 +642,7 @@ export default function Dashboard() {
                   : 'text-neutral-500 hover:text-neutral-800'
               }`}
             >
-              <BarChart3 className="w-4 h-4" />
+              <FaChartBar className="w-4 h-4" />
               <span className="text-[8px] font-bold uppercase tracking-wider">Analytics</span>
             </button>
           </div>
