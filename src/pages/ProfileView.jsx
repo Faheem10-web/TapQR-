@@ -491,10 +491,10 @@ export default function ProfileView() {
 
       {/* Slide up bottom share drawer sheet */}
       {showShareSheet && (
-        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/25 backdrop-blur-sm transition-opacity" onClick={() => setShowShareSheet(false)}>
+        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/20 backdrop-blur-[2px] transition-opacity" onClick={() => setShowShareSheet(false)}>
           <div 
             className="w-full max-w-[420px] rounded-t-[32px] p-6 text-center space-y-5 animate-slide-up shadow-2xl relative text-neutral-800"
-            style={{ background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(30px)', borderTop: '1px solid rgba(255,255,255,0.75)' }}
+            style={{ background: '#FFFFFF', borderTop: '1px solid var(--border-color)', boxShadow: 'var(--shadow-hover)' }}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Draw Handle */}

@@ -6,10 +6,10 @@ export default function NotFound() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center font-sans relative overflow-hidden" style={{ background: '#F8FAF8' }}>
+    <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center font-sans relative overflow-hidden" style={{ background: '#FCFCFA' }}>
       {/* Glass card container */}
-      <div className="glass-card rounded-[28px] p-10 flex flex-col items-center gap-6 max-w-sm w-full hover-lift" style={{ boxShadow: '0 20px 60px rgba(15,23,42,0.08)' }}>
-        <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{ background: 'rgba(16, 185, 129, 0.10)', border: '1px solid rgba(16, 185, 129, 0.22)', color: '#059669' }}>
+      <div className="glass-card rounded-[28px] p-10 flex flex-col items-center gap-6 max-w-sm w-full hover-lift" style={{ boxShadow: 'var(--shadow-premium)' }}>
+        <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{ background: 'var(--accent-soft)', border: '1px solid rgba(244, 200, 76, 0.3)', color: '#926C15' }}>
           <MapPinOff className="w-8 h-8" />
         </div>
         <div className="space-y-2">
@@ -20,7 +20,7 @@ export default function NotFound() {
         </div>
         <button
           onClick={() => navigate('/')}
-          className="btn-glass-primary px-6 py-2.5 rounded-full text-xs font-bold transition-all duration-200 flex items-center gap-2 cursor-pointer mx-auto"
+          className="btn-glass-primary px-6 py-2.5 rounded-full text-xs font-bold transition-all duration-200 flex items-center gap-2 cursor-pointer mx-auto h-[48px]"
         >
           <ArrowLeft className="w-4 h-4" /> Return to Homepage
         </button>

@@ -31,24 +31,24 @@ export default function Landing() {
   ];
 
   return (
-    <div className="min-h-screen text-neutral-800 font-sans relative overflow-hidden flex flex-col justify-between" style={{ background: '#F8FAF8' }}>
+    <div className="min-h-screen text-neutral-800 font-sans relative overflow-hidden flex flex-col justify-between" style={{ background: '#FCFCFA' }}>
 
       {/* Floating Glass Navbar */}
       <div className="relative w-full z-20 px-4 pt-5">
         <header className="max-w-5xl mx-auto glass-navbar rounded-full px-5 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => navigate('/')}>
-            <div className="w-8 h-8 rounded-xl flex items-center justify-center shadow-sm" style={{ background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)' }}>
+            <div className="w-8 h-8 rounded-xl flex items-center justify-center shadow-sm" style={{ background: 'linear-gradient(135deg, #F4C84C 0%, #E8BB35 100%)' }}>
               <QrCode className="w-4.5 h-4.5 text-white" />
             </div>
             <span className="font-outfit font-extrabold text-lg tracking-tight text-neutral-900">
-              Tap<span style={{ color: '#10B981' }}>QR</span>
+              Tap<span style={{ color: '#F4C84C' }}>QR</span>
             </span>
           </div>
 
           <button
             onClick={() => navigate('/dashboard')}
             aria-label="Enter console dashboard"
-            className="btn-glass-secondary px-5 py-2 rounded-full text-xs font-bold transition-all duration-200 flex items-center gap-1.5 cursor-pointer"
+            className="btn-glass-secondary px-5 py-2 rounded-full text-xs font-bold transition-all duration-200 flex items-center gap-1.5 cursor-pointer animate-fade-in"
           >
             Dashboard <ArrowRight className="w-3.5 h-3.5" />
           </button>
@@ -59,7 +59,7 @@ export default function Landing() {
       <main className="relative flex-1 flex flex-col items-center justify-center max-w-5xl mx-auto px-6 pt-10 pb-20 z-10 text-center space-y-14">
         
         {/* Main Pitch */}
-        <div className="space-y-7 max-w-3xl">
+        <div className="space-y-7 max-w-3xl animate-slide-up">
           <div className="chip-emerald animate-pulse-subtle mx-auto w-fit">
             <Sparkles className="w-3.5 h-3.5" /> Introducing TapQR PWA Edition
           </div>
@@ -67,7 +67,7 @@ export default function Landing() {
           <h1 className="text-4xl md:text-6xl font-black font-outfit leading-tight md:leading-[1.08] tracking-tight text-neutral-900">
             One Scan.{' '}
             <br className="sm:hidden" />
-            <span style={{ background: 'linear-gradient(135deg, #10B981 0%, #059669 50%, #7DD3FC 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+            <span style={{ background: 'linear-gradient(135deg, #F4C84C 0%, #E8BB35 50%, #B89225 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
               Instantly Connected.
             </span>
           </h1>
@@ -97,7 +97,7 @@ export default function Landing() {
         <section id="demo" className="w-full max-w-3xl glass-card p-6 md:p-8 rounded-[28px] grid grid-cols-1 md:grid-cols-2 gap-8 items-center text-left relative overflow-hidden hover-lift">
           <div className="space-y-4 relative z-10">
             <div className="space-y-1">
-              <span className="text-[10px] uppercase font-bold tracking-wider" style={{ color: '#10B981' }}>Playground Sandbox</span>
+              <span className="text-[10px] uppercase font-bold tracking-wider" style={{ color: '#F4C84C' }}>Playground Sandbox</span>
               <h2 className="text-xl md:text-2xl font-black font-outfit text-neutral-800">Live Customizer Demo</h2>
             </div>
             
@@ -114,14 +114,14 @@ export default function Landing() {
                   value={demoName}
                   onChange={(e) => setDemoName(e.target.value)}
                   placeholder="e.g. Alex Rivera"
-                  className="glass-input w-full rounded-2xl px-4 py-2.5 text-xs focus:outline-none"
+                  className="floatInputClass w-full text-xs focus:outline-none h-[46px] px-4 rounded-[14px]"
                 />
               </div>
 
               <div>
                 <label className="block text-[10px] font-bold uppercase tracking-wider mb-1.5" style={{ color: '#9CA3AF' }}>Brand Theme Color</label>
                 <div className="flex gap-2.5">
-                  {['#10B981', '#F4D58D', '#7DD3FC', '#6EE7B7', '#111827'].map((c) => (
+                  {['#F4C84C', '#F4D58D', '#7DD3FC', '#6EE7B7', '#111827'].map((c) => (
                     <button
                       key={c}
                       onClick={() => setDemoColor(c)}
@@ -215,7 +215,7 @@ export default function Landing() {
               <div key={idx} className="glass-card p-5 rounded-[24px] hover-lift relative group overflow-hidden cursor-default">
                 <div 
                   className="w-10 h-10 rounded-2xl flex items-center justify-center mb-4 transition-all duration-300 group-hover:scale-110"
-                  style={{ background: 'rgba(16, 185, 129, 0.10)', border: '1px solid rgba(16, 185, 129, 0.20)', color: '#059669' }}
+                  style={{ background: 'var(--accent-soft)', border: '1px solid rgba(244, 200, 76, 0.3)', color: '#926C15' }}
                 >
                   <feat.icon className="w-5 h-5" />
                 </div>

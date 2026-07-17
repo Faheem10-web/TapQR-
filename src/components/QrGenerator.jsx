@@ -176,7 +176,7 @@ export default function QrGenerator({ profileUrl, profile }) {
           <button
             onClick={handleSaveSettings}
             aria-label="Save Settings"
-            className="flex-1 py-2.5 px-2 bg-purple-600 hover:bg-purple-700 active:scale-95 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 duration-100 cursor-pointer shadow-md shadow-purple-500/10"
+            className="flex-1 py-2.5 px-2 bg-[#F4C84C] hover:bg-[#E8BB35] active:scale-95 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 duration-100 cursor-pointer shadow-md shadow-amber-500/10"
           >
             <Save className="w-3.5 h-3.5" /> Save
           </button>
@@ -187,7 +187,7 @@ export default function QrGenerator({ profileUrl, profile }) {
             className="py-2.5 px-3 bg-neutral-100 hover:bg-neutral-250 active:scale-95 text-neutral-600 rounded-xl text-xs font-bold flex items-center justify-center duration-100 cursor-pointer shadow-sm"
             title="Copy Link"
           >
-            {copied ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
+            {copied ? <Check className="w-4 h-4 text-amber-500" /> : <Copy className="w-4 h-4" />}
           </button>
         </div>
       </div>
@@ -231,7 +231,7 @@ export default function QrGenerator({ profileUrl, profile }) {
               onClick={() => setLogoType('none')}
               className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                 logoType === 'none'
-                  ? 'bg-purple-600 text-white shadow-md shadow-purple-500/10'
+                  ? 'bg-[#F4C84C] text-white shadow-md shadow-amber-500/10'
                   : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200 shadow-sm'
               }`}
             >
@@ -243,7 +243,7 @@ export default function QrGenerator({ profileUrl, profile }) {
               disabled={!profile?.avatar}
               className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer ${
                 logoType === 'avatar'
-                  ? 'bg-purple-600 text-white shadow-md shadow-purple-500/10'
+                  ? 'bg-[#F4C84C] text-white shadow-md shadow-amber-500/10'
                   : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200 shadow-sm'
               }`}
             >
@@ -253,7 +253,7 @@ export default function QrGenerator({ profileUrl, profile }) {
             <label
               className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
                 logoType === 'custom'
-                  ? 'bg-purple-600 text-white shadow-md shadow-purple-500/10'
+                  ? 'bg-[#F4C84C] text-white shadow-md shadow-amber-500/10'
                   : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200 shadow-sm'
               }`}
             >

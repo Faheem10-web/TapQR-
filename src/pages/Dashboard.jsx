@@ -187,15 +187,15 @@ export default function Dashboard() {
   };
 
   // Shared floating label input style
-  const floatInputClass = "peer w-full rounded-2xl px-4 py-3 text-xs text-neutral-800 placeholder-transparent focus:outline-none transition-all duration-250 shadow-sm";
-  const floatInputStyle = { background: 'rgba(255,255,255,0.72)', border: '1px solid rgba(255,255,255,0.72)', color: '#111827' };
-  const floatInputFocusStyle = {}; // handled by global glass-input focus
+  const floatInputClass = "floatInputClass";
+  const floatInputStyle = {};
+  const floatInputFocusStyle = {};
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#eaebf0] flex items-center justify-center font-sans">
+      <div className="min-h-screen bg-[#F8F7F3] flex items-center justify-center font-sans">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+          <div className="w-10 h-10 border-4 border-[#F4C84C] border-t-transparent rounded-full animate-spin"></div>
           <span className="text-xs font-bold text-neutral-500 tracking-wider">Syncing session...</span>
         </div>
       </div>
@@ -204,15 +204,15 @@ export default function Dashboard() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen text-neutral-800 flex items-center justify-center p-4 relative font-sans select-none animate-fade-in" style={{ background: '#eaebf0' }}>
+      <div className="min-h-screen text-neutral-800 flex items-center justify-center p-4 relative font-sans select-none animate-fade-in" style={{ background: '#F8F7F3' }}>
         <div className="ambient-glow" />
         <div className="w-full max-w-md glass-card p-8 rounded-[28px] shadow-glass-lg relative z-10 space-y-6">
           <div className="flex flex-col items-center text-center gap-2">
-            <div className="w-10 h-10 rounded-2xl flex items-center justify-center shadow-md" style={{ background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)' }}>
+            <div className="w-10 h-10 rounded-2xl flex items-center justify-center shadow-md" style={{ background: 'linear-gradient(135deg, #F4C84C 0%, #E8BB35 100%)' }}>
               <FaQrcode className="w-5 h-5 text-white" />
             </div>
             <h2 className="font-outfit font-black text-xl tracking-tight text-neutral-900 mt-2">
-              Welcome to Tap<span className="text-emerald-500">QR</span>
+              Welcome to Tap<span className="text-[#F4C84C]">QR</span>
             </h2>
             <p className="text-xs text-neutral-500">Create, customize, and manage your NFC & QR profile cards.</p>
           </div>
@@ -220,13 +220,13 @@ export default function Dashboard() {
           <div className="flex border-b border-neutral-100 pb-1">
             <button 
               onClick={() => { setAuthMode('login'); setLocalAuthError(''); }}
-              className={`flex-1 pb-3 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${authMode === 'login' ? 'text-emerald-600 border-b-2 border-emerald-500' : 'text-neutral-400 hover:text-neutral-600'}`}
+              className={`flex-1 pb-3 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${authMode === 'login' ? 'text-[#926C15] border-b-2 border-[#F4C84C]' : 'text-neutral-400 hover:text-neutral-600'}`}
             >
               Sign In
             </button>
             <button 
               onClick={() => { setAuthMode('register'); setLocalAuthError(''); }}
-              className={`flex-1 pb-3 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${authMode === 'register' ? 'text-emerald-600 border-b-2 border-emerald-500' : 'text-neutral-400 hover:text-neutral-600'}`}
+              className={`flex-1 pb-3 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${authMode === 'register' ? 'text-[#926C15] border-b-2 border-[#F4C84C]' : 'text-neutral-400 hover:text-neutral-600'}`}
             >
               Sign Up
             </button>
@@ -248,7 +248,7 @@ export default function Dashboard() {
                   value={authName}
                   onChange={(e) => setAuthName(e.target.value)}
                   placeholder="John Doe"
-                  className="w-full bg-white/70 border border-white/70 rounded-2xl px-4 py-3 text-xs text-neutral-800 focus:bg-white focus:outline-none transition-all shadow-sm"
+                  className={floatInputClass}
                 />
               </div>
             )}
@@ -261,7 +261,7 @@ export default function Dashboard() {
                 value={authEmail}
                 onChange={(e) => setAuthEmail(e.target.value)}
                 placeholder="john@example.com"
-                className="w-full bg-white/70 border border-white/70 rounded-2xl px-4 py-3 text-xs text-neutral-800 focus:bg-white focus:outline-none transition-all shadow-sm"
+                className={floatInputClass}
               />
             </div>
 
@@ -273,14 +273,14 @@ export default function Dashboard() {
                 value={authPassword}
                 onChange={(e) => setAuthPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full bg-white/70 border border-white/70 rounded-2xl px-4 py-3 text-xs text-neutral-800 focus:bg-white focus:outline-none transition-all shadow-sm"
+                className={floatInputClass}
               />
             </div>
 
             <button 
               type="submit" 
               disabled={authLoading}
-              className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] text-white rounded-2xl text-xs font-bold uppercase tracking-wider duration-150 shadow-md shadow-emerald-500/10 cursor-pointer text-center mt-2 disabled:opacity-50"
+              className="w-full py-3 bg-[#F4C84C] hover:bg-[#E8BB35] active:scale-[0.98] text-white rounded-2xl text-xs font-bold uppercase tracking-wider duration-150 shadow-md shadow-amber-500/10 cursor-pointer text-center mt-2 disabled:opacity-50"
             >
               {authLoading ? 'Verifying...' : authMode === 'login' ? 'Sign In' : 'Sign Up'}
             </button>
@@ -300,11 +300,11 @@ export default function Dashboard() {
         <div className="space-y-8 text-left">
           {/* BRAND */}
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl flex items-center justify-center shadow-sm" style={{ background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)' }}>
+            <div className="w-9 h-9 rounded-xl flex items-center justify-center shadow-sm" style={{ background: 'linear-gradient(135deg, #F4C84C 0%, #E8BB35 100%)' }}>
               <FaQrcode className="w-4.5 h-4.5 text-white" />
             </div>
             <span className="font-outfit font-extrabold text-lg tracking-tight text-neutral-900">
-              Tap<span style={{ color: '#10B981' }}>QR</span>
+              Tap<span style={{ color: '#F4C84C' }}>QR</span>
             </span>
           </div>
 
@@ -362,7 +362,7 @@ export default function Dashboard() {
             onClick={handleCopyLink}
             className="w-full py-2.5 px-4 btn-glass-secondary rounded-2xl text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer tap-haptic"
           >
-            {copiedLink ? <Check className="w-3.5 h-3.5" style={{ color: '#10B981' }} /> : <Copy className="w-3.5 h-3.5" />}
+            {copiedLink ? <Check className="w-3.5 h-3.5" style={{ color: '#F4C84C' }} /> : <Copy className="w-3.5 h-3.5" />}
             {copiedLink ? 'Copied Link' : 'Copy Profile URL'}
           </button>
           
@@ -402,7 +402,7 @@ export default function Dashboard() {
         {/* MOBILE HEADER (Visible below lg) */}
         <header className="lg:hidden h-14 glass-navbar px-5 flex flex-row items-center justify-between z-30 sticky top-0">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl flex items-center justify-center shadow-sm" style={{ background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)' }}>
+            <div className="w-8 h-8 rounded-xl flex items-center justify-center shadow-sm" style={{ background: 'linear-gradient(135deg, #F4C84C 0%, #E8BB35 100%)' }}>
               <FaQrcode className="w-4 h-4 text-white" />
             </div>
             <span className="font-outfit font-extrabold text-sm tracking-tight text-neutral-900">
@@ -415,7 +415,7 @@ export default function Dashboard() {
               onClick={handleCopyLink}
               className="p-2 btn-glass-secondary rounded-xl cursor-pointer tap-haptic"
             >
-              {copiedLink ? <Check className="w-4 h-4" style={{ color: '#10B981' }} /> : <Copy className="w-4 h-4" />}
+              {copiedLink ? <Check className="w-4 h-4" style={{ color: '#F4C84C' }} /> : <Copy className="w-4 h-4" />}
             </button>
             
             <a
@@ -1080,7 +1080,7 @@ export default function Dashboard() {
                   ? 'text-white shadow-sm'
                   : 'text-neutral-500 hover:text-neutral-800'
               }`}
-              style={activeView === 'editor' ? { background: 'linear-gradient(135deg, #10B981, #059669)' } : {}}
+              style={activeView === 'editor' ? { background: 'linear-gradient(135deg, #F4C84C, #E8BB35)' } : {}}
             >
               <FaCog className="w-3.5 h-3.5" />
               <span className="text-[8px] font-bold uppercase tracking-wider">Editor</span>
@@ -1093,7 +1093,7 @@ export default function Dashboard() {
                   ? 'text-white shadow-sm'
                   : 'text-neutral-500 hover:text-neutral-800'
               }`}
-              style={activeView === 'design' ? { background: 'linear-gradient(135deg, #10B981, #059669)' } : {}}
+              style={activeView === 'design' ? { background: 'linear-gradient(135deg, #F4C84C, #E8BB35)' } : {}}
             >
               <FaSlidersH className="w-3.5 h-3.5" />
               <span className="text-[8px] font-bold uppercase tracking-wider">Design</span>
@@ -1106,7 +1106,7 @@ export default function Dashboard() {
                   ? 'text-white shadow-sm'
                   : 'text-neutral-500 hover:text-neutral-800'
               }`}
-              style={activeView === 'qr' ? { background: 'linear-gradient(135deg, #10B981, #059669)' } : {}}
+              style={activeView === 'qr' ? { background: 'linear-gradient(135deg, #F4C84C, #E8BB35)' } : {}}
             >
               <FaQrcode className="w-3.5 h-3.5" />
               <span className="text-[8px] font-bold uppercase tracking-wider">QR Code</span>
@@ -1119,7 +1119,7 @@ export default function Dashboard() {
                   ? 'text-white shadow-sm'
                   : 'text-neutral-500 hover:text-neutral-800'
               }`}
-              style={activeView === 'analytics' ? { background: 'linear-gradient(135deg, #10B981, #059669)' } : {}}
+              style={activeView === 'analytics' ? { background: 'linear-gradient(135deg, #F4C84C, #E8BB35)' } : {}}
             >
               <FaChartBar className="w-3.5 h-3.5" />
               <span className="text-[8px] font-bold uppercase tracking-wider">Analytics</span>
