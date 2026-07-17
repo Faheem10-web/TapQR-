@@ -17,6 +17,17 @@ export default function Dashboard() {
   const [activeView, setActiveView] = useState('editor'); // editor, qr, analytics
   const [copiedLink, setCopiedLink] = useState(false);
   const [showMobilePreview, setShowMobilePreview] = useState(true);
+  const [saveState, setSaveState] = useState('idle'); // idle, saving, success
+
+  const handleSaveClick = () => {
+    setSaveState('saving');
+    setTimeout(() => {
+      setSaveState('success');
+      setTimeout(() => {
+        setSaveState('idle');
+      }, 2000);
+    }, 800);
+  };
 
   const handleCopyLink = () => {
     const link = `${window.location.origin}/p/${currentProfile.id}`;
@@ -407,6 +418,28 @@ export default function Dashboard() {
                     );
                   })}
                 </div>
+              </div>
+
+              {/* Manual Save Button Trigger */}
+              <div className="pt-4 flex items-center justify-end">
+                <button
+                  onClick={handleSaveClick}
+                  className="px-8 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold transition-all shadow-md shadow-purple-500/10 active:scale-95 duration-100 flex items-center gap-1.5 cursor-pointer shadow-purple-500/5"
+                >
+                  {saveState === 'saving' ? (
+                    <>
+                      <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      Saving Changes...
+                    </>
+                  ) : saveState === 'success' ? (
+                    <>
+                      <Check className="w-3.5 h-3.5" />
+                      Changes Saved!
+                    </>
+                  ) : (
+                    'Save Profile Changes'
+                  )}
+                </button>
               </div>
 
             </div>
