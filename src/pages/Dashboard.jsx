@@ -495,23 +495,57 @@ export default function Dashboard() {
                       <h3 className="text-[10px] uppercase font-extrabold tracking-widest text-neutral-450">Social Connections</h3>
                     </div>
 
+                    {/* Only show filled platforms */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      {['instagram', 'facebook', 'twitter', 'youtube'].map(plat => (
-                        <div key={plat} className="flex rounded-2xl overflow-hidden border border-neutral-200 shadow-sm">
-                          <label htmlFor={`social-${plat}`} className="bg-neutral-50 text-neutral-555 text-[9px] uppercase font-bold tracking-wider px-4 flex items-center border-r border-neutral-100 w-24 select-none cursor-pointer">
-                            {plat === 'twitter' ? 'X / Twitter' : plat}
-                          </label>
-                          <input
-                            id={`social-${plat}`}
-                            type="url"
-                            value={currentProfile.socials[plat] || ''}
-                            onChange={(e) => updateNestedField('socials', plat, e.target.value)}
-                            placeholder={`https://${plat === 'twitter' ? 'twitter' : plat}.com/...`}
-                            className="flex-1 bg-white text-neutral-800 px-3.5 py-3 text-xs focus:outline-none"
-                          />
-                        </div>
-                      ))}
+                      {['instagram', 'facebook', 'twitter', 'youtube', 'linkedin', 'tiktok', 'whatsapp', 'telegram', 'snapchat', 'pinterest', 'discord'].map(plat => {
+                        const val = currentProfile.socials[plat] || '';
+                        if (!val) return null;
+                        return (
+                          <div key={plat} className="flex rounded-2xl overflow-hidden border border-neutral-200 shadow-sm">
+                            <label htmlFor={`social-${plat}`} className="bg-neutral-50 text-neutral-555 text-[9px] uppercase font-bold tracking-wider px-4 flex items-center border-r border-neutral-100 w-24 select-none cursor-pointer">
+                              {plat === 'twitter' ? 'X / Twitter' : plat}
+                            </label>
+                            <input
+                              id={`social-${plat}`}
+                              type="url"
+                              value={val}
+                              onChange={(e) => updateNestedField('socials', plat, e.target.value)}
+                              placeholder={`https://${plat === 'twitter' ? 'twitter' : plat}.com/...`}
+                              className="flex-1 bg-white text-neutral-800 px-3.5 py-3 text-xs focus:outline-none"
+                            />
+                          </div>
+                        );
+                      })}
                     </div>
+
+                    {/* Add more platforms - expandable */}
+                    <details className="group">
+                      <summary className="cursor-pointer list-none flex items-center gap-2 text-[10px] font-bold text-purple-600 uppercase tracking-wider select-none hover:text-purple-700">
+                        <span className="w-4 h-4 rounded-full border border-purple-300 flex items-center justify-center text-purple-500 text-[10px] font-black leading-none">+</span>
+                        Add Social Platform
+                      </summary>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                        {['instagram', 'facebook', 'twitter', 'youtube', 'linkedin', 'tiktok', 'whatsapp', 'telegram', 'snapchat', 'pinterest', 'discord'].map(plat => {
+                          const val = currentProfile.socials[plat] || '';
+                          if (val) return null;
+                          return (
+                            <div key={plat} className="flex rounded-2xl overflow-hidden border border-dashed border-neutral-300 shadow-sm opacity-70 focus-within:opacity-100 focus-within:border-purple-400 transition-all">
+                              <label htmlFor={`social-add-${plat}`} className="bg-neutral-50 text-neutral-555 text-[9px] uppercase font-bold tracking-wider px-4 flex items-center border-r border-neutral-100 w-24 select-none cursor-pointer">
+                                {plat === 'twitter' ? 'X / Twitter' : plat}
+                              </label>
+                              <input
+                                id={`social-add-${plat}`}
+                                type="url"
+                                value={val}
+                                onChange={(e) => updateNestedField('socials', plat, e.target.value)}
+                                placeholder={`https://${plat === 'twitter' ? 'twitter' : plat}.com/...`}
+                                className="flex-1 bg-white text-neutral-800 px-3.5 py-3 text-xs focus:outline-none"
+                              />
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </details>
                   </div>
 
                   {/* GROUP 4: Business Operating Hours */}
