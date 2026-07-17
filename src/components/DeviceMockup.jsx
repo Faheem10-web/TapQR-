@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link2 } from 'lucide-react';
+import { Link2, Clock, ChevronUp, ChevronDown, UserPlus, Signal, Wifi, BatteryCharging, CheckCircle2 } from 'lucide-react';
 import { 
   FaInstagram, FaFacebook, FaWhatsapp, FaYoutube, FaLinkedin, 
   FaTelegram, FaDiscord, FaPinterest, FaSnapchat, FaTiktok,
@@ -121,9 +121,9 @@ export default function DeviceMockup({ profile }) {
       <div className="absolute top-0 inset-x-0 h-10 px-6 flex items-center justify-between text-[11px] font-bold text-neutral-600 z-40">
         <span>{time}</span>
         <div className="flex items-center gap-1.5">
-          <Icons.Signal className="w-3 h-3" />
-          <Icons.Wifi className="w-3 h-3" />
-          <Icons.BatteryCharging className="w-3.5 h-3.5" />
+          <Signal className="w-3 h-3" />
+          <Wifi className="w-3 h-3" />
+          <BatteryCharging className="w-3.5 h-3.5" />
         </div>
       </div>
 
@@ -155,7 +155,7 @@ export default function DeviceMockup({ profile }) {
           {/* Business Name */}
           <h2 className="text-sm font-bold mt-2.5 flex items-center gap-1 text-neutral-950">
             {name}
-            <Icons.CheckCircle2 className="w-4 h-4 fill-sky-500 text-white" />
+            <CheckCircle2 className="w-4 h-4 fill-sky-500 text-white" />
           </h2>
           
           {/* Category Pill */}
@@ -242,14 +242,14 @@ export default function DeviceMockup({ profile }) {
                 onClick={() => setShowHoursList(!showHoursList)}
               >
                 <div className="flex items-center gap-1.5">
-                  <Icons.Clock className="w-3.5 h-3.5 opacity-70" />
+                  <Clock className="w-3.5 h-3.5 opacity-70" />
                   <span className="text-[10px] font-bold">Schedule</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <span className={`text-[8px] font-bold px-1.5 py-0.5 rounded-full border ${currentStatus.class}`}>
                     {currentStatus.label}
                   </span>
-                  {showHoursList ? <Icons.ChevronUp className="w-3 h-3 opacity-50" /> : <Icons.ChevronDown className="w-3 h-3 opacity-50" />}
+                  {showHoursList ? <ChevronUp className="w-3 h-3 opacity-50" /> : <ChevronDown className="w-3 h-3 opacity-50" />}
                 </div>
               </div>
 
@@ -278,7 +278,7 @@ export default function DeviceMockup({ profile }) {
           className="w-full py-2.5 rounded-xl text-white font-bold text-xs shadow-md shadow-purple-500/10 active:scale-95 duration-100 flex items-center justify-center gap-1.5 cursor-pointer"
           style={{ backgroundColor: primaryColor }}
         >
-          <Icons.UserPlus className="w-3.5 h-3.5" /> Save Contact Card
+          <UserPlus className="w-3.5 h-3.5" /> Save Contact Card
         </button>
       </div>
 
