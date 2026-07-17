@@ -10,6 +10,7 @@ import {
   Image as ImageIcon
 } from 'lucide-react';
 import { FaCog, FaQrcode, FaChartBar, FaSlidersH } from 'react-icons/fa';
+import { DEFAULT_PROFILES } from '../utils/mockData';
 
 export default function Dashboard() {
   const { 
@@ -129,24 +130,44 @@ export default function Dashboard() {
     let url = `${base}/profile/${profileId}`;
     if (profileObj) {
       try {
-        // Only serialize user-customizable text and theme settings to keep the QR code size small
-        const cleanProfile = {
-          name: profileObj.name,
-          category: profileObj.category,
-          bio: profileObj.bio,
-          phone: profileObj.phone,
-          whatsapp: profileObj.whatsapp,
-          email: profileObj.email,
-          website: profileObj.website,
-          address: profileObj.address,
-          avatar: profileObj.avatar && profileObj.avatar.startsWith('data:') ? '' : profileObj.avatar,
-          coverPhoto: profileObj.coverPhoto && profileObj.coverPhoto.startsWith('data:') ? '' : profileObj.coverPhoto,
-          socials: profileObj.socials || {},
-          hours: profileObj.hours || {},
-          theme: profileObj.theme || {}
-        };
-        const profileStr = encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(cleanProfile)))));
-        url += `?p=${profileStr}`;
+        const baseline = DEFAULT_PROFILES.find(p => p.id === profileId) || {};
+        const cleanProfile = { id: profileId };
+        let hasChanges = false;
+
+        const textFields = ['name', 'category', 'bio', 'phone', 'whatsapp', 'email', 'website', 'address'];
+        textFields.forEach(field => {
+          if (profileObj[field] !== baseline[field]) {
+            cleanProfile[field] = profileObj[field];
+            hasChanges = true;
+          }
+        });
+
+        if (profileObj.avatar !== baseline.avatar) {
+          cleanProfile.avatar = profileObj.avatar && profileObj.avatar.startsWith('data:') ? '' : profileObj.avatar;
+          hasChanges = true;
+        }
+        if (profileObj.coverPhoto !== baseline.coverPhoto) {
+          cleanProfile.coverPhoto = profileObj.coverPhoto && profileObj.coverPhoto.startsWith('data:') ? '' : profileObj.coverPhoto;
+          hasChanges = true;
+        }
+
+        if (JSON.stringify(profileObj.socials || {}) !== JSON.stringify(baseline.socials || {})) {
+          cleanProfile.socials = profileObj.socials || {};
+          hasChanges = true;
+        }
+        if (JSON.stringify(profileObj.hours || {}) !== JSON.stringify(baseline.hours || {})) {
+          cleanProfile.hours = profileObj.hours || {};
+          hasChanges = true;
+        }
+        if (JSON.stringify(profileObj.theme || {}) !== JSON.stringify(baseline.theme || {})) {
+          cleanProfile.theme = profileObj.theme || {};
+          hasChanges = true;
+        }
+
+        if (hasChanges) {
+          const profileStr = encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(cleanProfile)))));
+          url += `?p=${profileStr}`;
+        }
       } catch (e) {
         console.error(e);
       }

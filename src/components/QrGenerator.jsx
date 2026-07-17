@@ -1,15 +1,27 @@
 import React, { useEffect, useRef, useState } from 'react';
 import QRCode from 'qrcode';
 import { Download, Copy, Check, QrCode, Image as ImageIcon, Save } from 'lucide-react';
+import { useProfiles } from '../context/ProfileContext';
 
 export default function QrGenerator({ profileUrl, profile }) {
+  const { updateProfile } = useProfiles();
   const canvasRef = useRef(null);
-  const [fgColor, setFgColor] = useState('#000000');
-  const [bgColor, setBgColor] = useState('#ffffff');
-  const [logoType, setLogoType] = useState('none'); // none, avatar, custom
-  const [customLogo, setCustomLogo] = useState(null);
-  const [qrSize, setQrSize] = useState(256);
+
+  const [fgColor, setFgColor] = useState(() => profile?.qrSettings?.fgColor || '#000000');
+  const [bgColor, setBgColor] = useState(() => profile?.qrSettings?.bgColor || '#ffffff');
+  const [logoType, setLogoType] = useState(() => profile?.qrSettings?.logoType || 'none'); // none, avatar, custom
+  const [customLogo, setCustomLogo] = useState(() => profile?.qrSettings?.customLogo || null);
+  const [qrSize, setQrSize] = useState(() => profile?.qrSettings?.qrSize || 256);
   const [copied, setCopied] = useState(false);
+
+  // Sync settings when profile ID changes
+  useEffect(() => {
+    setFgColor(profile?.qrSettings?.fgColor || '#000000');
+    setBgColor(profile?.qrSettings?.bgColor || '#ffffff');
+    setLogoType(profile?.qrSettings?.logoType || 'none');
+    setCustomLogo(profile?.qrSettings?.customLogo || null);
+    setQrSize(profile?.qrSettings?.qrSize || 256);
+  }, [profile?.id]);
 
   // Trigger QR generation whenever options change
   useEffect(() => {
@@ -121,6 +133,19 @@ export default function QrGenerator({ profileUrl, profile }) {
     document.body.removeChild(link);
   };
 
+  const handleSaveSettings = () => {
+    updateProfile(profile.id, {
+      qrSettings: {
+        fgColor,
+        bgColor,
+        logoType,
+        customLogo,
+        qrSize
+      }
+    });
+    alert('QR Code settings saved successfully!');
+  };
+
   const copyProfileLink = () => {
     navigator.clipboard.writeText(profileUrl);
     setCopied(true);
@@ -149,7 +174,7 @@ export default function QrGenerator({ profileUrl, profile }) {
           </button>
 
           <button
-            onClick={() => alert('QR Code settings saved successfully!')}
+            onClick={handleSaveSettings}
             aria-label="Save Settings"
             className="flex-1 py-2.5 px-2 bg-purple-600 hover:bg-purple-700 active:scale-95 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 duration-100 cursor-pointer shadow-md shadow-purple-500/10"
           >
