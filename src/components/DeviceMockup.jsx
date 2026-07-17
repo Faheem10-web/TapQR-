@@ -128,7 +128,7 @@ export default function DeviceMockup({ profile }) {
       </div>
 
       {/* Profile Scroll Container */}
-      <div className={`w-full h-full pt-10 pb-16 overflow-y-auto no-scrollbar ${bgStyle} ${fontStyleClass} scroll-smooth`}>
+      <div className={`w-full h-full pt-10 pb-24 overflow-y-auto no-scrollbar ${bgStyle} ${fontStyleClass} scroll-smooth`}>
         {/* Cover Photo */}
         <div className="relative h-32 w-full bg-neutral-200 overflow-hidden">
           {coverPhoto ? (
