@@ -4,7 +4,7 @@ import { Download, Copy, Check, QrCode, Image as ImageIcon } from 'lucide-react'
 
 export default function QrGenerator({ profileUrl, profile }) {
   const canvasRef = useRef(null);
-  const [fgColor, setFgColor] = useState('#1c1c1e');
+  const [fgColor, setFgColor] = useState('#000000');
   const [bgColor, setBgColor] = useState('#ffffff');
   const [logoType, setLogoType] = useState('none'); // none, avatar, custom
   const [customLogo, setCustomLogo] = useState(null);
@@ -36,7 +36,7 @@ export default function QrGenerator({ profileUrl, profile }) {
 
     const qrOptions = {
       width: qrSize,
-      margin: 2,
+      margin: 4,
       color: {
         dark: fgColor,
         light: bgColor,

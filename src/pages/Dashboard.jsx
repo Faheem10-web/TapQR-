@@ -50,7 +50,15 @@ export default function Dashboard() {
   };
 
   const daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-  const profileUrl = `${window.location.origin}/p/${currentProfile.id}`;
+  
+  // Dynamic URL configuration ensuring public production domain mapping
+  const getPublicProfileUrl = (profileId) => {
+    const origin = window.location.origin;
+    const isLocal = origin.includes('localhost') || origin.includes('127.0.0.1') || origin.includes('192.168.');
+    const base = isLocal ? 'https://tap-qr.vercel.app' : origin;
+    return `${base}/profile/${profileId}`;
+  };
+  const profileUrl = getPublicProfileUrl(currentProfile.id);
 
   return (
     <div className="min-h-screen bg-[#f4f5f8] text-neutral-800 flex flex-col font-sans relative">

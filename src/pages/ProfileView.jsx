@@ -57,15 +57,24 @@ export default function ProfileView() {
   // Generate QR Code dynamically when share sheet opens
   useEffect(() => {
     if (showShareSheet && qrCanvasRef.current && profile) {
-      const currentUrl = window.location.href;
-      QRCode.toCanvas(qrCanvasRef.current, currentUrl, {
-        width: 160,
-        margin: 1.5,
+      // Dynamic url targeting the public vercel domain instead of local test variables
+      const getPublicProfileUrl = (profileId) => {
+        const origin = window.location.origin;
+        const isLocal = origin.includes('localhost') || origin.includes('127.0.0.1') || origin.includes('192.168.');
+        const base = isLocal ? 'https://tap-qr.vercel.app' : origin;
+        return `${base}/profile/${profileId}`;
+      };
+
+      const targetUrl = getPublicProfileUrl(profile.id);
+
+      QRCode.toCanvas(qrCanvasRef.current, targetUrl, {
+        width: 240,
+        margin: 4,
         color: {
-          dark: '#1c1c1e',
+          dark: '#000000',
           light: '#ffffff'
         },
-        errorCorrectionLevel: 'M'
+        errorCorrectionLevel: 'H'
       }, (err) => {
         if (err) console.error('Failed to draw QR in drawer', err);
       });
@@ -422,7 +431,7 @@ export default function ProfileView() {
             {/* QR Canvas */}
             <div className="flex flex-col items-center justify-center gap-3">
               <div className="p-3 bg-white rounded-2xl border border-neutral-200 inline-block shadow-md">
-                <canvas ref={qrCanvasRef} className="rounded-lg" style={{ width: '160px', height: '160px' }} />
+                <canvas ref={qrCanvasRef} className="rounded-lg" style={{ width: '180px', height: '180px' }} />
               </div>
               <p className="text-[10px] text-neutral-450 font-bold uppercase tracking-wider">Scan code to view profile</p>
             </div>
