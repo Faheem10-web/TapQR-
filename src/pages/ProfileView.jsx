@@ -4,6 +4,7 @@ import { useProfiles } from '../context/ProfileContext';
 import { DEFAULT_PROFILES } from '../utils/mockData';
 import { downloadVcard } from '../utils/vcard';
 import ProfileSkeleton from '../components/ProfileSkeleton';
+import api from '../utils/api';
 import QRCode from 'qrcode';
 import { 
   Phone, MapPin, CheckCircle2, ChevronDown, ChevronUp, 
@@ -20,8 +21,9 @@ import { SiX } from 'react-icons/si';
 export default function ProfileView() {
   const { profileId } = useParams();
   const navigate = useNavigate();
-  const { getProfile } = useProfiles();
   const [profile, setProfile] = useState(null);
+  const [loadingProfile, setLoadingProfile] = useState(true);
+  const [errorProfile, setErrorProfile] = useState(null);
   
   // Hours accordion
   const [showHoursList, setShowHoursList] = useState(false);
@@ -32,33 +34,34 @@ export default function ProfileView() {
   
   const qrCanvasRef = useRef(null);
 
+  // Fetch business profile card directly from MongoDB API on scan/view
   useEffect(() => {
-    // 1. Fetch from LocalStorage context
-    let found = getProfile(profileId);
+    const fetchProfile = async () => {
+      setLoadingProfile(true);
+      setErrorProfile(null);
+      try {
+        const res = await api.get(`/profile/${profileId}`);
+        if (res.data.success) {
+          setProfile(res.data.data);
+        } else {
+          setErrorProfile('The scanned profile was not found on our server.');
+        }
+      } catch (err) {
+        console.error('Failed to load profile card from backend:', err);
+        setErrorProfile('Failed to load business profile card. Please check the URL.');
+      } finally {
+        setLoadingProfile(false);
+      }
+    };
     
-    // 2. Fallback to default presets
-    if (!found) {
-      found = DEFAULT_PROFILES.find(p => p.id === profileId);
+    if (profileId) {
+      fetchProfile();
     }
-    
-    // 3. Simple default fallback
-    if (!found && profileId === 'default') {
-      found = DEFAULT_PROFILES[0];
-    }
-    
-    // Simulate network delay to represent "fetching all business information after page opens"
-    setProfile(null);
-    const timer = setTimeout(() => {
-      setProfile(found);
-    }, 350);
-    
-    return () => clearTimeout(timer);
-  }, [profileId, getProfile]);
+  }, [profileId]);
 
   // Generate QR Code dynamically when share sheet opens
   useEffect(() => {
     if (showShareSheet && qrCanvasRef.current && profile) {
-      // Dynamic url targeting the public vercel domain instead of local test variables
       const getPublicProfileUrl = (profileId) => {
         const origin = window.location.origin;
         const isLocal = origin.includes('localhost') || origin.includes('127.0.0.1') || origin.includes('192.168.');
@@ -66,7 +69,7 @@ export default function ProfileView() {
         return `${base}/profile/${profileId}`;
       };
 
-      const targetUrl = getPublicProfileUrl(profile.id);
+      const targetUrl = getPublicProfileUrl(profile.slug || profile.id);
 
       QRCode.toCanvas(qrCanvasRef.current, targetUrl, {
         width: 240,
@@ -82,8 +85,25 @@ export default function ProfileView() {
     }
   }, [showShareSheet, profile]);
 
-  if (!profile) {
+  if (loadingProfile) {
     return <ProfileSkeleton />;
+  }
+
+  if (errorProfile) {
+    return (
+      <div className="min-h-screen bg-[#eaebf0] flex items-center justify-center p-6 text-center font-sans">
+        <div className="w-full max-w-sm glass-card p-8 rounded-[32px] shadow-xl space-y-4">
+          <h2 className="text-lg font-bold text-neutral-800">Profile Not Found</h2>
+          <p className="text-xs text-neutral-500">{errorProfile}</p>
+          <button 
+            onClick={() => navigate('/')} 
+            className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] duration-150 text-white rounded-2xl text-xs font-bold uppercase tracking-wider cursor-pointer"
+          >
+            Go Back Home
+          </button>
+        </div>
+      </div>
+    );
   }
 
   const {

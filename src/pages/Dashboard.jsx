@@ -3,6 +3,7 @@ import { useProfiles } from '../context/ProfileContext';
 import DeviceMockup from '../components/DeviceMockup';
 import QrGenerator from '../components/QrGenerator';
 import AnalyticsChart from '../components/AnalyticsChart';
+import api from '../utils/api';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Building2, Phone, MapPin, Share2, Eye, RefreshCw, 
@@ -13,13 +14,22 @@ import { FaCog, FaQrcode, FaChartBar, FaSlidersH } from 'react-icons/fa';
 
 export default function Dashboard() {
   const { 
-    currentProfile, updateProfile, resetToDefaults 
+    currentProfile, updateProfile, resetToDefaults,
+    isAuthenticated, loading, login, register, logout
   } = useProfiles();
 
   const [activeView, setActiveView] = useState('editor');
   const [copiedLink, setCopiedLink] = useState(false);
   const [showMobilePreview, setShowMobilePreview] = useState(true);
   const [saveState, setSaveState] = useState('idle'); // idle, saving, success
+
+  // Auth Overlay state
+  const [authMode, setAuthMode] = useState('login'); // login, register
+  const [authName, setAuthName] = useState('');
+  const [authEmail, setAuthEmail] = useState('');
+  const [authPassword, setAuthPassword] = useState('');
+  const [localAuthError, setLocalAuthError] = useState('');
+  const [authLoading, setAuthLoading] = useState(false);
 
   const defaultTheme = {
     primaryColor: '#10B981',
@@ -38,7 +48,7 @@ export default function Dashboard() {
   };
 
   // Track the active profile ID to detect actual profile switches
-  const activeProfileIdRef = useRef(currentProfile?.id);
+  const activeProfileIdRef = useRef(currentProfile?._id || currentProfile?.id);
 
   const [draftTheme, setDraftTheme] = useState(() => ({
     ...defaultTheme,
@@ -49,17 +59,18 @@ export default function Dashboard() {
     ...currentProfile
   }));
 
-  // FIX 2: Only reset drafts when the active profile ID changes — not on every save/field update
+  // Sync draft states when the selected profile changes
   useEffect(() => {
-    if (currentProfile?.id !== activeProfileIdRef.current) {
-      activeProfileIdRef.current = currentProfile?.id;
+    const currentId = currentProfile?._id || currentProfile?.id;
+    if (currentId !== activeProfileIdRef.current) {
+      activeProfileIdRef.current = currentId;
       setDraftTheme({
         ...defaultTheme,
         ...(currentProfile?.theme || {})
       });
       setDraftProfile({ ...currentProfile });
     }
-  }, [currentProfile?.id]);
+  }, [currentProfile]);
 
   // Live preview always reflects the latest draft (not the saved context state)
   const previewProfile = {
@@ -71,11 +82,13 @@ export default function Dashboard() {
     }
   };
 
-  // FIX 3: Single unified save handler used by both Profile Editor and Design Settings
-  const handleSaveClick = useCallback(() => {
+  // Unified save handler committing updates to MongoDB
+  const handleSaveClick = useCallback(async () => {
+    if (!currentProfile) return;
     setSaveState('saving');
-    setTimeout(() => {
-      updateProfile(currentProfile.id, {
+    try {
+      const targetId = currentProfile._id || currentProfile.id;
+      await updateProfile(targetId, {
         ...draftProfile,
         theme: {
           ...defaultTheme,
@@ -85,8 +98,12 @@ export default function Dashboard() {
       });
       setSaveState('success');
       setTimeout(() => setSaveState('idle'), 2000);
-    }, 600);
-  }, [currentProfile?.id, draftProfile, draftTheme, updateProfile]);
+    } catch (err) {
+      console.error(err);
+      alert(err.message || 'Failed to save changes.');
+      setSaveState('idle');
+    }
+  }, [currentProfile, draftProfile, draftTheme, updateProfile]);
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(profileUrl);
@@ -98,7 +115,7 @@ export default function Dashboard() {
     setDraftProfile(prev => ({ ...prev, [field]: val }));
   };
 
-  // FIX 10: Safe nested field update with null-coalescing for socials/hours
+  // Safe nested field update with null-coalescing for socials/hours
   const updateDraftNestedField = (parent, field, val) => {
     setDraftProfile(prev => ({
       ...prev,
@@ -109,29 +126,169 @@ export default function Dashboard() {
     }));
   };
 
-  const handleDraftImageUpload = (e, field) => {
+  // Image Upload handler pushing multipart data to Cloudinary via Express API
+  const handleDraftImageUpload = async (e, field) => {
     const file = e.target.files[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => updateDraftField(field, reader.result);
-    reader.readAsDataURL(file);
+
+    const formData = new FormData();
+    formData.append('image', file);
+
+    try {
+      const endpoint = field === 'avatar' ? '/upload/logo' : '/upload/banner';
+      // Mark as uploading in UI input field
+      updateDraftField(field, 'Uploading to Cloudinary...');
+      
+      const res = await api.post(endpoint, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      if (res.data.success) {
+        updateDraftField(field, res.data.url);
+      }
+    } catch (err) {
+      console.error('Image upload failed:', err);
+      alert('Secure image upload failed. Please try again.');
+      updateDraftField(field, currentProfile?.[field] || '');
+    }
   };
 
   const daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
   
-  // Clean public profile URL — only the slug, no query params
-  const getPublicProfileUrl = (profileId) => {
+  // Clean public profile URL referencing the slug field
+  const getPublicProfileUrl = (profileSlug) => {
     const origin = window.location.origin;
     const isLocal = origin.includes('localhost') || origin.includes('127.0.0.1') || origin.includes('192.168.');
     const base = isLocal ? 'https://tap-qr.vercel.app' : origin;
-    return `${base}/profile/${profileId}`;
+    return `${base}/profile/${profileSlug}`;
   };
-  const profileUrl = getPublicProfileUrl(currentProfile.id);
+  const profileUrl = getPublicProfileUrl(currentProfile?.slug || currentProfile?.id || 'default');
+
+  // Submit handler for Sign In / Sign Up authentication
+  const handleAuthSubmit = async (e) => {
+    e.preventDefault();
+    setLocalAuthError('');
+    setAuthLoading(true);
+    try {
+      if (authMode === 'login') {
+        const res = await login(authEmail, authPassword);
+        if (!res.success) setLocalAuthError(res.error);
+      } else {
+        const res = await register(authName, authEmail, authPassword);
+        if (!res.success) setLocalAuthError(res.error);
+      }
+    } catch (err) {
+      setLocalAuthError('Authentication request failed.');
+    } finally {
+      setAuthLoading(false);
+    }
+  };
 
   // Shared floating label input style
   const floatInputClass = "peer w-full rounded-2xl px-4 py-3 text-xs text-neutral-800 placeholder-transparent focus:outline-none transition-all duration-250 shadow-sm";
   const floatInputStyle = { background: 'rgba(255,255,255,0.72)', border: '1px solid rgba(255,255,255,0.72)', color: '#111827' };
   const floatInputFocusStyle = {}; // handled by global glass-input focus
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#eaebf0] flex items-center justify-center font-sans">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+          <span className="text-xs font-bold text-neutral-500 tracking-wider">Syncing session...</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen text-neutral-800 flex items-center justify-center p-4 relative font-sans select-none animate-fade-in" style={{ background: '#eaebf0' }}>
+        <div className="ambient-glow" />
+        <div className="w-full max-w-md glass-card p-8 rounded-[28px] shadow-glass-lg relative z-10 space-y-6">
+          <div className="flex flex-col items-center text-center gap-2">
+            <div className="w-10 h-10 rounded-2xl flex items-center justify-center shadow-md" style={{ background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)' }}>
+              <FaQrcode className="w-5 h-5 text-white" />
+            </div>
+            <h2 className="font-outfit font-black text-xl tracking-tight text-neutral-900 mt-2">
+              Welcome to Tap<span className="text-emerald-500">QR</span>
+            </h2>
+            <p className="text-xs text-neutral-500">Create, customize, and manage your NFC & QR profile cards.</p>
+          </div>
+
+          <div className="flex border-b border-neutral-100 pb-1">
+            <button 
+              onClick={() => { setAuthMode('login'); setLocalAuthError(''); }}
+              className={`flex-1 pb-3 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${authMode === 'login' ? 'text-emerald-600 border-b-2 border-emerald-500' : 'text-neutral-400 hover:text-neutral-600'}`}
+            >
+              Sign In
+            </button>
+            <button 
+              onClick={() => { setAuthMode('register'); setLocalAuthError(''); }}
+              className={`flex-1 pb-3 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${authMode === 'register' ? 'text-emerald-600 border-b-2 border-emerald-500' : 'text-neutral-400 hover:text-neutral-600'}`}
+            >
+              Sign Up
+            </button>
+          </div>
+
+          <form onSubmit={handleAuthSubmit} className="space-y-4 text-left">
+            {localAuthError && (
+              <div className="p-3 bg-rose-50 border border-rose-100 text-rose-600 text-xs font-semibold rounded-2xl animate-scale-up">
+                {localAuthError}
+              </div>
+            )}
+
+            {authMode === 'register' && (
+              <div className="space-y-1">
+                <label className="block text-[9px] font-bold text-neutral-450 uppercase tracking-widest px-1">Full Name</label>
+                <input 
+                  type="text" 
+                  required
+                  value={authName}
+                  onChange={(e) => setAuthName(e.target.value)}
+                  placeholder="John Doe"
+                  className="w-full bg-white/70 border border-white/70 rounded-2xl px-4 py-3 text-xs text-neutral-800 focus:bg-white focus:outline-none transition-all shadow-sm"
+                />
+              </div>
+            )}
+
+            <div className="space-y-1">
+              <label className="block text-[9px] font-bold text-neutral-450 uppercase tracking-widest px-1">Email Address</label>
+              <input 
+                type="email" 
+                required
+                value={authEmail}
+                onChange={(e) => setAuthEmail(e.target.value)}
+                placeholder="john@example.com"
+                className="w-full bg-white/70 border border-white/70 rounded-2xl px-4 py-3 text-xs text-neutral-800 focus:bg-white focus:outline-none transition-all shadow-sm"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="block text-[9px] font-bold text-neutral-450 uppercase tracking-widest px-1">Password</label>
+              <input 
+                type="password" 
+                required
+                value={authPassword}
+                onChange={(e) => setAuthPassword(e.target.value)}
+                placeholder="••••••••"
+                className="w-full bg-white/70 border border-white/70 rounded-2xl px-4 py-3 text-xs text-neutral-800 focus:bg-white focus:outline-none transition-all shadow-sm"
+              />
+            </div>
+
+            <button 
+              type="submit" 
+              disabled={authLoading}
+              className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] text-white rounded-2xl text-xs font-bold uppercase tracking-wider duration-150 shadow-md shadow-emerald-500/10 cursor-pointer text-center mt-2 disabled:opacity-50"
+            >
+              {authLoading ? 'Verifying...' : authMode === 'login' ? 'Sign In' : 'Sign Up'}
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen text-neutral-800 flex flex-col lg:flex-row font-sans relative z-10">
@@ -226,6 +383,15 @@ export default function Dashboard() {
             style={{ color: '#9CA3AF' }}
           >
             Reset Console
+          </button>
+
+          <button
+            onClick={() => {
+              if (confirm('Are you sure you want to sign out?')) logout();
+            }}
+            className="w-full py-2 bg-transparent text-[9px] uppercase font-bold tracking-widest active:scale-95 duration-100 cursor-pointer text-center text-rose-500/80 hover:text-rose-600 transition-colors"
+          >
+            Sign Out
           </button>
         </div>
       </aside>
