@@ -501,20 +501,17 @@ export default function Dashboard() {
                         >
                           Business Category
                         </label>
-                      </div>
-
-                      {/* Logo URL Input with Upload Toggle Button */}
+                                    {/* Logo URL Input with Upload Toggle Button */}
                       <div className="sm:col-span-2">
                         <label htmlFor="biz-logo" className="block text-[9px] font-bold uppercase tracking-widest mb-2 px-1" style={{ color: '#9CA3AF' }}>Logo Image (URL / Upload File)</label>
-                        <div className="flex gap-2.5">
+                        <div className="flex flex-col sm:flex-row gap-2">
                           <input
                             id="biz-logo"
                             type="text"
                             value={draftProfile.avatar}
                             onChange={(e) => updateDraftField('avatar', e.target.value)}
                             placeholder="Paste external image link..."
-                            className="flex-1 bg-white/70 border border-white/70 rounded-2xl px-4 py-3 text-xs text-neutral-800 focus:bg-white focus:outline-none transition-all shadow-sm"
-                            style={{ borderColor: 'rgba(255,255,255,0.70)' }}
+                            className="flex-1 bg-[var(--bg-input)] border border-[var(--border-color)] rounded-2xl px-4 py-3 text-xs text-neutral-800 focus:bg-white focus:outline-none transition-all shadow-sm"
                           />
                           <label className="px-4 py-3 btn-glass-secondary active:scale-95 rounded-2xl text-xs font-semibold flex items-center justify-center gap-1.5 duration-100 cursor-pointer shrink-0 select-none tap-haptic">
                             <input
@@ -531,15 +528,14 @@ export default function Dashboard() {
                       {/* Cover URL Input with Upload Toggle Button */}
                       <div className="sm:col-span-2">
                         <label htmlFor="biz-cover" className="block text-[9px] font-bold uppercase tracking-widest mb-2 px-1" style={{ color: '#9CA3AF' }}>Cover Photo (URL / Upload File)</label>
-                        <div className="flex gap-2.5">
+                        <div className="flex flex-col sm:flex-row gap-2">
                           <input
                             id="biz-cover"
                             type="text"
                             value={draftProfile.coverPhoto}
                             onChange={(e) => updateDraftField('coverPhoto', e.target.value)}
                             placeholder="Paste external image link..."
-                            className="flex-1 bg-white/70 border border-white/70 rounded-2xl px-4 py-3 text-xs text-neutral-800 focus:bg-white focus:outline-none transition-all shadow-sm"
-                            style={{ borderColor: 'rgba(255,255,255,0.70)' }}
+                            className="flex-1 bg-[var(--bg-input)] border border-[var(--border-color)] rounded-2xl px-4 py-3 text-xs text-neutral-800 focus:bg-white focus:outline-none transition-all shadow-sm"
                           />
                           <label className="px-4 py-3 btn-glass-secondary active:scale-95 rounded-2xl text-xs font-semibold flex items-center justify-center gap-1.5 duration-100 cursor-pointer shrink-0 select-none tap-haptic">
                             <input
@@ -553,6 +549,7 @@ export default function Dashboard() {
                         </div>
                       </div>
                     </div>
+                  </div>
 
                     {/* Bio Textarea with Floating Label */}
                     <div className="relative group mt-2">
