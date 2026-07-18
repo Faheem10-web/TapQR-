@@ -419,6 +419,7 @@ export default function Dashboard() {
             <button
               onClick={handleCopyLink}
               className="p-2 btn-glass-secondary rounded-xl cursor-pointer tap-haptic"
+              aria-label="Copy business profile link"
             >
               {copiedLink ? <Check className="w-4 h-4" style={{ color: 'var(--success)' }} /> : <Copy className="w-4 h-4" />}
             </button>
@@ -428,6 +429,7 @@ export default function Dashboard() {
               target="_blank"
               rel="noreferrer"
               className="p-2 btn-glass-primary rounded-xl cursor-pointer tap-haptic"
+              aria-label="View live profile page"
             >
               <Eye className="w-4 h-4" />
             </a>
@@ -439,7 +441,7 @@ export default function Dashboard() {
           
 
           {/* LEFT SCROLLABLE EDITOR PANEL */}
-          <div className="flex-1 p-6 md:p-8 space-y-8 pb-28 relative">
+          <div className="flex-1 p-4 sm:p-6 md:p-8 space-y-6 md:space-y-8 pb-28 relative">
             <AnimatePresence mode="wait">
 
               {/* VIEW: Form Editor */}
@@ -454,7 +456,7 @@ export default function Dashboard() {
                 >
                   
                   {/* GROUP 1: Core Branding */}
-                  <div className="glass-card p-6 md:p-8 rounded-[28px] space-y-6 hover-lift">
+                  <div className="glass-card p-6 md:p-8 rounded-[24px] space-y-6 hover-lift">
                     <div className="flex items-center gap-2.5 border-b pb-4" style={{ borderColor: 'rgba(255,255,255,0.50)' }}>
                       <div className="w-7 h-7 rounded-xl flex items-center justify-center" style={{ background: 'rgba(16,185,129,0.12)', color: '#059669' }}>
                         <Shield className="w-3.5 h-3.5" />
@@ -573,7 +575,7 @@ export default function Dashboard() {
                   </div>
 
                   {/* GROUP 2: Contact Channels & Location */}
-                  <div className="glass-card p-6 md:p-8 rounded-[28px] space-y-6 hover-lift">
+                  <div className="glass-card p-6 md:p-8 rounded-[24px] space-y-6 hover-lift">
                     <div className="flex items-center gap-2.5 border-b pb-4" style={{ borderColor: 'rgba(255,255,255,0.50)' }}>
                       <div className="w-7 h-7 rounded-xl flex items-center justify-center" style={{ background: 'rgba(125,211,252,0.15)', color: '#0284c7' }}>
                         <Phone className="w-3.5 h-3.5" />
@@ -653,7 +655,7 @@ export default function Dashboard() {
                   </div>
 
                   {/* GROUP 3: Social Connections handles */}
-                  <div className="glass-card p-6 md:p-8 rounded-[28px] space-y-6 hover-lift">
+                  <div className="glass-card p-6 md:p-8 rounded-[24px] space-y-6 hover-lift">
                     <div className="flex items-center gap-2.5 border-b pb-4" style={{ borderColor: 'rgba(255,255,255,0.50)' }}>
                       <div className="w-7 h-7 rounded-xl flex items-center justify-center" style={{ background: 'rgba(244,213,141,0.25)', color: '#b45309' }}>
                         <Globe className="w-3.5 h-3.5" />
@@ -715,7 +717,7 @@ export default function Dashboard() {
                   </div>
 
                   {/* GROUP 4: Business Operating Hours */}
-                  <div className="glass-card p-6 md:p-8 rounded-[28px] space-y-6 hover-lift">
+                  <div className="glass-card p-6 md:p-8 rounded-[24px] space-y-6 hover-lift">
                     <div className="flex items-center gap-2.5 border-b pb-4" style={{ borderColor: 'rgba(255,255,255,0.50)' }}>
                       <div className="w-7 h-7 rounded-xl flex items-center justify-center" style={{ background: 'rgba(16,185,129,0.12)', color: '#059669' }}>
                         <Clock className="w-3.5 h-3.5" />
@@ -814,7 +816,7 @@ export default function Dashboard() {
                   transition={{ duration: 0.22, ease: 'easeOut' }}
                   className="space-y-8 text-left max-w-3xl"
                 >
-                  <div className="glass-card p-6 md:p-8 rounded-[28px] space-y-6 hover-lift">
+                  <div className="glass-card p-6 md:p-8 rounded-[24px] space-y-6 hover-lift">
                     <div className="flex items-center gap-2.5 border-b pb-4" style={{ borderColor: 'rgba(255,255,255,0.50)' }}>
                       <div className="w-7 h-7 rounded-xl flex items-center justify-center" style={{ background: 'rgba(16,185,129,0.12)', color: '#059669' }}>
                         <FaSlidersH className="w-3.5 h-3.5" />
@@ -828,7 +830,7 @@ export default function Dashboard() {
                         <h4 className="text-[10px] uppercase font-extrabold tracking-wider" style={{ color: '#9CA3AF' }}>Branding Colors</h4>
                         
                         <div className="space-y-3">
-                          <div className="flex items-center justify-between p-3 rounded-2xl bg-white/40 border border-white/60">
+                          <div className="flex items-center justify-between p-3 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-color)]">
                             <span className="text-xs font-semibold text-neutral-700">Theme Color</span>
                             <input 
                               type="color" 
@@ -838,7 +840,7 @@ export default function Dashboard() {
                             />
                           </div>
 
-                          <div className="flex items-center justify-between p-3 rounded-2xl bg-white/40 border border-white/60">
+                          <div className="flex items-center justify-between p-3 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-color)]">
                             <span className="text-xs font-semibold text-neutral-700">Button Background</span>
                             <input 
                               type="color" 
@@ -848,7 +850,7 @@ export default function Dashboard() {
                             />
                           </div>
 
-                          <div className="flex items-center justify-between p-3 rounded-2xl bg-white/40 border border-white/60">
+                          <div className="flex items-center justify-between p-3 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-color)]">
                             <span className="text-xs font-semibold text-neutral-700">Button Text Color</span>
                             <input 
                               type="color" 
@@ -858,7 +860,7 @@ export default function Dashboard() {
                             />
                           </div>
 
-                          <div className="flex items-center justify-between p-3 rounded-2xl bg-white/40 border border-white/60">
+                          <div className="flex items-center justify-between p-3 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-color)]">
                             <span className="text-xs font-semibold text-neutral-700">Text Color</span>
                             <input 
                               type="color" 
@@ -874,7 +876,7 @@ export default function Dashboard() {
                         <h4 className="text-[10px] uppercase font-extrabold tracking-wider" style={{ color: '#9CA3AF' }}>Container Colors</h4>
                         
                         <div className="space-y-3">
-                          <div className="flex items-center justify-between p-3 rounded-2xl bg-white/40 border border-white/60">
+                          <div className="flex items-center justify-between p-3 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-color)]">
                             <span className="text-xs font-semibold text-neutral-700">Background Color</span>
                             <input 
                               type="color" 
@@ -884,7 +886,7 @@ export default function Dashboard() {
                             />
                           </div>
 
-                          <div className="flex items-center justify-between p-3 rounded-2xl bg-white/40 border border-white/60">
+                          <div className="flex items-center justify-between p-3 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-color)]">
                             <span className="text-xs font-semibold text-neutral-700">Card Background</span>
                             <input 
                               type="color" 
@@ -894,7 +896,7 @@ export default function Dashboard() {
                             />
                           </div>
 
-                          <div className="flex items-center justify-between p-3 rounded-2xl bg-white/40 border border-white/60">
+                          <div className="flex items-center justify-between p-3 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-color)]">
                             <span className="text-xs font-semibold text-neutral-700">Icon Background</span>
                             <input 
                               type="color" 
@@ -904,7 +906,7 @@ export default function Dashboard() {
                             />
                           </div>
 
-                          <div className="flex items-center justify-between p-3 rounded-2xl bg-white/40 border border-white/60">
+                          <div className="flex items-center justify-between p-3 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-color)]">
                             <span className="text-xs font-semibold text-neutral-700">Icon Color</span>
                             <input 
                               type="color" 
@@ -960,7 +962,7 @@ export default function Dashboard() {
                         <h4 className="text-[10px] uppercase font-extrabold tracking-wider" style={{ color: '#9CA3AF' }}>Effects & Overlays</h4>
                         
                         <div className="space-y-3">
-                          <div className="flex items-center justify-between p-3 rounded-2xl bg-white/40 border border-white/60">
+                          <div className="flex items-center justify-between p-3 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-color)]">
                             <span className="text-xs font-semibold text-neutral-700">Glassmorphism Effect</span>
                             <label className="relative inline-flex items-center cursor-pointer">
                               <input 
@@ -973,7 +975,7 @@ export default function Dashboard() {
                             </label>
                           </div>
 
-                          <div className="flex items-center justify-between p-3 rounded-2xl bg-white/40 border border-white/60">
+                          <div className="flex items-center justify-between p-3 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-color)]">
                             <span className="text-xs font-semibold text-neutral-700">Background Gradient</span>
                             <label className="relative inline-flex items-center cursor-pointer">
                               <input 
@@ -1037,7 +1039,7 @@ export default function Dashboard() {
                   transition={{ duration: 0.22, ease: 'easeOut' }}
                   className="space-y-4 max-w-3xl text-left"
                 >
-                  <div className="glass-card p-6 md:p-8 rounded-[28px] shadow-glass-md hover-lift">
+                  <div className="glass-card p-6 md:p-8 rounded-[24px] shadow-glass-md hover-lift">
                     <div className="flex items-center gap-2.5 border-b pb-4 mb-6" style={{ borderColor: 'rgba(255,255,255,0.50)' }}>
                       <div className="w-7 h-7 rounded-xl flex items-center justify-center" style={{ background: 'rgba(16,185,129,0.12)', color: '#059669' }}>
                         <QrCode className="w-3.5 h-3.5" />
@@ -1064,6 +1066,15 @@ export default function Dashboard() {
               )}
 
             </AnimatePresence>
+
+            {/* MOBILE/TABLET PREVIEW (Visible below lg) */}
+            <div className="lg:hidden mt-8 flex flex-col items-center justify-center w-full z-20 pb-20 border-t pt-8" style={{ borderColor: 'var(--border-color)' }}>
+              <h3 className="text-xs font-bold text-neutral-450 uppercase tracking-widest mb-6">Device Preview</h3>
+              <div className="scale-[0.85] sm:scale-[0.95] origin-top transition-all duration-300">
+                <DeviceMockup profile={previewProfile} />
+              </div>
+            </div>
+
           </div>
 
           {/* RIGHT DESKTOP STICKY PREVIEW COLUMN */}

@@ -156,7 +156,7 @@ export default function DeviceMockup({ profile }) {
   };
 
   return (
-    <div className="relative mx-auto w-[375px] h-[750px] rounded-[56px] border-[8px] border-white bg-white shadow-xl overflow-hidden shrink-0 select-none">
+    <div className="relative mx-auto w-[375px] h-[750px] rounded-[32px] border-[8px] border-white bg-white shadow-xl overflow-hidden shrink-0 select-none">
       
       {/* Top Dynamic Island cut-out */}
       <div className="absolute top-2 left-1/2 -translate-x-1/2 w-28 h-6 bg-black rounded-2xl z-50 flex items-center justify-between px-3">

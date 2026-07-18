@@ -91,13 +91,13 @@ export default function ProfileView() {
 
   if (errorProfile) {
     return (
-      <div className="min-h-screen bg-[#eaebf0] flex items-center justify-center p-6 text-center font-sans">
-        <div className="w-full max-w-sm glass-card p-8 rounded-[32px] shadow-xl space-y-4">
+      <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center p-6 text-center font-sans">
+        <div className="w-full max-w-sm glass-card p-8 rounded-[24px] shadow-xl space-y-4">
           <h2 className="text-lg font-bold text-neutral-800">Profile Not Found</h2>
           <p className="text-xs text-neutral-500">{errorProfile}</p>
           <button 
             onClick={() => navigate('/')} 
-            className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] duration-150 text-white rounded-2xl text-xs font-bold uppercase tracking-wider cursor-pointer"
+            className="w-full py-3 bg-[var(--accent-primary)] hover:bg-[var(--accent-hover)] active:scale-[0.98] duration-150 text-white rounded-2xl text-xs font-bold uppercase tracking-wider cursor-pointer"
           >
             Go Back Home
           </button>
@@ -293,7 +293,7 @@ export default function ProfileView() {
             <button
               onClick={() => navigate('/dashboard')}
               aria-label="Back to Dashboard"
-              className="md:hidden absolute top-4 left-4 p-2 rounded-full bg-white/72 backdrop-blur-md text-neutral-800 border border-white active:scale-90 duration-150 cursor-pointer shadow-sm"
+              className="md:hidden absolute top-4 left-4 w-11 h-11 flex items-center justify-center rounded-full bg-white/72 backdrop-blur-md text-neutral-800 border border-white active:scale-90 duration-150 cursor-pointer shadow-sm"
             >
               <ArrowLeft className="w-4 h-4" />
             </button>
@@ -302,7 +302,7 @@ export default function ProfileView() {
             <button
               onClick={() => setShowShareSheet(true)}
               aria-label="Share this Business Profile"
-              className="absolute top-4 right-4 p-2 rounded-full bg-white/72 backdrop-blur-md text-neutral-800 border border-white active:scale-90 duration-150 cursor-pointer shadow-sm"
+              className="absolute top-4 right-4 w-11 h-11 flex items-center justify-center rounded-full bg-white/72 backdrop-blur-md text-neutral-800 border border-white active:scale-90 duration-150 cursor-pointer shadow-sm"
             >
               <Share2 className="w-4 h-4" />
             </button>

@@ -300,7 +300,7 @@ export default function TemplatesGallery({ profile, onApplyTheme }) {
               <div 
                 key={tpl.id}
                 onClick={() => setSelectedTpl(tpl)}
-                className="glass-card rounded-[28px] p-3.5 flex flex-col justify-between gap-3.5 transition-all duration-300 hover-lift group cursor-pointer"
+                className="glass-card rounded-[24px] p-3.5 flex flex-col justify-between gap-3.5 transition-all duration-300 hover-lift group cursor-pointer"
               >
                 {/* Visual Mockup Card Container */}
                 <div className="relative w-full aspect-[4/5] rounded-[20px] overflow-hidden bg-white border border-white/80 shadow-[inset_0_2px_12px_rgba(0,0,0,0.015)] flex flex-col items-center select-none">
@@ -466,11 +466,12 @@ export default function TemplatesGallery({ profile, onApplyTheme }) {
       {/* Canva Export Modal Drawer */}
       {selectedTpl && (
         <div className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
-          <div className="glass-premium border border-white/65 shadow-2xl rounded-[32px] w-full max-w-lg p-6 relative overflow-hidden animate-scale-up text-left" style={{ boxShadow: '0 30px 80px rgba(15,23,42,0.12)' }}>
+          <div className="bg-[var(--bg-card)] border border-[var(--border-color)] shadow-2xl rounded-[24px] w-full max-w-lg p-6 relative overflow-hidden animate-scale-up text-left" style={{ boxShadow: 'var(--shadow-hover)' }}>
             
             <button 
               onClick={() => setSelectedTpl(null)}
-              className="absolute top-4 right-4 p-1.5 rounded-full btn-glass-secondary cursor-pointer"
+              className="absolute top-4 right-4 w-11 h-11 flex items-center justify-center rounded-full btn-glass-secondary cursor-pointer"
+              aria-label="Close export template modal"
             >
               <X className="w-4 h-4" />
             </button>

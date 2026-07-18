@@ -56,7 +56,7 @@ export default function Landing() {
       </div>
 
       {/* Hero Section */}
-      <main className="relative flex-1 flex flex-col items-center justify-center max-w-5xl mx-auto px-6 pt-10 pb-20 z-10 text-center space-y-14">
+      <main className="relative flex-1 flex flex-col items-center justify-center max-w-5xl mx-auto px-4 sm:px-6 pt-10 pb-20 z-10 text-center space-y-14">
         
         {/* Main Pitch */}
         <div className="space-y-7 max-w-3xl animate-slide-up">
