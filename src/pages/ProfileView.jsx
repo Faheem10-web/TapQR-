@@ -128,13 +128,13 @@ export default function ProfileView() {
   const hours = rawHours || {};
 
   const {
-    primaryColor = '#10B981',
+    primaryColor = '#0F6D73',
     fontFamily = 'Outfit',
-    backgroundColor = '#f4f5f8',
+    backgroundColor = '#F5F7FA',
     cardBackgroundColor = '#ffffff',
-    buttonBackgroundColor = '#10B981',
+    buttonBackgroundColor = '#0F6D73',
     buttonTextColor = '#ffffff',
-    iconBackgroundColor = '#10B981',
+    iconBackgroundColor = '#0F6D73',
     iconColor = '#ffffff',
     textColor = '#111827',
     borderRadius = 24,
@@ -528,7 +528,7 @@ export default function ProfileView() {
               >
                 {copiedLink ? (
                   <>
-                    <Check className="w-4 h-4" style={{ color: '#10B981' }} /> Copied Link
+                    <Check className="w-4 h-4" style={{ color: '#12C97A' }} /> Copied Link
                   </>
                 ) : (
                   <>

@@ -49,13 +49,13 @@ export default function DeviceMockup({ profile }) {
   const hours = rawHours || {};
 
   const {
-    primaryColor = '#10B981',
+    primaryColor = '#0F6D73',
     fontFamily = 'Outfit',
-    backgroundColor = '#f4f5f8',
+    backgroundColor = '#F5F7FA',
     cardBackgroundColor = '#ffffff',
-    buttonBackgroundColor = '#10B981',
+    buttonBackgroundColor = '#0F6D73',
     buttonTextColor = '#ffffff',
-    iconBackgroundColor = '#10B981',
+    iconBackgroundColor = '#0F6D73',
     iconColor = '#ffffff',
     textColor = '#111827',
     borderRadius = 20,

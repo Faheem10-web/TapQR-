@@ -5,7 +5,7 @@ import { ArrowRight, QrCode, Sparkles, Smartphone, ShieldCheck, BarChart3, Star,
 export default function Landing() {
   const navigate = useNavigate();
   const [demoName, setDemoName] = useState('Alex Rivera');
-  const [demoColor, setDemoColor] = useState('#10B981');
+  const [demoColor, setDemoColor] = useState('#0F6D73');
 
   const features = [
     {
@@ -37,11 +37,11 @@ export default function Landing() {
       <div className="relative w-full z-20 px-4 pt-5">
         <header className="max-w-5xl mx-auto glass-navbar rounded-full px-5 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => navigate('/')}>
-            <div className="w-8 h-8 rounded-xl flex items-center justify-center shadow-sm" style={{ background: 'linear-gradient(135deg, #F4C84C 0%, #E8BB35 100%)' }}>
+            <div className="w-8 h-8 rounded-xl flex items-center justify-center shadow-sm" style={{ background: 'var(--accent-primary)' }}>
               <QrCode className="w-4.5 h-4.5 text-white" />
             </div>
             <span className="font-outfit font-extrabold text-lg tracking-tight text-neutral-900">
-              Tap<span style={{ color: '#F4C84C' }}>QR</span>
+              Tap<span style={{ color: 'var(--accent-primary)' }}>QR</span>
             </span>
           </div>
 
@@ -67,7 +67,7 @@ export default function Landing() {
           <h1 className="text-4xl md:text-6xl font-black font-outfit leading-tight md:leading-[1.08] tracking-tight text-neutral-900">
             One Scan.{' '}
             <br className="sm:hidden" />
-            <span style={{ background: 'linear-gradient(135deg, #F4C84C 0%, #E8BB35 50%, #B89225 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+            <span style={{ color: 'var(--accent-primary)' }}>
               Instantly Connected.
             </span>
           </h1>
@@ -94,10 +94,10 @@ export default function Landing() {
         </div>
 
         {/* Interactive Playable Sandbox Demo Card */}
-        <section id="demo" className="w-full max-w-3xl glass-card p-6 md:p-8 rounded-[28px] grid grid-cols-1 md:grid-cols-2 gap-8 items-center text-left relative overflow-hidden hover-lift">
+        <section id="demo" className="w-full max-w-3xl glass-card p-6 md:p-8 rounded-[24px] grid grid-cols-1 md:grid-cols-2 gap-8 items-center text-left relative overflow-hidden hover-lift">
           <div className="space-y-4 relative z-10">
             <div className="space-y-1">
-              <span className="text-[10px] uppercase font-bold tracking-wider" style={{ color: '#F4C84C' }}>Playground Sandbox</span>
+              <span className="text-[10px] uppercase font-bold tracking-wider" style={{ color: 'var(--accent-primary)' }}>Playground Sandbox</span>
               <h2 className="text-xl md:text-2xl font-black font-outfit text-neutral-800">Live Customizer Demo</h2>
             </div>
             
@@ -121,7 +121,7 @@ export default function Landing() {
               <div>
                 <label className="block text-[10px] font-bold uppercase tracking-wider mb-1.5" style={{ color: '#9CA3AF' }}>Brand Theme Color</label>
                 <div className="flex gap-2.5">
-                  {['#F4C84C', '#F4D58D', '#7DD3FC', '#6EE7B7', '#111827'].map((c) => (
+                  {['#0F6D73', '#12C97A', '#7DD3FC', '#6EE7B7', '#111827'].map((c) => (
                     <button
                       key={c}
                       onClick={() => setDemoColor(c)}
@@ -215,7 +215,7 @@ export default function Landing() {
               <div key={idx} className="glass-card p-5 rounded-[24px] hover-lift relative group overflow-hidden cursor-default">
                 <div 
                   className="w-10 h-10 rounded-2xl flex items-center justify-center mb-4 transition-all duration-300 group-hover:scale-110"
-                  style={{ background: 'var(--accent-soft)', border: '1px solid rgba(244, 200, 76, 0.3)', color: '#926C15' }}
+                  style={{ background: 'var(--accent-soft)', border: '1px solid rgba(15, 109, 115, 0.2)', color: 'var(--accent-primary)' }}
                 >
                   <feat.icon className="w-5 h-5" />
                 </div>

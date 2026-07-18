@@ -6,10 +6,10 @@ export default function NotFound() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center font-sans relative overflow-hidden" style={{ background: '#FCFCFA' }}>
+    <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center font-sans relative overflow-hidden" style={{ background: 'var(--bg-primary)' }}>
       {/* Glass card container */}
-      <div className="glass-card rounded-[28px] p-10 flex flex-col items-center gap-6 max-w-sm w-full hover-lift" style={{ boxShadow: 'var(--shadow-premium)' }}>
-        <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{ background: 'var(--accent-soft)', border: '1px solid rgba(244, 200, 76, 0.3)', color: '#926C15' }}>
+      <div className="glass-card rounded-[24px] p-10 flex flex-col items-center gap-6 max-w-sm w-full hover-lift" style={{ boxShadow: 'var(--shadow-premium)' }}>
+        <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{ background: 'var(--accent-soft)', border: '1px solid rgba(15, 109, 115, 0.2)', color: 'var(--accent-primary)' }}>
           <MapPinOff className="w-8 h-8" />
         </div>
         <div className="space-y-2">

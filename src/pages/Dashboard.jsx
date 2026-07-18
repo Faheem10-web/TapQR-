@@ -55,9 +55,12 @@ export default function Dashboard() {
     ...(currentProfile?.theme || {})
   }));
 
-  const [draftProfile, setDraftProfile] = useState(() => ({
-    ...currentProfile
-  }));
+  const [draftProfile, setDraftProfile] = useState(() => {
+    const profile = { ...currentProfile };
+    profile.socials = profile.socials || {};
+    profile.hours = profile.hours || {};
+    return profile;
+  });
 
   // Sync draft states when the selected profile changes
   useEffect(() => {
@@ -68,7 +71,12 @@ export default function Dashboard() {
         ...defaultTheme,
         ...(currentProfile?.theme || {})
       });
-      setDraftProfile({ ...currentProfile });
+      setDraftProfile(() => {
+        const profile = { ...currentProfile };
+        profile.socials = profile.socials || {};
+        profile.hours = profile.hours || {};
+        return profile;
+      });
     }
   }, [currentProfile]);
 
@@ -193,9 +201,9 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#F8F7F3] flex items-center justify-center font-sans">
+      <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center font-sans">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-10 h-10 border-4 border-[#F4C84C] border-t-transparent rounded-full animate-spin"></div>
+          <div className="w-10 h-10 border-4 border-[var(--accent-primary)] border-t-transparent rounded-full animate-spin"></div>
           <span className="text-xs font-bold text-neutral-500 tracking-wider">Syncing session...</span>
         </div>
       </div>
@@ -204,15 +212,14 @@ export default function Dashboard() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen text-neutral-800 flex items-center justify-center p-4 relative font-sans select-none animate-fade-in" style={{ background: '#F8F7F3' }}>
-        <div className="ambient-glow" />
-        <div className="w-full max-w-md glass-card p-8 rounded-[28px] shadow-glass-lg relative z-10 space-y-6">
+      <div className="min-h-screen text-neutral-800 flex items-center justify-center p-4 relative font-sans select-none animate-fade-in" style={{ background: 'var(--bg-primary)' }}>
+        <div className="w-full max-w-md glass-card p-8 rounded-[24px] shadow-glass-lg relative z-10 space-y-6">
           <div className="flex flex-col items-center text-center gap-2">
-            <div className="w-10 h-10 rounded-2xl flex items-center justify-center shadow-md" style={{ background: 'linear-gradient(135deg, #F4C84C 0%, #E8BB35 100%)' }}>
+            <div className="w-10 h-10 rounded-2xl flex items-center justify-center shadow-md" style={{ background: 'var(--accent-primary)' }}>
               <FaQrcode className="w-5 h-5 text-white" />
             </div>
             <h2 className="font-outfit font-black text-xl tracking-tight text-neutral-900 mt-2">
-              Welcome to Tap<span className="text-[#F4C84C]">QR</span>
+              Welcome to Tap<span className="text-[var(--accent-primary)]">QR</span>
             </h2>
             <p className="text-xs text-neutral-500">Create, customize, and manage your NFC & QR profile cards.</p>
           </div>
@@ -220,13 +227,13 @@ export default function Dashboard() {
           <div className="flex border-b border-neutral-100 pb-1">
             <button 
               onClick={() => { setAuthMode('login'); setLocalAuthError(''); }}
-              className={`flex-1 pb-3 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${authMode === 'login' ? 'text-[#926C15] border-b-2 border-[#F4C84C]' : 'text-neutral-400 hover:text-neutral-600'}`}
+              className={`flex-1 pb-3 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${authMode === 'login' ? 'text-[var(--accent-primary)] border-b-2 border-[var(--accent-primary)]' : 'text-neutral-400 hover:text-neutral-600'}`}
             >
               Sign In
             </button>
             <button 
               onClick={() => { setAuthMode('register'); setLocalAuthError(''); }}
-              className={`flex-1 pb-3 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${authMode === 'register' ? 'text-[#926C15] border-b-2 border-[#F4C84C]' : 'text-neutral-400 hover:text-neutral-600'}`}
+              className={`flex-1 pb-3 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${authMode === 'register' ? 'text-[var(--accent-primary)] border-b-2 border-[var(--accent-primary)]' : 'text-neutral-400 hover:text-neutral-600'}`}
             >
               Sign Up
             </button>
@@ -280,7 +287,7 @@ export default function Dashboard() {
             <button 
               type="submit" 
               disabled={authLoading}
-              className="w-full py-3 bg-[#F4C84C] hover:bg-[#E8BB35] active:scale-[0.98] text-white rounded-2xl text-xs font-bold uppercase tracking-wider duration-150 shadow-md shadow-amber-500/10 cursor-pointer text-center mt-2 disabled:opacity-50"
+              className="w-full py-3 bg-[var(--accent-primary)] hover:bg-[var(--accent-hover)] active:scale-[0.98] text-white rounded-2xl text-xs font-bold uppercase tracking-wider duration-150 shadow-md shadow-teal-500/10 cursor-pointer text-center mt-2 disabled:opacity-50"
             >
               {authLoading ? 'Verifying...' : authMode === 'login' ? 'Sign In' : 'Sign Up'}
             </button>
@@ -291,20 +298,18 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen text-neutral-800 flex flex-col lg:flex-row font-sans relative z-10">
-      {/* Ambient glow (legacy alias) */}
-      <div className="ambient-glow" />
+    <div className="min-h-screen text-neutral-800 flex flex-col lg:flex-row font-sans relative z-10 bg-[var(--bg-primary)]">
       
       {/* 1. DESKTOP SIDEBAR PANEL */}
-      <aside className="hidden lg:flex w-64 glass-sidebar flex-col justify-between p-6 shrink-0 rounded-[28px] z-30 sidebar my-6 ml-6">
+      <aside className="hidden lg:flex w-64 glass-sidebar flex-col justify-between p-6 shrink-0 rounded-[24px] z-30 sidebar my-6 ml-6">
         <div className="space-y-8 text-left">
           {/* BRAND */}
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl flex items-center justify-center shadow-sm" style={{ background: 'linear-gradient(135deg, #F4C84C 0%, #E8BB35 100%)' }}>
+            <div className="w-9 h-9 rounded-xl flex items-center justify-center shadow-sm" style={{ background: 'var(--accent-primary)' }}>
               <FaQrcode className="w-4.5 h-4.5 text-white" />
             </div>
             <span className="font-outfit font-extrabold text-lg tracking-tight text-neutral-900">
-              Tap<span style={{ color: '#F4C84C' }}>QR</span>
+              Tap<span style={{ color: 'var(--accent-primary)' }}>QR</span>
             </span>
           </div>
 
@@ -357,12 +362,12 @@ export default function Dashboard() {
         </div>
 
         {/* SIDEBAR FOOTER ACTIONS */}
-        <div className="space-y-3 text-left border-t pt-5" style={{ borderColor: 'rgba(255,255,255,0.50)' }}>
+        <div className="space-y-3 text-left border-t pt-5" style={{ borderColor: 'var(--border-color)' }}>
           <button
             onClick={handleCopyLink}
             className="w-full py-2.5 px-4 btn-glass-secondary rounded-2xl text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer tap-haptic"
           >
-            {copiedLink ? <Check className="w-3.5 h-3.5" style={{ color: '#F4C84C' }} /> : <Copy className="w-3.5 h-3.5" />}
+            {copiedLink ? <Check className="w-3.5 h-3.5" style={{ color: 'var(--success)' }} /> : <Copy className="w-3.5 h-3.5" />}
             {copiedLink ? 'Copied Link' : 'Copy Profile URL'}
           </button>
           
@@ -402,7 +407,7 @@ export default function Dashboard() {
         {/* MOBILE HEADER (Visible below lg) */}
         <header className="lg:hidden h-14 glass-navbar px-5 flex flex-row items-center justify-between z-30 sticky top-0">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl flex items-center justify-center shadow-sm" style={{ background: 'linear-gradient(135deg, #F4C84C 0%, #E8BB35 100%)' }}>
+            <div className="w-8 h-8 rounded-xl flex items-center justify-center shadow-sm" style={{ background: 'var(--accent-primary)' }}>
               <FaQrcode className="w-4 h-4 text-white" />
             </div>
             <span className="font-outfit font-extrabold text-sm tracking-tight text-neutral-900">
@@ -415,7 +420,7 @@ export default function Dashboard() {
               onClick={handleCopyLink}
               className="p-2 btn-glass-secondary rounded-xl cursor-pointer tap-haptic"
             >
-              {copiedLink ? <Check className="w-4 h-4" style={{ color: '#F4C84C' }} /> : <Copy className="w-4 h-4" />}
+              {copiedLink ? <Check className="w-4 h-4" style={{ color: 'var(--success)' }} /> : <Copy className="w-4 h-4" />}
             </button>
             
             <a
@@ -659,7 +664,7 @@ export default function Dashboard() {
                     {/* Only show filled platforms */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {['instagram', 'facebook', 'twitter', 'youtube', 'linkedin', 'tiktok', 'whatsapp', 'telegram', 'snapchat', 'pinterest', 'discord'].map(plat => {
-                        const val = draftProfile.socials[plat] || '';
+                        const val = (draftProfile?.socials || {})[plat] || '';
                         if (!val) return null;
                         return (
                           <div key={plat} className="flex rounded-2xl overflow-hidden border" style={{ background: 'rgba(255,255,255,0.60)', borderColor: 'rgba(255,255,255,0.65)' }}>
@@ -687,7 +692,7 @@ export default function Dashboard() {
                       </summary>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
                         {['instagram', 'facebook', 'twitter', 'youtube', 'linkedin', 'tiktok', 'whatsapp', 'telegram', 'snapchat', 'pinterest', 'discord'].map(plat => {
-                          const val = draftProfile.socials[plat] || '';
+                          const val = (draftProfile?.socials || {})[plat] || '';
                           if (val) return null;
                           return (
                             <div key={plat} className="flex rounded-2xl overflow-hidden border border-dashed opacity-70 focus-within:opacity-100 transition-all" style={{ borderColor: 'rgba(16,185,129,0.30)' }}>
@@ -720,7 +725,7 @@ export default function Dashboard() {
 
                     <div className="space-y-2">
                       {daysOfWeek.map(day => {
-                        const dayHours = draftProfile.hours[day] || { open: 'closed', close: 'closed' };
+                        const dayHours = (draftProfile?.hours || {})[day] || { open: 'closed', close: 'closed' };
                         const isClosed = dayHours.open === 'closed';
 
                         return (
@@ -1080,7 +1085,7 @@ export default function Dashboard() {
                   ? 'text-white shadow-sm'
                   : 'text-neutral-500 hover:text-neutral-800'
               }`}
-              style={activeView === 'editor' ? { background: 'linear-gradient(135deg, #F4C84C, #E8BB35)' } : {}}
+              style={activeView === 'editor' ? { background: 'var(--accent-primary)' } : {}}
             >
               <FaCog className="w-3.5 h-3.5" />
               <span className="text-[8px] font-bold uppercase tracking-wider">Editor</span>
@@ -1093,7 +1098,7 @@ export default function Dashboard() {
                   ? 'text-white shadow-sm'
                   : 'text-neutral-500 hover:text-neutral-800'
               }`}
-              style={activeView === 'design' ? { background: 'linear-gradient(135deg, #F4C84C, #E8BB35)' } : {}}
+              style={activeView === 'design' ? { background: 'var(--accent-primary)' } : {}}
             >
               <FaSlidersH className="w-3.5 h-3.5" />
               <span className="text-[8px] font-bold uppercase tracking-wider">Design</span>
@@ -1106,7 +1111,7 @@ export default function Dashboard() {
                   ? 'text-white shadow-sm'
                   : 'text-neutral-500 hover:text-neutral-800'
               }`}
-              style={activeView === 'qr' ? { background: 'linear-gradient(135deg, #F4C84C, #E8BB35)' } : {}}
+              style={activeView === 'qr' ? { background: 'var(--accent-primary)' } : {}}
             >
               <FaQrcode className="w-3.5 h-3.5" />
               <span className="text-[8px] font-bold uppercase tracking-wider">QR Code</span>
@@ -1119,7 +1124,7 @@ export default function Dashboard() {
                   ? 'text-white shadow-sm'
                   : 'text-neutral-500 hover:text-neutral-800'
               }`}
-              style={activeView === 'analytics' ? { background: 'linear-gradient(135deg, #F4C84C, #E8BB35)' } : {}}
+              style={activeView === 'analytics' ? { background: 'var(--accent-primary)' } : {}}
             >
               <FaChartBar className="w-3.5 h-3.5" />
               <span className="text-[8px] font-bold uppercase tracking-wider">Analytics</span>

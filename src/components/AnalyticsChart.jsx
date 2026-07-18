@@ -93,12 +93,12 @@ export default function AnalyticsChart({ profileId }) {
       <div className="glass-card p-5 md:p-6 rounded-[24px] text-left hover-lift">
         <div className="flex items-center justify-between mb-5">
           <h3 className="text-[10px] font-extrabold uppercase tracking-widest flex items-center gap-2" style={{ color: '#6B7280' }}>
-            <TrendingUp className="w-4 h-4" style={{ color: '#10B981' }} /> Weekly Traffic Performance
+            <TrendingUp className="w-4 h-4" style={{ color: 'var(--accent-primary)' }} /> Weekly Traffic Performance
           </h3>
           {/* Legend */}
           <div className="flex items-center gap-4 text-xs font-semibold" style={{ color: '#6B7280' }}>
             <div className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: '#10B981' }}></span> Views
+              <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: 'var(--accent-primary)' }}></span> Views
             </div>
             <div className="flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: '#7DD3FC' }}></span> Clicks
@@ -129,8 +129,8 @@ export default function AnalyticsChart({ profileId }) {
             {/* Gradient Fills */}
             <defs>
               <linearGradient id="viewsGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#10B981" stopOpacity="0.18" />
-                <stop offset="100%" stopColor="#10B981" stopOpacity="0" />
+                <stop offset="0%" stopColor="#0F6D73" stopOpacity="0.18" />
+                <stop offset="100%" stopColor="#0F6D73" stopOpacity="0" />
               </linearGradient>
               <linearGradient id="clicksGrad" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="#7DD3FC" stopOpacity="0.18" />
@@ -146,7 +146,7 @@ export default function AnalyticsChart({ profileId }) {
             <path
               d={buildPathString(viewsPoints)}
               fill="none"
-              stroke="#10B981"
+              stroke="#0F6D73"
               strokeWidth="2.5"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -181,7 +181,7 @@ export default function AnalyticsChart({ profileId }) {
                   cy={pt.y}
                   r={hoveredDay === pt.day ? 6 : 4}
                   fill="#ffffff"
-                  stroke="#10B981"
+                  stroke="#0F6D73"
                   strokeWidth="2"
                   className="transition-all duration-150"
                 />
@@ -232,7 +232,7 @@ export default function AnalyticsChart({ profileId }) {
             return (
               <div className="absolute top-2 right-2 glass-card rounded-xl p-2.5 text-[10px] space-y-1 font-semibold pointer-events-none" style={{ color: '#111827' }}>
                 <p className="font-bold uppercase tracking-wider" style={{ color: '#9CA3AF' }}>{hoveredDay}</p>
-                <p style={{ color: '#059669' }}>Views: <span className="text-neutral-900 font-mono">{dayData.views}</span></p>
+                <p style={{ color: '#0F6D73' }}>Views: <span className="text-neutral-900 font-mono">{dayData.views}</span></p>
                 <p style={{ color: '#0284c7' }}>Clicks: <span className="text-neutral-900 font-mono">{dayData.clicks}</span></p>
               </div>
             );
@@ -245,7 +245,7 @@ export default function AnalyticsChart({ profileId }) {
         {/* Referrers */}
         <div className="glass-card p-5 rounded-[24px] space-y-4 hover-lift">
           <h3 className="text-[10px] font-extrabold uppercase tracking-widest flex items-center gap-2" style={{ color: '#6B7280' }}>
-            <Compass className="w-4 h-4" style={{ color: '#10B981' }} /> Top Referral Channels
+            <Compass className="w-4 h-4" style={{ color: 'var(--accent-primary)' }} /> Top Referral Channels
           </h3>
           <div className="space-y-3">
             {referrers.map((ref) => (

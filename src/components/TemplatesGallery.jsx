@@ -278,7 +278,7 @@ export default function TemplatesGallery({ profile, onApplyTheme }) {
                     ? 'text-white shadow-md'
                     : 'btn-glass-secondary text-neutral-500 hover:text-neutral-800'
                 }`}
-                style={activeCategory === cat ? { background: 'linear-gradient(135deg, #10B981, #059669)', boxShadow: '0 6px 20px rgba(16,185,129,0.28)' } : {}}
+                style={activeCategory === cat ? { background: 'var(--accent-primary)', boxShadow: '0 4px 14px rgba(15, 109, 115, 0.2)' } : {}}
               >
                 {cat}
               </button>
@@ -394,13 +394,13 @@ export default function TemplatesGallery({ profile, onApplyTheme }) {
                     }`}
                     style={
                       isApplied || appliedId === tpl.id
-                        ? { background: 'rgba(16,185,129,0.10)', color: '#059669', border: '1px solid rgba(16,185,129,0.25)' }
-                        : { background: 'rgba(16,185,129,0.06)', color: '#10B981', border: '1px solid rgba(16,185,129,0.15)' }
+                        ? { background: 'var(--accent-soft)', color: 'var(--accent-primary)', border: '1px solid rgba(15, 109, 115, 0.2)' }
+                        : { background: 'transparent', color: 'var(--accent-primary)', border: '1px solid var(--border-color)' }
                     }
                   >
                     {isApplied || appliedId === tpl.id ? (
                       <>
-                        <Check className="w-3.5 h-3.5" style={{ color: '#059669' }} /> Applied Design
+                        <Check className="w-3.5 h-3.5" style={{ color: 'var(--accent-primary)' }} /> Applied Design
                       </>
                     ) : (
                       'Use Template'
@@ -413,7 +413,7 @@ export default function TemplatesGallery({ profile, onApplyTheme }) {
           })}
         </div>
       ) : (
-        <div className="glass-card rounded-[28px] p-12 text-center">
+        <div className="glass-card rounded-[24px] p-12 text-center">
           <QrCode className="w-12 h-12 mx-auto mb-3" style={{ color: '#D1D5DB' }} />
           <h3 className="text-sm font-bold text-neutral-800">No Templates Found</h3>
           <p className="text-xs mt-1" style={{ color: '#9CA3AF' }}>Try resetting your search query or choosing another category filter.</p>
@@ -423,7 +423,7 @@ export default function TemplatesGallery({ profile, onApplyTheme }) {
       {/* Bottom Feature Horizontal Stats Banner */}
       <div className="glass-card rounded-[24px] p-5 flex flex-wrap items-center justify-around gap-6 text-center hover-lift">
         <div className="flex items-center gap-2">
-          <FaShieldAlt className="w-4 h-4" style={{ color: '#10B981' }} />
+          <FaShieldAlt className="w-4 h-4" style={{ color: 'var(--accent-primary)' }} />
           <div className="text-left">
             <h5 className="text-[10px] font-extrabold text-neutral-800 leading-none uppercase tracking-wider">High Quality</h5>
             <p className="text-[9px] mt-0.5" style={{ color: '#9CA3AF' }}>300 DPI Resolution</p>
@@ -455,7 +455,7 @@ export default function TemplatesGallery({ profile, onApplyTheme }) {
         </div>
 
         <div className="flex items-center gap-2">
-          <FaCheckCircle className="w-4 h-4" style={{ color: '#10B981' }} />
+          <FaCheckCircle className="w-4 h-4" style={{ color: 'var(--accent-primary)' }} />
           <div className="text-left">
             <h5 className="text-[10px] font-extrabold text-neutral-800 leading-none uppercase tracking-wider">Commercial Use</h5>
             <p className="text-[9px] mt-0.5" style={{ color: '#9CA3AF' }}>100% Allowed</p>
@@ -505,7 +505,7 @@ export default function TemplatesGallery({ profile, onApplyTheme }) {
                       className={`py-2.5 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                         fileFormat === fmt ? 'text-white' : 'btn-glass-secondary text-neutral-600'
                       }`}
-                      style={fileFormat === fmt ? { background: 'linear-gradient(135deg, #10B981, #059669)', boxShadow: '0 6px 20px rgba(16,185,129,0.25)' } : {}}
+                      style={fileFormat === fmt ? { background: 'var(--accent-primary)', boxShadow: '0 4px 14px rgba(15, 109, 115, 0.2)' } : {}}
                     >
                       {fmt}
                     </button>
@@ -517,7 +517,7 @@ export default function TemplatesGallery({ profile, onApplyTheme }) {
               <div className="p-3.5 rounded-2xl flex flex-col gap-1.5 text-xs font-semibold" style={{ background: 'rgba(255,255,255,0.55)', border: '1px solid rgba(255,255,255,0.65)', color: '#6B7280' }}>
                 <div className="flex justify-between">
                   <span>DPI Resolution</span>
-                  <span className="font-bold" style={{ color: '#10B981' }}>300 DPI</span>
+                  <span className="font-bold" style={{ color: 'var(--accent-primary)' }}>300 DPI</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Quality Standard</span>
