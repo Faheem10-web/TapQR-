@@ -666,8 +666,8 @@ export default function Dashboard() {
                         const val = (draftProfile?.socials || {})[plat] || '';
                         if (!val) return null;
                         return (
-                          <div key={plat} className="flex rounded-2xl overflow-hidden border border-[var(--border-color)] bg-[var(--bg-input)] h-[52px]">
-                            <label htmlFor={`social-${plat}`} className="text-[9px] uppercase font-bold tracking-wider px-4 flex items-center border-r border-[var(--border-color)] w-24 select-none cursor-pointer text-neutral-500 bg-neutral-50/50">
+                          <div key={plat} className="flex rounded-2xl overflow-hidden border" style={{ background: 'rgba(255,255,255,0.60)', borderColor: 'rgba(255,255,255,0.65)' }}>
+                            <label htmlFor={`social-${plat}`} className="text-[9px] uppercase font-bold tracking-wider px-4 flex items-center border-r w-24 select-none cursor-pointer" style={{ background: 'rgba(255,255,255,0.35)', color: '#9CA3AF', borderColor: 'rgba(255,255,255,0.50)' }}>
                               {plat === 'twitter' ? 'X / Twitter' : plat}
                             </label>
                             <input
@@ -676,7 +676,7 @@ export default function Dashboard() {
                               value={val}
                               onChange={(e) => updateDraftNestedField('socials', plat, e.target.value)}
                               placeholder={`https://${plat === 'twitter' ? 'twitter' : plat}.com/...`}
-                              className="flex-1 bg-transparent text-neutral-800 px-3.5 text-base focus:outline-none"
+                              className="flex-1 bg-transparent text-neutral-800 px-3.5 py-3 text-xs focus:outline-none"
                             />
                           </div>
                         );
@@ -685,8 +685,8 @@ export default function Dashboard() {
 
                     {/* Add more platforms - expandable */}
                     <details className="group">
-                      <summary className="cursor-pointer list-none flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider select-none min-h-[44px]" style={{ color: 'var(--accent-primary)' }}>
-                        <span className="w-4 h-4 rounded-full border flex items-center justify-center text-[10px] font-black leading-none" style={{ borderColor: 'rgba(15, 109, 115, 0.40)', color: 'var(--accent-primary)' }}>+</span>
+                      <summary className="cursor-pointer list-none flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider select-none" style={{ color: '#10B981' }}>
+                        <span className="w-4 h-4 rounded-full border flex items-center justify-center text-[10px] font-black leading-none" style={{ borderColor: 'rgba(16,185,129,0.40)', color: '#10B981' }}>+</span>
                         Add Social Platform
                       </summary>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
@@ -694,8 +694,8 @@ export default function Dashboard() {
                           const val = (draftProfile?.socials || {})[plat] || '';
                           if (val) return null;
                           return (
-                            <div key={plat} className="flex rounded-2xl overflow-hidden border border-dashed border-[var(--border-color)] bg-[var(--bg-input)] opacity-75 focus-within:opacity-100 transition-all h-[52px]">
-                              <label htmlFor={`social-add-${plat}`} className="text-[9px] uppercase font-bold tracking-wider px-4 flex items-center border-r border-[var(--border-color)] w-24 select-none cursor-pointer text-neutral-500 bg-neutral-50/50">
+                            <div key={plat} className="flex rounded-2xl overflow-hidden border border-dashed opacity-70 focus-within:opacity-100 transition-all" style={{ borderColor: 'rgba(16,185,129,0.30)' }}>
+                              <label htmlFor={`social-add-${plat}`} className="text-[9px] uppercase font-bold tracking-wider px-4 flex items-center border-r w-24 select-none cursor-pointer" style={{ background: 'rgba(255,255,255,0.20)', color: '#9CA3AF', borderColor: 'rgba(255,255,255,0.40)' }}>
                                 {plat === 'twitter' ? 'X / Twitter' : plat}
                               </label>
                               <input
@@ -704,7 +704,7 @@ export default function Dashboard() {
                                 value={val}
                                 onChange={(e) => updateDraftNestedField('socials', plat, e.target.value)}
                                 placeholder={`https://${plat === 'twitter' ? 'twitter' : plat}.com/...`}
-                                className="flex-1 bg-transparent text-neutral-800 px-3.5 text-base focus:outline-none"
+                                className="flex-1 bg-transparent text-neutral-800 px-3.5 py-3 text-xs focus:outline-none"
                               />
                             </div>
                           );
@@ -728,11 +728,11 @@ export default function Dashboard() {
                         const isClosed = dayHours.open === 'closed';
 
                         return (
-                          <div key={day} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-2xl gap-3 bg-[var(--bg-card)] border border-[var(--border-color)] shadow-sm">
-                            <span className="text-sm font-semibold capitalize text-neutral-700 min-w-24">{day}</span>
+                          <div key={day} className="flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-2xl gap-3" style={{ background: 'rgba(255,255,255,0.55)', border: '1px solid rgba(255,255,255,0.65)' }}>
+                            <span className="text-xs font-semibold capitalize text-neutral-700 min-w-24">{day}</span>
                             
-                            <div className="flex items-center justify-between sm:justify-start gap-4 w-full sm:w-auto">
-                              <label htmlFor={`chk-${day}`} className="inline-flex items-center gap-2.5 text-sm font-semibold text-neutral-600 cursor-pointer min-h-[44px]">
+                            <div className="flex items-center gap-3.5">
+                               <label htmlFor={`chk-${day}`} className="inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-500 cursor-pointer">
                                 <input
                                   id={`chk-${day}`}
                                   type="checkbox"
@@ -742,21 +742,22 @@ export default function Dashboard() {
                                     const nextCloseState = e.target.checked ? '17:00' : 'closed';
                                     updateDraftNestedField('hours', day, { open: nextOpenState, close: nextCloseState });
                                   }}
-                                  className="w-5 h-5 rounded cursor-pointer border-[var(--border-color)]"
-                                  style={{ accentColor: 'var(--accent-primary)' }}
+                                  className="w-3.5 h-3.5 rounded cursor-pointer"
+                                  style={{ accentColor: '#10B981' }}
                                 />
-                                <span>Open</span>
+                                Open
                               </label>
 
                               {!isClosed && (
-                                <div className="flex items-center gap-2.5 animate-scale-up">
+                                <div className="flex items-center gap-1.5 animate-scale-up">
                                   <input
                                     type="text"
                                     aria-label={`${day} opening hour`}
                                     value={dayHours.open}
                                     placeholder="09:00"
                                     onChange={(e) => updateDraftNestedField('hours', day, { ...dayHours, open: e.target.value })}
-                                    className="w-20 bg-[var(--bg-input)] border border-[var(--border-color)] text-neutral-800 rounded-xl px-2 py-2 text-center font-mono text-sm focus:outline-none focus:border-[var(--accent-primary)] focus:bg-white"
+                                    className="w-16 bg-white border border-neutral-200 text-neutral-800 rounded-xl px-2 py-1 text-center font-mono text-xs focus:outline-none"
+                                    style={{ borderColor: 'rgba(16,185,129,0.30)' }}
                                   />
                                   <span className="text-neutral-300">—</span>
                                   <input
@@ -765,7 +766,8 @@ export default function Dashboard() {
                                     value={dayHours.close}
                                     placeholder="17:00"
                                     onChange={(e) => updateDraftNestedField('hours', day, { ...dayHours, close: e.target.value })}
-                                    className="w-20 bg-[var(--bg-input)] border border-[var(--border-color)] text-neutral-800 rounded-xl px-2 py-2 text-center font-mono text-sm focus:outline-none focus:border-[var(--accent-primary)] focus:bg-white"
+                                    className="w-16 bg-white border border-neutral-200 text-neutral-800 rounded-xl px-2 py-1 text-center font-mono text-xs focus:outline-none"
+                                    style={{ borderColor: 'rgba(16,185,129,0.30)' }}
                                   />
                                 </div>
                               )}
@@ -777,10 +779,10 @@ export default function Dashboard() {
                   </div>
 
                   {/* Save Changes CTA Button Panel */}
-                  <div className="pt-2 flex items-center justify-end lg:relative fixed lg:bottom-auto bottom-[92px] lg:left-auto left-4 lg:right-auto right-4 lg:w-auto lg:p-0 p-3 bg-white/95 backdrop-blur-md border border-neutral-100 rounded-2xl lg:shadow-none shadow-lg z-30 lg:border-none">
+                  <div className="pt-2 flex items-center justify-end">
                     <button
                       onClick={handleSaveClick}
-                      className="w-full lg:w-auto px-8 py-3.5 btn-glass-primary rounded-full text-xs font-bold transition-all active:scale-95 duration-200 flex items-center justify-center gap-1.5 cursor-pointer tap-haptic"
+                      className="px-8 py-3 btn-glass-primary rounded-full text-xs font-bold transition-all active:scale-95 duration-200 flex items-center gap-1.5 cursor-pointer tap-haptic"
                     >
                       {saveState === 'saving' ? (
                         <>
@@ -988,21 +990,21 @@ export default function Dashboard() {
                   </div>
 
                   {/* Settings Actions (Reset to Default / Save Changes) */}
-                  <div className="flex justify-between items-center pt-2 lg:relative fixed lg:bottom-auto bottom-[92px] lg:left-auto left-4 lg:right-auto right-4 lg:w-auto lg:p-0 p-3 bg-white/95 backdrop-blur-md border border-neutral-100 rounded-2xl lg:shadow-none shadow-lg z-30 lg:border-none gap-3">
+                  <div className="flex justify-between items-center pt-2">
                     <button
                       onClick={() => {
                         if (confirm('Reset custom design styles to default values?')) {
                           setDraftTheme(defaultTheme);
                         }
                       }}
-                      className="flex-1 lg:flex-initial px-6 py-3.5 btn-glass-secondary rounded-full text-xs font-bold transition-all active:scale-95 duration-100 cursor-pointer"
+                      className="px-6 py-3 btn-glass-secondary rounded-full text-xs font-bold transition-all active:scale-95 duration-100 cursor-pointer"
                     >
-                      Reset
+                      Reset to Default
                     </button>
 
                     <button
                       onClick={handleSaveClick}
-                      className="flex-1 lg:flex-initial px-8 py-3.5 btn-glass-primary rounded-full text-xs font-bold transition-all active:scale-95 duration-100 flex items-center justify-center gap-1.5 cursor-pointer"
+                      className="px-8 py-3 btn-glass-primary rounded-full text-xs font-bold transition-all active:scale-95 duration-100 flex items-center gap-1.5 cursor-pointer"
                     >
                       {saveState === 'saving' ? (
                         <>
@@ -1082,62 +1084,58 @@ export default function Dashboard() {
         </div>
 
         {/* 3. MOBILE FLOATING NAVIGATION BAR (Visible below lg) */}
-        <div className="lg:hidden fixed bottom-5 left-1/2 -translate-x-1/2 z-40 w-[94%] max-w-[420px] pb-safe">
-          <div className="bg-[var(--bg-card)] border border-[var(--border-color)] shadow-glass-lg rounded-full h-[72px] px-3 flex items-center justify-between gap-2">
+        <div className="lg:hidden fixed bottom-5 left-1/2 -translate-x-1/2 z-40 w-[94%] max-w-[420px]">
+          <div className="glass-premium shadow-glass-lg border-white/85 rounded-full py-2 px-2.5 flex items-center justify-between gap-1">
             <button
               onClick={() => setActiveView('editor')}
-              className={`flex-1 h-14 rounded-full flex flex-col items-center justify-center gap-1 transition-all duration-200 tap-haptic cursor-pointer ${
+              className={`flex-1 py-2 rounded-full flex flex-col items-center justify-center gap-0.5 transition-all tap-haptic cursor-pointer ${
                 activeView === 'editor'
-                  ? 'text-white shadow-sm scale-102'
+                  ? 'text-white shadow-sm'
                   : 'text-neutral-500 hover:text-neutral-800'
               }`}
               style={activeView === 'editor' ? { background: 'var(--accent-primary)' } : {}}
-              aria-label="Switch to Editor tab"
             >
-              <FaCog className="w-5 h-5" />
-              <span className="text-[9px] font-extrabold uppercase tracking-widest">Editor</span>
+              <FaCog className="w-3.5 h-3.5" />
+              <span className="text-[8px] font-bold uppercase tracking-wider">Editor</span>
             </button>
 
             <button
               onClick={() => setActiveView('design')}
-              className={`flex-1 h-14 rounded-full flex flex-col items-center justify-center gap-1 transition-all duration-200 tap-haptic cursor-pointer ${
+              className={`flex-1 py-2 rounded-full flex flex-col items-center justify-center gap-0.5 transition-all tap-haptic cursor-pointer ${
                 activeView === 'design'
-                  ? 'text-white shadow-sm scale-102'
+                  ? 'text-white shadow-sm'
                   : 'text-neutral-500 hover:text-neutral-800'
               }`}
               style={activeView === 'design' ? { background: 'var(--accent-primary)' } : {}}
-              aria-label="Switch to Design tab"
             >
-              <FaSlidersH className="w-5 h-5" />
-              <span className="text-[9px] font-extrabold uppercase tracking-widest">Design</span>
+              <FaSlidersH className="w-3.5 h-3.5" />
+              <span className="text-[8px] font-bold uppercase tracking-wider">Design</span>
             </button>
 
             <button
               onClick={() => setActiveView('qr')}
-              className={`flex-1 h-14 rounded-full flex flex-col items-center justify-center gap-1 transition-all duration-200 tap-haptic cursor-pointer ${
+              className={`flex-1 py-2 rounded-full flex flex-col items-center justify-center gap-0.5 transition-all tap-haptic cursor-pointer ${
                 activeView === 'qr'
-                  ? 'text-white shadow-sm scale-102'
+                  ? 'text-white shadow-sm'
                   : 'text-neutral-500 hover:text-neutral-800'
               }`}
               style={activeView === 'qr' ? { background: 'var(--accent-primary)' } : {}}
-              aria-label="Switch to QR Code tab"
             >
-              <FaQrcode className="w-5 h-5" />
-              <span className="text-[9px] font-extrabold uppercase tracking-widest">QR Code</span>
+              <FaQrcode className="w-3.5 h-3.5" />
+              <span className="text-[8px] font-bold uppercase tracking-wider">QR Code</span>
             </button>
 
             <button
               onClick={() => setActiveView('analytics')}
-              className={`flex-1 h-14 rounded-full flex flex-col items-center justify-center gap-1 transition-all duration-200 tap-haptic cursor-pointer ${
+              className={`flex-1 py-2 rounded-full flex flex-col items-center justify-center gap-0.5 transition-all tap-haptic cursor-pointer ${
                 activeView === 'analytics'
-                  ? 'text-white shadow-sm scale-102'
+                  ? 'text-white shadow-sm'
                   : 'text-neutral-500 hover:text-neutral-800'
               }`}
               style={activeView === 'analytics' ? { background: 'var(--accent-primary)' } : {}}
-              aria-label="Switch to Analytics tab"
             >
-              <FaChartBar className="w-5 h-5" />
-              <span className="text-[9px] font-extrabold uppercase tracking-widest">Analytics</span>
+              <FaChartBar className="w-3.5 h-3.5" />
+              <span className="text-[8px] font-bold uppercase tracking-wider">Analytics</span>
             </button>
           </div>
         </div>

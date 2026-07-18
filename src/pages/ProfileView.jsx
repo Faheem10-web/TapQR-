@@ -7,7 +7,7 @@ import ProfileSkeleton from '../components/ProfileSkeleton';
 import api from '../utils/api';
 import QRCode from 'qrcode';
 import { 
-  Phone, MapPin, CheckCircle2, ChevronDown, ChevronUp, ChevronRight,
+  Phone, MapPin, CheckCircle2, ChevronDown, ChevronUp, 
   Copy, Check, ExternalLink, UserPlus, Clock, ArrowLeft, 
   Share2, Globe, Mail, X as CloseIcon
 } from 'lucide-react';
@@ -409,7 +409,7 @@ export default function ProfileView() {
           {activeSocials.length > 0 && (
             <div className="px-5 mb-6 text-left">
               <h3 className="text-[10px] font-extrabold uppercase tracking-widest mb-3 px-1" style={{ color: textColor, opacity: 0.6 }}>Social Connect</h3>
-              <div className="flex flex-col gap-3">
+              <div className="grid grid-cols-2 gap-2.5">
                 {activeSocials.map(soc => (
                   <a
                     key={soc.key}
@@ -417,19 +417,16 @@ export default function ProfileView() {
                     target="_blank"
                     rel="noreferrer"
                     aria-label={`Connect with us on ${soc.name}`}
-                    className="p-4 flex items-center justify-between duration-200 hover:-translate-y-0.5 active:scale-95 cursor-pointer rounded-2xl border border-neutral-100 shadow-[0_2px_8px_rgba(0,0,0,0.005)]"
+                    className="p-3.5 flex items-center gap-2.5 duration-200 hover:-translate-y-0.5 active:scale-95 cursor-pointer"
                     style={cardStyleObj}
                   >
-                    <div className="flex items-center gap-3 overflow-hidden">
-                      <div className={`w-11 h-11 rounded-xl flex items-center justify-center ${soc.colorClass} ${soc.textColor} shrink-0 shadow-sm`}>
-                        <soc.icon className="w-5 h-5" />
-                      </div>
-                      <div className="overflow-hidden">
-                        <p className="text-sm font-bold truncate leading-none capitalize" style={{ color: textColor }}>{soc.name}</p>
-                        <p className="text-[10px] opacity-60 mt-1.5 truncate leading-none" style={{ color: textColor }}>Connect with us</p>
-                      </div>
+                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${soc.colorClass} ${soc.textColor} shrink-0 shadow-sm`}>
+                      <soc.icon className="w-5 h-5" />
                     </div>
-                    <ChevronRight className="w-4 h-4 opacity-40 shrink-0" style={{ color: textColor }} />
+                    <div className="overflow-hidden">
+                      <p className="text-[11px] font-bold truncate leading-none capitalize" style={{ color: textColor }}>{soc.name}</p>
+                      <p className="text-[8px] opacity-60 mt-1.5 truncate leading-none" style={{ color: textColor }}>Connect</p>
+                    </div>
                   </a>
                 ))}
               </div>
