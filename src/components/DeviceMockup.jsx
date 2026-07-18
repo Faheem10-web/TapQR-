@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link2, Clock, ChevronUp, ChevronDown, UserPlus, Signal, Wifi, BatteryCharging, CheckCircle2 } from 'lucide-react';
+import { Link2, Clock, ChevronUp, ChevronDown, ChevronRight, UserPlus, Signal, Wifi, BatteryCharging, CheckCircle2 } from 'lucide-react';
 import { 
   FaInstagram, FaFacebook, FaWhatsapp, FaYoutube, FaLinkedin, 
   FaTelegram, FaDiscord, FaPinterest, FaSnapchat, FaTiktok,
@@ -268,20 +268,23 @@ export default function DeviceMockup({ profile }) {
         {activeSocials.length > 0 && (
           <div className="px-4 mb-4 text-left">
             <h3 className="text-[8px] font-bold uppercase tracking-widest mb-2 px-1" style={{ color: textColor, opacity: 0.6 }}>Social Connect</h3>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="flex flex-col gap-2.5">
               {activeSocials.map(soc => (
                 <div
                   key={soc.key}
-                  className="p-2.5 flex items-center gap-2 border border-neutral-100 shadow-[0_2px_8px_rgba(0,0,0,0.005)]"
+                  className="p-3 flex items-center justify-between border border-neutral-100 shadow-[0_2px_8px_rgba(0,0,0,0.005)] rounded-xl"
                   style={cardStyleObj}
                 >
-                  <div className={`w-6.5 h-6.5 rounded-lg flex items-center justify-center ${soc.colorClass} ${soc.textColor} shrink-0`}>
-                    <soc.icon className="w-3.5 h-3.5" />
+                  <div className="flex items-center gap-2.5 overflow-hidden">
+                    <div className={`w-8.5 h-8.5 rounded-lg flex items-center justify-center ${soc.colorClass} ${soc.textColor} shrink-0`}>
+                      <soc.icon className="w-4 h-4" />
+                    </div>
+                    <div className="overflow-hidden">
+                      <p className="text-[10px] font-bold truncate leading-none capitalize" style={{ color: textColor }}>{soc.name}</p>
+                      <p className="text-[7.5px] opacity-60 mt-1 truncate leading-none" style={{ color: textColor }}>Connect</p>
+                    </div>
                   </div>
-                  <div className="overflow-hidden">
-                    <p className="text-[9px] font-bold truncate leading-none capitalize" style={{ color: textColor }}>{soc.name}</p>
-                    <p className="text-[7px] opacity-60 mt-1.5 truncate leading-none">Connect</p>
-                  </div>
+                  <ChevronRight className="w-3.5 h-3.5 opacity-40 shrink-0" style={{ color: textColor }} />
                 </div>
               ))}
             </div>
